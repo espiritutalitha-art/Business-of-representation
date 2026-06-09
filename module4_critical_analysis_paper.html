@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="slides-format" content="viewport">
+  <title>Critical Analysis Paper — Module 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-bg: #0d1117;
+      --color-text: #e6edf3;
+      --color-text-secondary: #9aa4b2;
+      --color-muted: #6e7681;
+      --color-accent-1: #58a6ff;
+      --color-accent-2: #bc8cff;
+      --color-accent-3: #f78166;
+      --color-accent-4: #3fb950;
+      --color-glass-bg: rgba(255,255,255,0.05);
+      --color-glass-border: rgba(255,255,255,0.08);
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+  </style>
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden;background:#0d1117;color:#e6edf3;font-family:'DM Sans',sans-serif}
+    .slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#0d1117;overflow:hidden}
+    .slide.active{display:flex}
+    .content{position:relative;z-index:2;width:100%;max-width:1120px;padding:clamp(1.5rem,4vw,3.5rem)}
+    .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .blob{position:absolute;border-radius:50%;filter:blur(85px);opacity:.1;animation:float 14s ease-in-out infinite}
+    .blob:nth-child(2){animation-duration:18s;animation-direction:reverse}
+    .blob:nth-child(3){animation-duration:22s}
+    .slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,.55) 100%);z-index:1}
+    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px)}
+    .reveal{opacity:0;transform:translateY(18px)}
+    .nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:14px;align-items:center;z-index:99;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:10px 18px;border-radius:999px}
+    .nav-btn{width:38px;height:38px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#58a6ff;font-size:1.1rem;cursor:pointer;transition:background .2s}
+    .nav-btn:hover{background:rgba(255,255,255,.12)}
+    .dots{display:flex;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .2s}.dot.active{background:#58a6ff;transform:scale(1.25)}
+    .counter{font-size:.8rem;color:#9aa4b2;min-width:42px;text-align:center}
+    .tiny{text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:700}
+    .section-pill{display:inline-block;padding:.25rem .75rem;border-radius:999px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.08)}50%{transform:translate(-20px,20px) scale(.94)}75%{transform:translate(35px,15px) scale(1.04)}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  </style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:500px;height:500px;top:-100px;right:-80px;background:#58a6ff"></div>
+      <div class="blob" style="width:380px;height:380px;bottom:-80px;left:-60px;background:#bc8cff"></div>
+      <div class="blob" style="width:220px;height:220px;top:40%;left:8%;background:#3fb950"></div>
+    </div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:90px;margin-bottom:1rem;animation:bob 3.5s ease-in-out infinite">📝</div>
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:.8rem">Module 4 · Major Assignment</p>
+      <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.15;background:linear-gradient(135deg,#58a6ff,#bc8cff,#3fb950);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Critical Analysis<br>Paper</h1>
+      <p class="reveal" style="font-size:clamp(.95rem,1.8vw,1.25rem);color:#9aa4b2;max-width:680px;margin:0 auto 1.4rem;line-height:1.6">A guided walkthrough of your major written assignment — due Week 6.</p>
+      <p class="reveal" style="font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#6e7681">2,500–3,000 words · APA 7th edition · 8–10 sources</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: WHAT THIS ASSIGNMENT IS -->
+  <div class="slide" data-slide="2">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-80px;left:-70px;background:#3fb950"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-50px;background:#58a6ff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#3fb950;margin-bottom:1rem">What this assignment is</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:1.3rem">This is an argument,<br>not a summary.</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.3rem">
+        <div class="reveal glass" style="border-radius:12px;padding:1.1rem;border-left:4px solid #3fb950">
+          <div style="font-weight:700;margin-bottom:.45rem;color:#3fb950">What you will do</div>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.65">Choose a real media text. Analyze it through two theoretical frameworks. Ground your argument in academic scholarship and current industry data. Build a claim about what your example reveals, challenges, or perpetuates about how media represents identity.</div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:1.1rem;border-left:4px solid #f78166">
+          <div style="font-weight:700;margin-bottom:.45rem;color:#f78166">What this is not</div>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.65">Not a review. Not a plot summary. Not a personal reflection. This is the professional version of everything you have been practicing in your discussion posts and written analyses — rigorous, research-based, and argument-driven.</div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:1rem 1.2rem;display:flex;gap:1.2rem;align-items:center">
+        <div style="text-align:center;min-width:70px"><div style="font-size:1.6rem;font-weight:900;color:#58a6ff">2,500</div><div style="font-size:.72rem;color:#9aa4b2">min words</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1);align-self:stretch"></div>
+        <div style="text-align:center;min-width:70px"><div style="font-size:1.6rem;font-weight:900;color:#bc8cff">3,000</div><div style="font-size:.72rem;color:#9aa4b2">max words</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1);align-self:stretch"></div>
+        <div style="text-align:center;min-width:70px"><div style="font-size:1.6rem;font-weight:900;color:#3fb950">8–10</div><div style="font-size:.72rem;color:#9aa4b2">sources</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1);align-self:stretch"></div>
+        <div style="text-align:center;min-width:70px"><div style="font-size:1.6rem;font-weight:900;color:#f78166">2</div><div style="font-size:.72rem;color:#9aa4b2">frameworks</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: CASE STUDY -->
+  <div class="slide" data-slide="3">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:420px;height:420px;top:-80px;right:-70px;background:#bc8cff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-60px;left:-40px;background:#f78166"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#bc8cff;margin-bottom:1rem">Step 1 · Choose your case study</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Choose something you find<br>genuinely interesting.</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem">
+        <div class="reveal glass" style="border-radius:12px;padding:1rem 1.1rem">
+          <div class="section-pill" style="background:rgba(88,166,255,.15);color:#58a6ff;margin-bottom:.6rem">Module 4 · Disability</div>
+          <div style="font-size:.82rem;color:#c9d1d9;line-height:1.7">
+            <div style="margin-bottom:.3rem">🎬 <em>The Peanut Butter Falcon</em> — authentic casting, social model</div>
+            <div style="margin-bottom:.3rem">🎞 <em>Crip Camp</em> — documentary, social model, intersectionality</div>
+            <div style="margin-bottom:.3rem">📺 <em>Speechless</em> — authentic casting, medical vs. social model</div>
+            <div>⚔️ <em>The Witcher</em> — Phoebe-Rae Taylor, industry impact</div>
+          </div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:1rem 1.1rem">
+          <div class="section-pill" style="background:rgba(188,140,255,.15);color:#bc8cff;margin-bottom:.6rem">Modules 1–3 · Your Choice</div>
+          <div style="font-size:.82rem;color:#c9d1d9;line-height:1.7">
+            <div style="margin-bottom:.3rem">🌿 <em>Reservation Dogs</em> — race, Indigeneity, media economics</div>
+            <div style="margin-bottom:.3rem">💗 <em>Heartstopper</em> — gender, sexuality, LGBTQ+ visibility</div>
+            <div style="margin-bottom:.3rem">👱 <em>Barbie</em> — gender performance, Eurocentric beauty norms</div>
+            <div>🕊 Dove #NoDigitalDistortion — body image, digital media</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.85rem 1.1rem;border-left:3px solid #3fb950">
+        <div style="font-size:.82rem;color:#c9d1d9;line-height:1.6"><strong style="color:#3fb950">Key criterion:</strong> Make sure sufficient scholarly and industry data exists to support a 2,500-word analysis. If you are unsure whether your chosen text has enough critical writing behind it, reach out before you commit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: RESEARCH QUESTION -->
+  <div class="slide" data-slide="4">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-70px;left:-60px;background:#58a6ff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-50px;right:-40px;background:#3fb950"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:1rem">Step 2 · Formulate your research question</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Your research question is<br>the spine of the paper.</h2>
+      <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.1rem;display:flex;gap:.8rem;align-items:flex-start">
+          <span style="font-size:1.3rem;flex-shrink:0">🔍</span>
+          <div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:#58a6ff;margin-bottom:.3rem">Pattern 1</div><div style="font-size:.88rem;color:#c9d1d9">How does <em>[media text]</em> challenge or reinforce dominant stereotypes about <em>[identity group]</em>?</div></div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.1rem;display:flex;gap:.8rem;align-items:flex-start">
+          <span style="font-size:1.3rem;flex-shrink:0">📊</span>
+          <div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:#bc8cff;margin-bottom:.3rem">Pattern 2</div><div style="font-size:.88rem;color:#c9d1d9">In what ways does <em>[media text]</em> reflect broader industry trends in representation and inclusion?</div></div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.1rem;display:flex;gap:.8rem;align-items:flex-start">
+          <span style="font-size:1.3rem;flex-shrink:0">🔬</span>
+          <div><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:#3fb950;margin-bottom:.3rem">Pattern 3</div><div style="font-size:.88rem;color:#c9d1d9">How do theoretical frameworks like intersectionality or gender performativity illuminate the complexities of representation in <em>[media text]</em>?</div></div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.85rem 1.1rem;border-left:3px solid #f78166">
+        <div style="font-size:.82rem;color:#c9d1d9;line-height:1.6"><strong style="color:#f78166">Strong questions</strong> point toward an argument, not a summary. They cannot be answered with "yes" or "no." They are specific enough that your reader knows exactly what the paper will do.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: THEORETICAL FRAMEWORKS -->
+  <div class="slide" data-slide="5">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:420px;height:420px;top:-90px;right:-70px;background:#f78166"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;left:-50px;background:#bc8cff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#f78166;margin-bottom:1rem">Step 3 · Apply theoretical frameworks</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Two lenses, applied together,<br>see more than either alone.</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">🔀</div><div style="font-size:.8rem;font-weight:700">Intersectionality</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">How multiple identities intersect in representation</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">🎭</div><div style="font-size:.8rem;font-weight:700">Gender Performance</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">How gender is constructed and performed in media</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">👁</div><div style="font-size:.8rem;font-weight:700">Visibility & Erasure</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">Who appears, who is absent, and what that signals</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">💰</div><div style="font-size:.8rem;font-weight:700">Media Economics</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">How industry structures shape representation</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">🌍</div><div style="font-size:.8rem;font-weight:700">Social Model</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">Disability as systemic barrier, not individual deficit</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem;text-align:center"><div style="font-size:1.4rem;margin-bottom:.35rem">🏁</div><div style="font-size:.8rem;font-weight:700">Race & Ethnicity</div><div style="font-size:.74rem;color:#9aa4b2;margin-top:.3rem">How race and power dynamics are depicted or challenged</div></div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.85rem 1.1rem;border-left:3px solid #58a6ff">
+        <div style="font-size:.82rem;color:#c9d1d9;line-height:1.6"><strong style="color:#58a6ff">Key move:</strong> Don't just define the frameworks separately — explain why these two, applied together to this text, produce an argument that neither one could produce alone.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: SOURCES -->
+  <div class="slide" data-slide="6">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:380px;height:380px;top:-70px;left:-60px;background:#3fb950"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-50px;background:#58a6ff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#3fb950;margin-bottom:1rem">Step 4 · Research your sources</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">8–10 sources across<br>three categories.</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-top:3px solid #58a6ff;border-radius:0 0 12px 12px;padding:1rem">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#58a6ff;margin-bottom:.4rem">Academic</div>
+          <div style="font-weight:700;margin-bottom:.4rem">Peer-reviewed sources</div>
+          <div style="font-size:.8rem;color:#9aa4b2;line-height:1.6">Articles and book chapters on your frameworks, your text, or comparable examples. Start with JSTOR, Communication Abstracts, and Film Quarterly.</div>
+        </div>
+        <div class="reveal glass" style="border-top:3px solid #bc8cff;border-radius:0 0 12px 12px;padding:1rem">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#bc8cff;margin-bottom:.4rem">Industry Data</div>
+          <div style="font-weight:700;margin-bottom:.4rem">Reports & analytics</div>
+          <div style="font-size:.8rem;color:#9aa4b2;line-height:1.6">UCLA Hollywood Diversity Report, GLAAD Studio Responsibility Index, Geena Davis Institute reports, box office and streaming data.</div>
+        </div>
+        <div class="reveal glass" style="border-top:3px solid #3fb950;border-radius:0 0 12px 12px;padding:1rem">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#3fb950;margin-bottom:.4rem">Reception</div>
+          <div style="font-weight:700;margin-bottom:.4rem">Critical & popular</div>
+          <div style="font-size:.8rem;color:#9aa4b2;line-height:1.6">Reviews, creator interviews, audience responses, commentary from industry professionals. Evidence that the text landed — or didn't — in the cultural conversation.</div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.85rem 1.1rem;border-left:3px solid #f78166">
+        <div style="font-size:.82rem;color:#c9d1d9;line-height:1.6"><strong style="color:#f78166">Do not over-rely on a single source.</strong> The strongest papers use each source type to do different work: academic sources define and ground the frameworks; industry data contextualizes the example; reception sources show how it registered culturally.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: ESSAY STRUCTURE -->
+  <div class="slide" data-slide="7">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#58a6ff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-50px;left:-40px;background:#bc8cff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:.9rem">Step 5 · Write your analysis</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:700;line-height:1.2;margin-bottom:1rem">Six sections. One argument.</h2>
+      <div style="display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem">
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#58a6ff">Introduction</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~250 words · Hook, context, research question, frameworks overview, thesis</div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#bc8cff">Background</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~400–500 words · Production context, industry trends, situate within broader debates</div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#3fb950">Frameworks</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~400–500 words · Define concepts, explain why these two frameworks for this text</div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center;border:1px solid rgba(247,129,102,.25)">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#f78166">Analysis ★</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~1,000–1,200 words · Close reading of specific scenes, characters, campaigns; integrate data and reception; address strengths and limits intersectionally</div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#58a6ff">Discussion</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~400–500 words · Broader significance, social/cultural/economic implications, future directions</div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.75rem 1rem;display:flex;gap:.9rem;align-items:center">
+          <div style="min-width:110px;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#bc8cff">Conclusion</div>
+          <div style="font-size:.8rem;color:#9aa4b2">~150 words · Summarize argument, restate significance of critical analysis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: CLOSING -->
+  <div class="slide" data-slide="8">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:500px;height:500px;top:-100px;right:-90px;background:#3fb950"></div>
+      <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#58a6ff"></div>
+      <div class="blob" style="width:220px;height:220px;top:38%;left:10%;background:#bc8cff"></div>
+    </div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:88px;margin-bottom:1rem;animation:bob 3.5s ease-in-out infinite">🚀</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.2vw,3.2rem);font-weight:900;background:linear-gradient(135deg,#58a6ff,#3fb950);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Start now. The best<br>papers need time.</h2>
+      <p class="reveal" style="font-size:clamp(.95rem,1.9vw,1.25rem);color:#9aa4b2;max-width:720px;margin:0 auto 1.5rem;line-height:1.6">This week, identify two or three possible case studies and begin thinking about which theoretical frameworks apply. You don't need to commit yet — but the students who do the best work give themselves room to explore before they narrow in.</p>
+      <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.4rem;display:inline-block">
+        <p style="font-size:.82rem;color:#c9d1d9;margin:0">Questions about your topic, research question, or sources? Bring them to the discussion board or reach out directly.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+  let current=1; const total=document.querySelectorAll('.slide').length;
+  const dotsEl=document.getElementById('dots'); const counterEl=document.getElementById('counter');
+  for(let i=1;i<=total;i++){const d=document.createElement('div'); d.className='dot'+(i===1?' active':''); d.onclick=()=>goToSlide(i); dotsEl.appendChild(d)}
+  function goToSlide(n){document.querySelector('.slide.active').classList.remove('active'); const s=document.querySelector(`.slide[data-slide="${n}"]`); s.classList.add('active'); current=n; updateNav(); animateSlide(s)}
+  function changeSlide(dir){let n=current+dir; if(n<1)n=total; if(n>total)n=1; goToSlide(n)}
+  function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current)); counterEl.textContent=`${current} / ${total}`}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1)} if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1)}})
+  let tx=0; document.addEventListener('touchstart',e=>tx=e.touches[0].clientX); document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX; if(Math.abs(d)>50) changeSlide(d>0?1:-1)})
+  function animateSlide(slide){slide.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(18px)'; el.offsetHeight; const delay=i*.08; el.style.transition=`opacity .35s ease ${delay}s, transform .35s ease ${delay}s`; el.style.opacity='1'; el.style.transform='translateY(0)'})}
+  animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>

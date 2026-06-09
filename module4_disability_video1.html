@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Who Gets to Tell the Story? Disability in Media</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #0d1117;
+            --color-bg-deep: #060a0f;
+            --color-surface: #161b22;
+            --color-text: #e6edf3;
+            --color-text-secondary: #8b949e;
+            --color-text-muted: #6e7681;
+            --color-accent-1: #58a6ff;
+            --color-accent-2: #bc8cff;
+            --color-accent-3: #f78166;
+            --color-glass-bg: rgba(255,255,255,0.05);
+            --color-glass-border: rgba(255,255,255,0.08);
+            --color-vignette: rgba(0,0,0,0.5);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+        }
+    </style>
+
+    <style>
+        :root { --color-bg: #0d1117; --color-text: #e6edf3; --glow-color-rgb: 88,166,255; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.5rem, 4vw, 4rem); }
+        .nav-controls { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; z-index: 100; background: var(--color-glass-bg); backdrop-filter: blur(10px); padding: 10px 24px; border-radius: 40px; border: 1px solid var(--color-glass-border); }
+        .nav-btn { width: 40px; height: 40px; border: none; background: var(--color-glass-bg); color: var(--color-accent-1); border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: var(--color-glass-border); }
+        .slide-dots { display: flex; gap: 8px; }
+        .slide-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-glass-border); cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slide-dots .dot.active { background: var(--color-accent-1); transform: scale(1.3); }
+        .slide-counter { font-size: 0.8rem; color: var(--color-text-muted); min-width: 40px; text-align: center; }
+        .reveal { opacity: 0; transform: translateY(20px); }
+
+        .text-glow { text-shadow: 0 0 20px rgba(var(--glow-color-rgb), 0.5), 0 0 40px rgba(var(--glow-color-rgb), 0.2); }
+        .stat-glow { text-shadow: 0 0 30px rgba(var(--glow-color-rgb), 0.6), 0 0 60px rgba(var(--glow-color-rgb), 0.25); }
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(var(--glow-color-rgb), 0.5), 0 0 40px rgba(var(--glow-color-rgb), 0.2); }
+            50% { text-shadow: 0 0 30px rgba(var(--glow-color-rgb), 0.8), 0 0 60px rgba(var(--glow-color-rgb), 0.3); }
+        }
+        .glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+
+        @keyframes float-slow {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(60px, -50px) scale(1.12); }
+            50% { transform: translate(-40px, 40px) scale(0.9); }
+            75% { transform: translate(50px, 20px) scale(1.08); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float-drift {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-50px, -60px) scale(1.15) rotate(3deg); }
+            66% { transform: translate(40px, 30px) scale(0.88) rotate(-2deg); }
+            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); animation: float-slow 10s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 14s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 18s ease-in-out infinite reverse; }
+
+        .slide::before {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-repeat: repeat; background-size: 256px 256px; opacity: 0.03; mix-blend-mode: overlay;
+        }
+        .slide::after {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 50%, var(--color-vignette) 100%);
+        }
+
+        .bar-fill { height: 100%; border-radius: 4px; width: 0%; transition: width 0.8s ease; }
+
+        .script-box {
+            background: rgba(88,166,255,0.06);
+            border-left: 3px solid var(--color-accent-1);
+            border-radius: 0 8px 8px 0;
+            padding: 0.85rem 1.1rem;
+            font-size: clamp(0.78rem, 1.3vw, 0.9rem);
+            line-height: 1.6;
+            color: #c9d1d9;
+            font-style: italic;
+        }
+
+        .voiceover-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--color-accent-1);
+            font-style: normal;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+
+<div class="deck">
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide slide-1 active" data-slide="1">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:520px;height:520px;top:-120px;right:-100px;background:var(--color-accent-1);opacity:0.12;"></div>
+            <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:var(--color-accent-2);opacity:0.10;"></div>
+            <div class="blob" style="width:220px;height:220px;top:40%;left:12%;background:var(--color-accent-3);opacity:0.09;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+        <div class="content text-center">
+            <div style="font-size:100px;margin-bottom:1.2rem;animation:float 3.5s ease-in-out infinite;" class="reveal">🎬</div>
+            <p class="reveal" style="font-size:clamp(0.75rem,1.2vw,0.9rem);letter-spacing:0.18em;text-transform:uppercase;color:var(--color-accent-1);font-weight:600;margin-bottom:0.8rem;">Module 4 · Disability &amp; Media</p>
+            <h1 class="font-display reveal" style="font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:900;background:linear-gradient(135deg,var(--color-accent-1),var(--color-accent-2),var(--color-accent-1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;margin-bottom:1.2rem;">Who Gets to Tell<br>the Story?</h1>
+            <p class="reveal" style="font-size:clamp(0.9rem,1.6vw,1.25rem);color:var(--color-text-secondary);letter-spacing:0.05em;margin-bottom:2rem;">Disability Representation in Film &amp; Television</p>
+            <p class="reveal" style="font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-muted);">Voiceover Script &amp; Slide Deck · Video 1 of 2</p>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: HOOK STAT -->
+    <div class="slide slide-2" data-slide="2">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:400px;height:400px;top:-80px;left:-80px;background:var(--color-accent-3);opacity:0.10;"></div>
+            <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-40px;background:var(--color-accent-1);opacity:0.08;"></div>
+        </div>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-3);font-weight:600;margin-bottom:1rem;">Opening Hook</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.7rem,3.5vw,2.6rem);font-weight:700;line-height:1.25;margin-bottom:1.8rem;">Nearly <span style="color:var(--color-accent-1);" class="glow-pulse">1 in 3</span> Americans<br>lives with a disability.</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.8rem;">
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1.2rem 1.4rem;backdrop-filter:blur(12px);">
+                    <div style="font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--color-accent-3);" class="stat-glow" data-count="287" data-suffix="M">0</div>
+                    <div style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:0.3rem;">Americans with disabilities</div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1.2rem 1.4rem;backdrop-filter:blur(12px);">
+                    <div style="font-size:clamp(2rem,4vw,3rem);font-weight:900;color:var(--color-accent-1);" class="stat-glow" data-count="4" data-suffix="%">0</div>
+                    <div style="font-size:0.8rem;color:var(--color-text-secondary);margin-top:0.3rem;">Max share of TV characters with disabilities (2016–2023)</div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                Nearly one in three Americans lives with a disability. That's the largest minority group in the country. Yet over seven years of scripted television—from 2016 to 2023—characters with disabilities never broke 4.7% of the total. And of those roles, only 21% were played by disabled actors. We have to ask: who is actually telling these stories—and does it matter?
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE 21% PROBLEM -->
+    <div class="slide slide-3" data-slide="3">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-60px;right:-80px;background:var(--color-accent-2);opacity:0.09;"></div>
+            <div class="blob" style="width:280px;height:280px;bottom:-50px;left:-50px;background:var(--color-accent-1);opacity:0.07;"></div>
+        </div>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-2);font-weight:600;margin-bottom:1rem;">The Authenticity Gap</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:700;margin-bottom:1.5rem;">Only <span style="color:var(--color-accent-2);">21%</span> of disabled TV roles<br>are played by disabled actors.</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.6rem;">
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1.1rem 1.3rem;">
+                    <div style="font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Non-disabled actors cast as disabled</div>
+                    <div style="background:rgba(255,255,255,0.05);border-radius:6px;height:18px;overflow:hidden;margin-bottom:0.5rem;">
+                        <div class="bar-fill" data-width="79" style="background:linear-gradient(90deg,var(--color-accent-3),#ff9966);"></div>
+                    </div>
+                    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent-3);">79%</div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1.1rem 1.3rem;">
+                    <div style="font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Disabled actors in disabled roles</div>
+                    <div style="background:rgba(255,255,255,0.05);border-radius:6px;height:18px;overflow:hidden;margin-bottom:0.5rem;">
+                        <div class="bar-fill" data-width="21" style="background:linear-gradient(90deg,var(--color-accent-2),var(--color-accent-1));"></div>
+                    </div>
+                    <div style="font-size:1.5rem;font-weight:700;color:var(--color-accent-2);">21%</div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                When non-disabled actors portray disability, it's not just a casting choice—it forecloses an opportunity for a disabled professional to work, build a career, and shape how their community is represented. United Cerebral Palsy argues this gap costs the industry in authenticity, in storytelling quality, and in the trust of the audiences who live this reality every day.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: INTERSECTIONALITY -->
+    <div class="slide slide-4" data-slide="4">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:420px;height:420px;top:-100px;right:-60px;background:var(--color-accent-1);opacity:0.09;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-60px;left:-40px;background:var(--color-accent-3);opacity:0.08;"></div>
+        </div>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-1);font-weight:600;margin-bottom:1rem;">Whose Stories Are Told?</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:1.5rem;">Disability representation is never<br>just about disability.</h2>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.6rem;">
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1rem 1.1rem;text-align:center;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">⚪</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:var(--color-accent-1);">1.5×</div>
+                    <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.3rem;">White characters more likely to be portrayed as disabled vs. characters of color</div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1rem 1.1rem;text-align:center;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">🏳️‍🌈</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:var(--color-accent-2);">2×</div>
+                    <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.3rem;">Rate LGBTQIA+ characters appear with disabilities vs. straight characters</div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:12px;padding:1rem 1.1rem;text-align:center;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:2rem;margin-bottom:0.5rem;">4️⃣</div>
+                    <div style="font-size:1.3rem;font-weight:700;color:var(--color-accent-3);">4 types</div>
+                    <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:0.3rem;">Cognitive, communication, physical, and mental health — each underrepresented</div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                The data gets harder when we ask whose disability the industry finds worth portraying. White characters are one-and-a-half times more likely to be shown with a disability than characters of color. LGBTQIA+ characters appear with disabilities at twice the rate of straight characters—often in ways that conflate queerness with illness. The Media Reader calls this the intersectional lens, and it's the lens you'll use throughout this module.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: THREE MODELS -->
+    <div class="slide slide-5" data-slide="5">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:400px;height:400px;top:-80px;left:-80px;background:var(--color-accent-2);opacity:0.10;"></div>
+            <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:var(--color-accent-1);opacity:0.08;"></div>
+        </div>
+        <canvas class="particle-canvas-ambient" style="position:absolute;inset:0;z-index:1;"></canvas>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-2);font-weight:600;margin-bottom:1rem;">Your Analytical Toolkit</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:1.4rem;">Three models explain the "invisible logic"<br>behind every disability portrayal.</h2>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+                <div class="reveal" style="display:flex;align-items:flex-start;gap:1rem;background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-left:4px solid var(--color-accent-3);border-radius:0 12px 12px 0;padding:0.9rem 1.1rem;">
+                    <span style="font-size:1.6rem;">⚖️</span>
+                    <div><strong style="color:var(--color-accent-3);">Moral Model</strong> <span style="color:var(--color-text-muted);font-size:0.82rem;"> — disability as flaw, punishment, or villainous marker</span><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">e.g. disabled villain tropes; "cured" character as reward</span></div>
+                </div>
+                <div class="reveal" style="display:flex;align-items:flex-start;gap:1rem;background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-left:4px solid var(--color-accent-1);border-radius:0 12px 12px 0;padding:0.9rem 1.1rem;">
+                    <span style="font-size:1.6rem;">🏥</span>
+                    <div><strong style="color:var(--color-accent-1);">Medical Model</strong> <span style="color:var(--color-text-muted);font-size:0.82rem;"> — disability as deficit to fix; the individual is the "problem"</span><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">e.g. storylines resolved only by cure; inspiration-porn narratives</span></div>
+                </div>
+                <div class="reveal" style="display:flex;align-items:flex-start;gap:1rem;background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-left:4px solid var(--color-accent-2);border-radius:0 12px 12px 0;padding:0.9rem 1.1rem;">
+                    <span style="font-size:1.6rem;">🌍</span>
+                    <div><strong style="color:var(--color-accent-2);">Social Model</strong> <span style="color:var(--color-text-muted);font-size:0.82rem;"> — disability as product of inaccessible environments &amp; systems</span><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">e.g. script barriers, set inaccessibility, exclusion from production</span></div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                Rhoda Olkin at the APA gives us three models of disability—moral, medical, and social. These aren't just academic categories. They are the invisible logic running beneath casting decisions, character arcs, and narrative resolutions. By the end of this module, you'll be able to watch any scene with a disabled character and identify exactly which model is at work.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: THE GDI CREATOR QUESTIONS -->
+    <div class="slide slide-6" data-slide="6">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-60px;right:-60px;background:var(--color-accent-1);opacity:0.09;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-40px;left:-40px;background:var(--color-accent-2);opacity:0.08;"></div>
+        </div>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-1);font-weight:600;margin-bottom:1rem;">The Geena Davis Institute · March 2025</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:1.4rem;">Three questions every creator—<br>and every analyst—should ask.</h2>
+            <div style="display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;">
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:10px;padding:0.9rem 1.1rem;display:flex;align-items:flex-start;gap:0.9rem;">
+                    <span style="font-size:1.4rem;flex-shrink:0;">1️⃣</span>
+                    <div><strong style="color:var(--color-text);">Are disabled characters multidimensional?</strong><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">Do they have goals, relationships, and a life beyond their disability?</span></div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:10px;padding:0.9rem 1.1rem;display:flex;align-items:flex-start;gap:0.9rem;">
+                    <span style="font-size:1.4rem;flex-shrink:0;">2️⃣</span>
+                    <div><strong style="color:var(--color-text);">Does the script's language reinforce tragedy or inspiration tropes?</strong><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">Does the character inspire pity, awe, or authentic humanity?</span></div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-radius:10px;padding:0.9rem 1.1rem;display:flex;align-items:flex-start;gap:0.9rem;">
+                    <span style="font-size:1.4rem;flex-shrink:0;">3️⃣</span>
+                    <div><strong style="color:var(--color-text);">Does the portrayal reflect the full diversity of disabled experience?</strong><br><span style="font-size:0.8rem;color:var(--color-text-secondary);">Across race, class, age, sexuality, and disability type?</span></div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                The Geena Davis Institute hands creators—and critics—a practical checklist in their 2025 report. These three questions structure your written analysis this week. They connect everything you read to the concrete decisions writers, directors, and producers make every single day on set.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: YOUR ASSIGNMENTS -->
+    <div class="slide slide-7" data-slide="7">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:400px;height:400px;top:-80px;left:-60px;background:var(--color-accent-3);opacity:0.09;"></div>
+            <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-60px;background:var(--color-accent-2);opacity:0.08;"></div>
+        </div>
+        <div class="content">
+            <p class="reveal" style="font-size:0.75rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-accent-3);font-weight:600;margin-bottom:1rem;">Your Work This Module</p>
+            <h2 class="font-display reveal" style="font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:1.5rem;">Two assignments. One analytical framework.<br>Real films, real data.</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.6rem;">
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-top:3px solid var(--color-accent-1);border-radius:0 0 12px 12px;padding:1.1rem 1.3rem;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-1);margin-bottom:0.5rem;">Assignment 1</div>
+                    <div style="font-weight:600;margin-bottom:0.5rem;">Discussion Board</div>
+                    <div style="font-size:0.82rem;color:var(--color-text-secondary);">Apply one of Olkin's three disability models to the Geena Davis Institute data. What does the model reveal about the industry that raw numbers alone cannot?</div>
+                </div>
+                <div class="reveal" style="background:var(--color-glass-bg);border:1px solid var(--color-glass-border);border-top:3px solid var(--color-accent-2);border-radius:0 0 12px 12px;padding:1.1rem 1.3rem;transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+                    <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-accent-2);margin-bottom:0.5rem;">Assignment 2</div>
+                    <div style="font-weight:600;margin-bottom:0.5rem;">Written Analysis</div>
+                    <div style="font-size:0.82rem;color:var(--color-text-secondary);">Examine a specific film or TV example through authentic casting, intersectionality, and the three GDI creator questions. Use The Media Reader as your primary evidence base.</div>
+                </div>
+            </div>
+            <div class="reveal script-box">
+                <span class="voiceover-label">🎙 Voiceover</span>
+                Before you begin, read all four sources. Olkin gives you the framework. Saba and UCP give you the human and industry argument. The Media Reader gives you the data. And the GDI toolkit gives you the evaluative questions. Together, they give you everything you need to make an original, evidence-based argument. Now—let's get into it.
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: CLOSING -->
+    <div class="slide slide-8" data-slide="8">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:500px;height:500px;top:-100px;right:-100px;background:var(--color-accent-2);opacity:0.13;"></div>
+            <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-60px;background:var(--color-accent-1);opacity:0.11;"></div>
+            <div class="blob" style="width:200px;height:200px;top:35%;left:10%;background:var(--color-accent-3);opacity:0.09;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+        <div class="content text-center">
+            <div style="font-size:90px;margin-bottom:1.2rem;animation:float 3.5s ease-in-out infinite;" class="reveal">📺</div>
+            <h2 class="font-display reveal" style="font-size:clamp(2rem,4.5vw,3.5rem);font-weight:900;background:linear-gradient(135deg,var(--color-accent-1),var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;">The screen is a mirror.</h2>
+            <p class="reveal" style="font-size:clamp(1rem,2vw,1.4rem);color:var(--color-text-secondary);max-width:600px;margin:0 auto 1.5rem;line-height:1.6;">When 1 in 3 Americans sees themselves reflected in only 4% of characters—and mostly through someone else's interpretation—we have to ask what stories we are choosing not to tell.</p>
+            <p class="reveal" style="font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--color-text-muted);">Continue to the readings → then Video 2: Key Concepts</p>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    for (let i = 1; i <= total; i++) { const dot = document.createElement('div'); dot.className = 'dot' + (i === 1 ? ' active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); }
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector(`.slide[data-slide="${n}"]`);
+        if (prev) prev.classList.remove('active');
+        if (next) { next.classList.add('active'); animateSlide(next); }
+        current = n; updateNav();
+    }
+    function changeSlide(dir) { let next = current + dir; if (next < 1) next = total; if (next > total) next = 1; goToSlide(next); }
+    function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); }); counter.textContent = current + ' / ' + total; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } });
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+            el.offsetHeight;
+            const delay = i * 0.08;
+            el.style.transition = `opacity 0.35s ease ${delay}s, transform 0.35s ease ${delay}s`;
+            el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+        });
+        animateSlideEffects(slide);
+    }
+
+    function animateSlideEffects(slide) {
+        slide.querySelectorAll('[data-count]:not(.counted)').forEach(el => {
+            el.classList.add('counted');
+            const target = parseInt(el.dataset.count);
+            const suffix = el.dataset.suffix || '', prefix = el.dataset.prefix || '';
+            let cur = 0; const step = target / 40;
+            const timer = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(timer); } el.textContent = prefix + Math.round(cur).toLocaleString() + suffix; }, 30);
+        });
+        slide.querySelectorAll('.bar-fill:not(.fill-init)').forEach((bar, i) => {
+            bar.classList.add('fill-init');
+            bar.style.width = '0%'; bar.style.transition = `width 0.7s ease ${i * 0.1 + 0.3}s`; bar.offsetHeight; bar.style.width = bar.dataset.width + '%';
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const spotlight = document.querySelector('.mouse-spotlight');
+        if (spotlight) {
+            spotlight.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(88,166,255,0.06), transparent 40%)`;
+        }
+    });
+
+    window.initParticles = function(canvas, options) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+        const interactive = options.interactive !== false;
+        const count = options.count || (interactive ? 55 : 18);
+        let mx = -1000, my = -1000;
+        const particles = Array.from({ length: count }, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+            size: Math.random() * 2.5 + 0.8, alpha: Math.random() * 0.35 + 0.1
+        }));
+        if (interactive) {
+            canvas.addEventListener('mousemove', (e) => { const rect = canvas.getBoundingClientRect(); mx = e.clientX - rect.left; my = e.clientY - rect.top; });
+            canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; });
+        }
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                if (interactive) { const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx*dx+dy*dy); if (dist < 120) { const force = (120-dist)/120*2; p.vx += (dx/dist)*force*0.1; p.vy += (dy/dist)*force*0.1; } }
+                p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(88,166,255,${p.alpha})`; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        })();
+    };
+    document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, { interactive: true, count: 55 }));
+    document.querySelectorAll('.particle-canvas-ambient').forEach(c => window.initParticles(c, { interactive: false, count: 18 }));
+
+    try { animateSlide(document.querySelector('.slide.active')); } catch(e) { console.warn(e); }
+</script>
+</body>
+</html>

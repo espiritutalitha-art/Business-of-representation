@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="slides-format" content="viewport">
+  <title>Module 4 Key Concepts - Disability & Media</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-bg: #0d1117;
+      --color-surface: #161b22;
+      --color-text: #e6edf3;
+      --color-text-secondary: #9aa4b2;
+      --color-muted: #6e7681;
+      --color-accent-1: #58a6ff;
+      --color-accent-2: #bc8cff;
+      --color-accent-3: #f78166;
+      --color-glass-bg: rgba(255,255,255,0.05);
+      --color-glass-border: rgba(255,255,255,0.08);
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+  </style>
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden;background:#0d1117;color:#e6edf3;font-family:var(--font-body)}
+    .slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#0d1117;overflow:hidden}
+    .slide.active{display:flex}
+    .content{position:relative;z-index:2;width:100%;max-width:1120px;padding:clamp(1.5rem,4vw,4rem)}
+    .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .blob{position:absolute;border-radius:50%;filter:blur(85px);opacity:.1;animation:float 14s ease-in-out infinite}
+    .blob:nth-child(2){animation-duration:18s}
+    .blob:nth-child(3){animation-duration:22s}
+    .slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,.55) 100%);z-index:1}
+    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px)}
+    .reveal{opacity:0;transform:translateY(18px)}
+    .nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:14px;align-items:center;z-index:99;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:10px 18px;border-radius:999px}
+    .nav-btn{width:38px;height:38px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#58a6ff;font-size:1.1rem;cursor:pointer}
+    .dots{display:flex;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer}.dot.active{background:#58a6ff;transform:scale(1.25)}
+    .counter{font-size:.8rem;color:#9aa4b2;min-width:42px;text-align:center}
+    .script-box{background:rgba(88,166,255,.06);border-left:3px solid #58a6ff;border-radius:0 10px 10px 0;padding:.9rem 1.1rem;font-size:.82rem;line-height:1.6;color:#c9d1d9}
+    .tiny{text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:700}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.08)}50%{transform:translate(-20px,20px) scale(.94)}75%{transform:translate(35px,15px) scale(1.04)}}
+  </style>
+</head>
+<body>
+<div id="deck">
+  <div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:520px;height:520px;top:-120px;right:-80px;background:#58a6ff"></div>
+      <div class="blob" style="width:360px;height:360px;bottom:-80px;left:-40px;background:#bc8cff"></div>
+      <div class="blob" style="width:240px;height:240px;top:44%;left:10%;background:#f78166"></div>
+    </div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:92px;margin-bottom:1rem">📚</div>
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:.8rem">Module 4 · Disability & Media</p>
+      <h1 class="reveal" style="font-family:var(--font-display);font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.15;font-weight:900;background:linear-gradient(135deg,#58a6ff,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Key Concepts<br>from the Readings</h1>
+      <p class="reveal" style="font-size:clamp(1rem,1.9vw,1.3rem);color:#9aa4b2;max-width:720px;margin:0 auto 1.4rem">A guided walkthrough of the ideas, frameworks, and questions that shape this module.</p>
+      <p class="reveal" style="font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:#6e7681">Lecture Overview · Video 2 of 2</p>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="2">
+    <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-80px;left:-80px;background:#f78166"></div><div class="blob" style="width:320px;height:320px;bottom:-60px;right:-40px;background:#58a6ff"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#f78166;margin-bottom:1rem">Reading 1 · Olkin / APA</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1.2;margin-bottom:1.2rem">Three models of disability</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;margin-bottom:1.3rem">
+        <div class="reveal glass" style="border-left:4px solid #f78166;border-radius:0 12px 12px 0;padding:1rem"><div style="font-size:1.5rem;margin-bottom:.35rem">⚖️</div><div style="font-weight:700;color:#f78166">Moral</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Disability as flaw, punishment, or villainous marker</div><div style="font-size:.75rem;color:#c9d1d9;margin-top:.5rem"><em>Example:</em> the scarred or visibly impaired villain trope</div></div>
+        <div class="reveal glass" style="border-left:4px solid #58a6ff;border-radius:0 12px 12px 0;padding:1rem"><div style="font-size:1.5rem;margin-bottom:.35rem">🏥</div><div style="font-weight:700;color:#58a6ff">Medical</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Disability as deficit located in the individual</div><div style="font-size:.75rem;color:#c9d1d9;margin-top:.5rem"><em>Examples:</em> <em>The Theory of Everything</em>, <em>Wonder</em></div></div>
+        <div class="reveal glass" style="border-left:4px solid #bc8cff;border-radius:0 12px 12px 0;padding:1rem"><div style="font-size:1.5rem;margin-bottom:.35rem">🌍</div><div style="font-weight:700;color:#bc8cff">Social</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Disability as produced by inaccessible systems and environments</div><div style="font-size:.75rem;color:#c9d1d9;margin-top:.5rem"><em>Example:</em> <em>Crip Camp</em></div></div>
+      </div>
+      <div class="reveal script-box">Olkin gives you the conceptual engine for the entire module. The key move is not just memorizing the three models, but learning to identify which model is operating beneath a casting choice, a character arc, or a narrative resolution.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="3">
+    <div class="gradient-mesh"><div class="blob" style="width:420px;height:420px;top:-60px;right:-80px;background:#bc8cff"></div><div class="blob" style="width:280px;height:280px;bottom:-50px;left:-40px;background:#58a6ff"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#bc8cff;margin-bottom:1rem">Reading 2 · Saba / UCP</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.2;margin-bottom:1.2rem">Authentic casting matters</h2>
+      <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:1rem;margin-bottom:1.3rem;align-items:stretch">
+        <div class="reveal glass" style="border-radius:12px;padding:1rem 1.1rem">
+          <div style="font-weight:700;margin-bottom:.5rem">Two connected arguments</div>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.65">
+            <strong style="color:#58a6ff">Equity:</strong> disabled actors deserve access to roles, careers, and creative influence.<br>
+            <strong style="color:#bc8cff">Craft:</strong> authentic casting improves performance detail, storytelling quality, and audience trust.
+          </div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:1rem 1.1rem;text-align:center">
+          <div style="font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;color:#9aa4b2;margin-bottom:.35rem">Disabled roles cast authentically</div>
+          <div style="font-size:3rem;font-weight:900;color:#bc8cff;line-height:1">21%</div>
+          <div style="font-size:.8rem;color:#9aa4b2;margin-top:.45rem">A stark gap in opportunity and representation</div>
+        </div>
+      </div>
+      <div class="reveal script-box">This reading helps students connect disability advocacy to media practice. It gives them language for arguing that authentic casting is not only ethically necessary, but also central to stronger, more believable storytelling.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="4">
+    <div class="gradient-mesh"><div class="blob" style="width:400px;height:400px;top:-70px;left:-70px;background:#58a6ff"></div><div class="blob" style="width:260px;height:260px;bottom:-40px;right:-30px;background:#f78166"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:1rem">Reading 3 · The Media Reader</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.75rem,3.4vw,2.55rem);line-height:1.2;margin-bottom:1.1rem">The data and historical anchor</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem">
+        <div class="reveal glass" style="padding:.85rem;border-radius:12px;text-align:center"><div style="font-size:1.5rem">🧠</div><div style="font-weight:700;font-size:.82rem;margin-top:.35rem">Cognitive</div></div>
+        <div class="reveal glass" style="padding:.85rem;border-radius:12px;text-align:center"><div style="font-size:1.5rem">💬</div><div style="font-weight:700;font-size:.82rem;margin-top:.35rem">Communication</div></div>
+        <div class="reveal glass" style="padding:.85rem;border-radius:12px;text-align:center"><div style="font-size:1.5rem">🦽</div><div style="font-weight:700;font-size:.82rem;margin-top:.35rem">Physical</div></div>
+        <div class="reveal glass" style="padding:.85rem;border-radius:12px;text-align:center"><div style="font-size:1.5rem">🧩</div><div style="font-weight:700;font-size:.82rem;margin-top:.35rem">Mental health</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:1rem"><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:#9aa4b2;margin-bottom:.4rem">Key pattern</div><div style="font-size:1.55rem;font-weight:800;color:#58a6ff">1.5×</div><div style="font-size:.8rem;color:#c9d1d9;margin-top:.35rem">White characters are more likely to be portrayed as disabled than characters of color.</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:1rem"><div style="font-size:.76rem;text-transform:uppercase;letter-spacing:.12em;color:#9aa4b2;margin-bottom:.4rem">Key pattern</div><div style="font-size:1.55rem;font-weight:800;color:#f78166">2×</div><div style="font-size:.8rem;color:#c9d1d9;margin-top:.35rem">LGBTQIA+ characters appear with disabilities at twice the rate of straight characters.</div></div>
+      </div>
+      <div class="reveal script-box">This chapter is the assignment's main evidence base. It gives students both the historical context and the intersectional data they need to move beyond impressionistic opinion and build a grounded argument.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="5">
+    <div class="gradient-mesh"><div class="blob" style="width:360px;height:360px;top:-80px;right:-60px;background:#58a6ff"></div><div class="blob" style="width:300px;height:300px;bottom:-70px;left:-50px;background:#bc8cff"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:1rem">Reading 4 · Geena Davis Institute</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.75rem,3.3vw,2.5rem);line-height:1.2;margin-bottom:1.1rem">Three creator questions</h2>
+      <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem"><div style="font-size:1.35rem">1️⃣</div><div><div style="font-weight:700">Are disabled characters multidimensional?</div><div style="font-size:.8rem;color:#9aa4b2">Do they have goals, humor, flaws, and relationships beyond disability?</div></div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem"><div style="font-size:1.35rem">2️⃣</div><div><div style="font-weight:700">Do language and framing reinforce stereotypes?</div><div style="font-size:.8rem;color:#9aa4b2">Look for tragedy, pity, spectacle, or inspiration tropes.</div></div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem"><div style="font-size:1.35rem">3️⃣</div><div><div style="font-weight:700">Does the portrayal reflect diverse disabled experiences?</div><div style="font-size:.8rem;color:#9aa4b2">Consider race, age, class, sexuality, and disability type.</div></div></div>
+      </div>
+      <div class="reveal script-box">These questions take the research and turn it into practice. They help students move from broad statements about representation to close analysis of how a character or story is actually constructed on screen.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="6">
+    <div class="gradient-mesh"><div class="blob" style="width:420px;height:420px;top:-90px;left:-80px;background:#f78166"></div><div class="blob" style="width:300px;height:300px;bottom:-60px;right:-60px;background:#bc8cff"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#f78166;margin-bottom:1rem">How the readings work together</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.2;margin-bottom:1.2rem">One argument, four interlocking lenses</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.95rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#58a6ff;margin-bottom:.35rem">Olkin</div><div style="font-weight:700">Framework</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Names the model at work</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.95rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#bc8cff;margin-bottom:.35rem">Media Reader</div><div style="font-weight:700">Evidence</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Provides data and history</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.95rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#f78166;margin-bottom:.35rem">Saba / UCP</div><div style="font-weight:700">Stakes</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Shows why representation matters</div></div>
+        <div class="reveal glass" style="border-radius:12px;padding:.95rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#58a6ff;margin-bottom:.35rem">GDI</div><div style="font-weight:700">Questions</div><div style="font-size:.8rem;color:#9aa4b2;margin-top:.35rem">Tests a specific example</div></div>
+      </div>
+      <div class="reveal script-box">A strong essay will not treat the sources as separate summaries. Instead, it will use them together: Olkin to identify the logic, The Media Reader to ground the analysis, Saba to name the stakes, and GDI to evaluate the artifact in concrete terms.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="7">
+    <div class="gradient-mesh"><div class="blob" style="width:380px;height:380px;top:-70px;right:-70px;background:#58a6ff"></div><div class="blob" style="width:280px;height:280px;bottom:-50px;left:-40px;background:#f78166"></div></div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:1rem">Assignments</p>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(1.8rem,3.4vw,2.55rem);line-height:1.2;margin-bottom:1.2rem">How to use these ideas</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-top:3px solid #58a6ff;border-radius:0 0 12px 12px;padding:1rem 1.1rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#58a6ff;margin-bottom:.4rem">Discussion Board</div><div style="font-weight:700;margin-bottom:.45rem">Apply one model to GDI data</div><div style="font-size:.82rem;color:#c9d1d9">Use a disability studies model to explain what the numbers reveal about the industry that raw data alone cannot.</div></div>
+        <div class="reveal glass" style="border-top:3px solid #bc8cff;border-radius:0 0 12px 12px;padding:1rem 1.1rem"><div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:#bc8cff;margin-bottom:.4rem">Written Analysis</div><div style="font-weight:700;margin-bottom:.45rem">Analyze one media artifact</div><div style="font-size:.82rem;color:#c9d1d9">Use one model, Media Reader data, and all three GDI questions to build one coherent argument.</div></div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:1rem 1.1rem;margin-bottom:1.2rem">
+        <div style="font-weight:700;margin-bottom:.45rem">Possible examples</div>
+        <div style="font-size:.82rem;color:#9aa4b2;line-height:1.7"><em>Crip Camp</em>, <em>Speechless</em>, <em>Wonder</em>, <em>Atypical</em>, <em>CODA</em>, or children/YA-centered media such as Julia on <em>Sesame Street</em>.</div>
+      </div>
+      <div class="reveal script-box">Students should choose an artifact they can analyze specifically and concretely. The strongest papers will focus on scenes, character construction, and production choices rather than broad summary.</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="8">
+    <div class="gradient-mesh"><div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:#bc8cff"></div><div class="blob" style="width:320px;height:320px;bottom:-80px;left:-50px;background:#58a6ff"></div><div class="blob" style="width:220px;height:220px;top:40%;left:12%;background:#f78166"></div></div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:88px;margin-bottom:1rem">🎥</div>
+      <h2 class="reveal" style="font-family:var(--font-display);font-size:clamp(2rem,4.4vw,3.4rem);font-weight:900;background:linear-gradient(135deg,#58a6ff,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Ask harder questions.</h2>
+      <p class="reveal" style="font-size:clamp(1rem,2vw,1.3rem);color:#9aa4b2;max-width:760px;margin:0 auto 1.4rem;line-height:1.6">Who is in the room when these stories are made? Whose experience is treated as universal? What changes when disabled people shape the story themselves?</p>
+      <p class="reveal" style="font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:#6e7681">Read closely · analyze specifically · cite your evidence</p>
+    </div>
+  </div>
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+let current=1; const total=document.querySelectorAll('.slide').length; const dots=document.getElementById('dots'); const counter=document.getElementById('counter');
+for(let i=1;i<=total;i++){const d=document.createElement('div'); d.className='dot'+(i===1?' active':''); d.onclick=()=>goToSlide(i); dots.appendChild(d)}
+function goToSlide(n){document.querySelector('.slide.active').classList.remove('active'); const s=document.querySelector(`.slide[data-slide="${n}"]`); s.classList.add('active'); current=n; updateNav(); animateSlide(s)}
+function changeSlide(dir){let n=current+dir; if(n<1)n=total; if(n>total)n=1; goToSlide(n)}
+function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current)); counter.textContent=`${current} / ${total}`}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1)} if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1)}})
+let touchStartX=0; document.addEventListener('touchstart',e=>touchStartX=e.touches[0].clientX); document.addEventListener('touchend',e=>{const diff=touchStartX-e.changedTouches[0].clientX; if(Math.abs(diff)>50) changeSlide(diff>0?1:-1)})
+function animateSlide(slide){slide.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(18px)'; el.offsetHeight; const d=i*.08; el.style.transition=`opacity .35s ease ${d}s, transform .35s ease ${d}s`; el.style.opacity='1'; el.style.transform='translateY(0)'})}
+animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>

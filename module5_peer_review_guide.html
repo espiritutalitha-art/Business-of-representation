@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="slides-format" content="viewport">
+  <title>Peer Review Guide — Module 5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden;background:#0d1117;color:#e6edf3;font-family:'DM Sans',sans-serif}
+    .slide{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#0d1117;overflow:hidden}
+    .slide.active{display:flex}
+    .content{position:relative;z-index:2;width:100%;max-width:1120px;padding:clamp(1.5rem,4vw,3.5rem)}
+    .gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden}
+    .blob{position:absolute;border-radius:50%;filter:blur(85px);opacity:.1;animation:float 14s ease-in-out infinite}
+    .blob:nth-child(2){animation-duration:18s;animation-direction:reverse}
+    .blob:nth-child(3){animation-duration:22s}
+    .slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 48%,rgba(0,0,0,.55) 100%);z-index:1}
+    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(12px)}
+    .reveal{opacity:0;transform:translateY(18px)}
+    .nav-controls{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:14px;align-items:center;z-index:99;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:10px 18px;border-radius:999px}
+    .nav-btn{width:38px;height:38px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#58a6ff;font-size:1.1rem;cursor:pointer;transition:background .2s}
+    .nav-btn:hover{background:rgba(255,255,255,.12)}
+    .dots{display:flex;gap:8px}.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:all .2s}.dot.active{background:#e3b341;transform:scale(1.25)}
+    .counter{font-size:.8rem;color:#9aa4b2;min-width:42px;text-align:center}
+    .tiny{text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:700}
+    .bad-box{background:rgba(247,129,102,.07);border:1px solid rgba(247,129,102,.2);border-left:3px solid #f78166;border-radius:0 10px 10px 0;padding:.8rem 1rem}
+    .good-box{background:rgba(63,185,80,.07);border:1px solid rgba(63,185,80,.2);border-left:3px solid #3fb950;border-radius:0 10px 10px 0;padding:.8rem 1rem}
+    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.08)}50%{transform:translate(-20px,20px) scale(.94)}75%{transform:translate(35px,15px) scale(1.04)}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  </style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" data-slide="1">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:500px;height:500px;top:-100px;right:-80px;background:#e3b341"></div>
+      <div class="blob" style="width:360px;height:360px;bottom:-80px;left:-60px;background:#58a6ff"></div>
+      <div class="blob" style="width:220px;height:220px;top:42%;left:8%;background:#bc8cff"></div>
+    </div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:90px;margin-bottom:1rem;animation:bob 3.5s ease-in-out infinite">🤝</div>
+      <p class="reveal tiny" style="color:#e3b341;margin-bottom:.8rem">Module 5 · Assignment 5.3</p>
+      <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;line-height:1.15;background:linear-gradient(135deg,#e3b341,#58a6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Peer Review<br>Guide</h1>
+      <p class="reveal" style="font-size:clamp(.95rem,1.8vw,1.25rem);color:#9aa4b2;max-width:680px;margin:0 auto 1.4rem;line-height:1.6">How to give feedback that actually helps — and how to use feedback to strengthen your Critical Analysis Paper.</p>
+      <p class="reveal" style="font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:#6e7681">Draft due Thursday · Peer response due Sunday</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: WHY PEER REVIEW MATTERS -->
+  <div class="slide" data-slide="2">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-80px;left:-70px;background:#e3b341"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-50px;background:#bc8cff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#e3b341;margin-bottom:1rem">Why peer review matters</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:1.3rem">We are the worst readers<br>of our own work.</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.3rem">
+        <div class="reveal glass" style="border-radius:12px;padding:1.1rem;border-left:4px solid #e3b341">
+          <div style="font-weight:700;margin-bottom:.45rem;color:#e3b341">The problem</div>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.65">We know what we meant to say — so we read what we intended, not what's actually on the page. A fresh reader sees things the writer genuinely cannot.</div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:1.1rem;border-left:4px solid #58a6ff">
+          <div style="font-weight:700;margin-bottom:.45rem;color:#58a6ff">The professional parallel</div>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.65">Writers' rooms give notes. Development executives push back on early drafts. Editors ask the questions the writer stopped asking. Peer review is a version of that — and it's a skill you will use throughout your career.</div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.1rem;border-left:3px solid #3fb950">
+        <div style="font-size:.84rem;color:#c9d1d9;line-height:1.6"><strong style="color:#3fb950">Your goal:</strong> Leave your partner with something they can actually use — a sharper argument, a more specific example, a tension they hadn't considered, or a concrete next step for their final draft.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: STEP 1 — WORKING DRAFT -->
+  <div class="slide" data-slide="3">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:420px;height:420px;top:-80px;right:-70px;background:#58a6ff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-60px;left:-40px;background:#e3b341"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:1rem">Step 1 · Due Thursday</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Post your working draft<br>(1,000–1,200 words)</h2>
+      <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">1️⃣</span>
+          <div><strong>Introduction</strong> <span style="color:#9aa4b2;font-size:.83rem">— your hook, media text context, and a clear working thesis</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">2️⃣</span>
+          <div><strong>Theoretical Framework & Literature Review</strong> <span style="color:#9aa4b2;font-size:.83rem">— define your two concepts, supported by academic and industry sources</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">3️⃣</span>
+          <div><strong>Analysis Outline</strong> <span style="color:#9aa4b2;font-size:.83rem">— bullet points or brief outline of the specific scenes, characters, or data you plan to analyze</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.85rem 1rem;display:flex;gap:.8rem;border:1px solid rgba(227,179,65,.3)">
+          <span style="font-size:1.3rem;flex-shrink:0">⭐</span>
+          <div><strong style="color:#e3b341">Author's Note (at the top)</strong> <span style="color:#9aa4b2;font-size:.83rem">— 2–3 sentences telling your partner what you're struggling with most, or what specific area you want feedback on. The more specific you are, the more useful the feedback you'll receive.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: THE AUTHOR'S NOTE -->
+  <div class="slide" data-slide="4">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-70px;left:-60px;background:#e3b341"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;right:-50px;background:#3fb950"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#e3b341;margin-bottom:1rem">The Author's Note — your most important two sentences</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Be specific about<br>what you need.</h2>
+      <div style="display:flex;flex-direction:column;gap:.9rem;margin-bottom:1.3rem">
+        <div class="reveal bad-box">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#f78166;margin-bottom:.35rem">❌ Too vague</div>
+          <div style="font-size:.85rem;color:#c9d1d9;font-style:italic">"I'd love any feedback on my draft — thanks!"</div>
+          <div style="font-size:.78rem;color:#9aa4b2;margin-top:.35rem">This invites generic responses and tells your partner nothing about where you need the most help.</div>
+        </div>
+        <div class="reveal good-box">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#3fb950;margin-bottom:.35rem">✅ Specific and actionable</div>
+          <div style="font-size:.85rem;color:#c9d1d9;font-style:italic">"I'm not sure whether my thesis is arguable enough — it might be too descriptive. I'm also uncertain whether I'm applying intersectionality correctly in the third paragraph, or whether I'm just naming it without showing it at work."</div>
+          <div style="font-size:.78rem;color:#9aa4b2;margin-top:.35rem">This tells your partner exactly where to focus, and gives them a concrete question to answer.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: STEP 2 — READING YOUR PARTNER'S DRAFT -->
+  <div class="slide" data-slide="5">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:380px;height:380px;top:-70px;right:-60px;background:#bc8cff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-50px;left:-40px;background:#58a6ff"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#bc8cff;margin-bottom:1rem">Step 2 · How to read your partner's draft</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.2rem">Read like a thoughtful editor,<br>not a proofreader.</h2>
+      <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.2rem">
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">📋</span>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.6">Open the <strong>final assignment instructions and rubric</strong> in another window while you read — that's the standard you're evaluating against.</div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">🚫</span>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.6">Do <strong>not</strong> focus on grammar or spelling. Focus on the core argument, the use of theory, and the integration of evidence.</div>
+        </div>
+        <div class="reveal glass" style="border-radius:12px;padding:.9rem 1rem;display:flex;gap:.8rem">
+          <span style="font-size:1.3rem;flex-shrink:0">🔁</span>
+          <div style="font-size:.84rem;color:#c9d1d9;line-height:1.6"><strong>Read the full draft once</strong> without stopping to take notes. Then ask yourself: <em>What is this paper arguing?</em> If you can't answer that in one clear sentence, that is your most important piece of feedback.</div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:12px;padding:.85rem 1.1rem;border-left:3px solid #e3b341">
+        <div style="font-size:.83rem;color:#c9d1d9;line-height:1.6"><strong style="color:#e3b341">The one-sentence test:</strong> Can you summarize the paper's main argument in a single sentence? Try it before you begin filling out the feedback form. Your summary will be the first thing you share with your partner.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: THE FEEDBACK FORM -->
+  <div class="slide" data-slide="6">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-80px;left:-70px;background:#58a6ff"></div>
+      <div class="blob" style="width:280px;height:280px;bottom:-60px;right:-50px;background:#e3b341"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#58a6ff;margin-bottom:.9rem">Step 3 · The Peer Feedback Form</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3.2vw,2.3rem);font-weight:700;line-height:1.2;margin-bottom:1rem">Four sections. Fill out every one.</h2>
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.1rem">
+        <div class="reveal glass" style="border-radius:10px;padding:.8rem 1rem;display:flex;gap:.9rem;align-items:flex-start">
+          <div style="min-width:28px;height:28px;border-radius:50%;background:rgba(88,166,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#58a6ff;flex-shrink:0">1</div>
+          <div><strong>Thesis & Argument</strong> <span style="color:#9aa4b2;font-size:.82rem">— Summarize the thesis in your own words first. Is it specific and arguable? Does it name both the media text and the frameworks?</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.8rem 1rem;display:flex;gap:.9rem;align-items:flex-start">
+          <div style="min-width:28px;height:28px;border-radius:50%;background:rgba(188,140,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#bc8cff;flex-shrink:0">2</div>
+          <div><strong>Theoretical Framework & Evidence</strong> <span style="color:#9aa4b2;font-size:.82rem">— Which concept is clearest? Which needs more support? Are sources integrated as evidence, or dropped as decorative checkboxes?</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.8rem 1rem;display:flex;gap:.9rem;align-items:flex-start">
+          <div style="min-width:28px;height:28px;border-radius:50%;background:rgba(227,179,65,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#e3b341;flex-shrink:0">3</div>
+          <div><strong>The Analysis Outline</strong> <span style="color:#9aa4b2;font-size:.82rem">— Will the planned examples prove the thesis? What counterargument, challenge, or intersectional factor has the author not yet considered?</span></div>
+        </div>
+        <div class="reveal glass" style="border-radius:10px;padding:.8rem 1rem;display:flex;gap:.9rem;align-items:flex-start;border:1px solid rgba(63,185,80,.25)">
+          <div style="min-width:28px;height:28px;border-radius:50%;background:rgba(63,185,80,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#3fb950;flex-shrink:0">4</div>
+          <div><strong style="color:#3fb950">Final Thoughts</strong> <span style="color:#9aa4b2;font-size:.82rem">— Address the Author's Note directly. Give 1–2 specific, actionable next steps for expanding this draft into the final 2,500-word paper.</span></div>
+        </div>
+      </div>
+      <div class="reveal glass" style="border-radius:10px;padding:.8rem 1.1rem;border-left:3px solid #f78166">
+        <div style="font-size:.81rem;color:#c9d1d9">⚠️ <strong style="color:#f78166">Always address the Author's Note.</strong> Your partner told you what they needed — ignoring it is the peer review equivalent of not answering the question.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: STRONG VS WEAK FEEDBACK -->
+  <div class="slide" data-slide="7">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:400px;height:400px;top:-80px;right:-70px;background:#3fb950"></div>
+      <div class="blob" style="width:300px;height:300px;bottom:-60px;left:-50px;background:#e3b341"></div>
+    </div>
+    <div class="content">
+      <p class="reveal tiny" style="color:#3fb950;margin-bottom:1rem">What strong feedback looks like</p>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:700;line-height:1.2;margin-bottom:1.1rem">Move beyond agreement.<br>Aim for proposition.</h2>
+      <div style="display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.1rem">
+        <div class="reveal bad-box">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#f78166;margin-bottom:.35rem">❌ Weak feedback</div>
+          <div style="font-size:.82rem;color:#c9d1d9;font-style:italic;line-height:1.6">"Great thesis! I really liked how you applied intersectionality. Your sources seem solid and I think this will be a strong paper."</div>
+          <div style="font-size:.77rem;color:#9aa4b2;margin-top:.4rem">Tells the writer nothing they can use. Doesn't summarize the argument, identify anything to develop, or address the Author's Note.</div>
+        </div>
+        <div class="reveal good-box">
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#3fb950;margin-bottom:.35rem">✅ Strong feedback</div>
+          <div style="font-size:.81rem;color:#c9d1d9;font-style:italic;line-height:1.65">"Your thesis argues that Reservation Dogs challenges the Hollywood Indian stereotype by centering Indigenous creative authority — that's clear and arguable. Your strongest section is the visibility and erasure definition, which is precise and well-sourced. Where you need more work is the intersectionality application — you mention it but the paper doesn't yet show how gender and class intersect with Indigeneity in specific scenes. For your Author's Note question about scope: I'd narrow your research question to one season so your analysis can go deeper rather than wider."</div>
+          <div style="font-size:.77rem;color:#9aa4b2;margin-top:.4rem">Summarizes the argument, names what's working, identifies a specific gap, and answers the Author's Note directly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: CLOSING -->
+  <div class="slide" data-slide="8">
+    <div class="gradient-mesh">
+      <div class="blob" style="width:500px;height:500px;top:-100px;right:-90px;background:#e3b341"></div>
+      <div class="blob" style="width:340px;height:340px;bottom:-80px;left:-60px;background:#58a6ff"></div>
+      <div class="blob" style="width:220px;height:220px;top:38%;left:10%;background:#3fb950"></div>
+    </div>
+    <div class="content text-center">
+      <div class="reveal" style="font-size:88px;margin-bottom:1rem;animation:bob 3.5s ease-in-out infinite">✍️</div>
+      <h2 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.2vw,3.2rem);font-weight:900;background:linear-gradient(135deg,#e3b341,#3fb950);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem">Your partner is counting<br>on you.</h2>
+      <p class="reveal" style="font-size:clamp(.95rem,1.9vw,1.25rem);color:#9aa4b2;max-width:740px;margin:0 auto 1.5rem;line-height:1.6">The best final papers almost always go through a peer review where both people pushed each other harder than they expected. Take it seriously, and you will get something valuable back.</p>
+      <div class="reveal glass" style="border-radius:12px;padding:.9rem 1.6rem;display:inline-flex;gap:2rem">
+        <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#e3b341">Thursday</div><div style="font-size:.75rem;color:#9aa4b2;margin-top:.2rem">Working draft due</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.1)"></div>
+        <div style="text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#3fb950">Sunday</div><div style="font-size:.75rem;color:#9aa4b2;margin-top:.2rem">Peer feedback due</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+  <span class="counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+  let current=1; const total=document.querySelectorAll('.slide').length;
+  const dotsEl=document.getElementById('dots'); const counterEl=document.getElementById('counter');
+  for(let i=1;i<=total;i++){const d=document.createElement('div'); d.className='dot'+(i===1?' active':''); d.onclick=()=>goToSlide(i); dotsEl.appendChild(d)}
+  function goToSlide(n){document.querySelector('.slide.active').classList.remove('active'); const s=document.querySelector(`.slide[data-slide="${n}"]`); s.classList.add('active'); current=n; updateNav(); animateSlide(s)}
+  function changeSlide(dir){let n=current+dir; if(n<1)n=total; if(n>total)n=1; goToSlide(n)}
+  function updateNav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i+1===current)); counterEl.textContent=`${current} / ${total}`}
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();changeSlide(1)} if(e.key==='ArrowLeft'){e.preventDefault();changeSlide(-1)}})
+  let tx=0; document.addEventListener('touchstart',e=>tx=e.touches[0].clientX); document.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX; if(Math.abs(d)>50) changeSlide(d>0?1:-1)})
+  function animateSlide(slide){slide.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(18px)'; el.offsetHeight; const delay=i*.08; el.style.transition=`opacity .35s ease ${delay}s, transform .35s ease ${delay}s`; el.style.opacity='1'; el.style.transform='translateY(0)'})}
+  animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>
