@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="slides-format" content="viewport">
+    <title>Discussion Posts & The Readings</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-bg: #FEFCF8;
+            --color-bg-deep: #F5F0E8;
+            --color-surface: #EDE8DF;
+            --color-text: #1E1B16;
+            --color-text-secondary: #3D3830;
+            --color-text-muted: #7C7268;
+            --color-accent-1: #8B2E12;
+            --color-accent-2: #C4712A;
+            --color-accent-3: #4A6741;
+            --color-glass-bg: rgba(255,255,255,0.82);
+            --color-glass-border: rgba(0,0,0,0.08);
+            --color-vignette: rgba(0,0,0,0.05);
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+        }
+    </style>
+
+    <style>
+        :root { --color-bg: #FEFCF8; --color-text: #1E1B16; --glow-color-rgb: 139,46,18; }
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { background: var(--color-bg); margin: 0; }
+        body { font-family: var(--font-body); color: var(--color-text); overflow: hidden; height: 100vh; width: 100vw; }
+        .deck { width: 100vw; height: 100vh; position: relative; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--color-bg); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(0.95); transition: opacity 0.7s ease, transform 0.7s ease; pointer-events: none; overflow: hidden; }
+        .slide.active { opacity: 1; transform: scale(1); pointer-events: all; }
+        .slide > .content { position: relative; z-index: 2; width: 100%; max-width: 1100px; padding: clamp(1.5rem, 4vw, 4rem); }
+        .nav-controls { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(255,255,255,0.82); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 40px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .nav-btn { width: 36px; height: 36px; border: none; background: rgba(0,0,0,0.06); color: #8B2E12; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+        .nav-btn:hover { background: rgba(0,0,0,0.12); }
+        .slide-dots { display: flex; gap: 8px; }
+        .slide-dots .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(0,0,0,0.15); cursor: pointer; transition: background 0.3s, transform 0.3s; }
+        .slide-dots .dot.active { background: #8B2E12; transform: scale(1.3); }
+        .slide-counter { font-size: 0.75rem; color: #7C7268; min-width: 36px; text-align: center; font-family: 'DM Sans', sans-serif; }
+        .reveal { opacity: 0; transform: translateY(20px); }
+
+        @keyframes float-slow {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(40px, -30px) scale(1.08); }
+            50% { transform: translate(-30px, 25px) scale(0.94); }
+            75% { transform: translate(35px, 15px) scale(1.05); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float-drift {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-35px, -45px) scale(1.1); }
+            66% { transform: translate(30px, 20px) scale(0.92); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+        .gradient-mesh { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(70px); animation: float-slow 12s ease-in-out infinite; }
+        .blob:nth-child(2) { animation: float-drift 16s ease-in-out infinite; }
+        .blob:nth-child(3) { animation: float-slow 20s ease-in-out infinite reverse; }
+
+        .slide::after {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.04) 100%);
+        }
+
+        /* Decorative rule */
+        .rule { width: 60px; height: 3px; background: linear-gradient(90deg, #8B2E12, #C4712A); border-radius: 2px; }
+
+        /* Table styles */
+        .mapping-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .mapping-table th { background: #8B2E12; color: #FEF9F5; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px 16px; text-align: left; }
+        .mapping-table th:first-child { border-radius: 8px 0 0 0; }
+        .mapping-table th:last-child { border-radius: 0 8px 0 0; }
+        .mapping-table td { padding: 9px 16px; font-size: 0.83rem; border-bottom: 1px solid rgba(0,0,0,0.07); vertical-align: top; line-height: 1.45; color: #3D3830; }
+        .mapping-table tr:last-child td { border-bottom: none; }
+        .mapping-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+        .mapping-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+        .mapping-table tr:nth-child(even) td { background: rgba(0,0,0,0.025); }
+        .mapping-table tr:nth-child(odd) td { background: rgba(255,255,255,0.7); }
+        .mapping-table .concept-cell { font-family: 'DM Serif Display', serif; font-size: 0.88rem; font-style: italic; color: #8B2E12; font-weight: 400; }
+        .mapping-table .student-cell { font-weight: 500; color: #1E1B16; }
+        .mapping-table .reading-cell { font-size: 0.78rem; color: #7C7268; }
+
+        /* Quote styles */
+        .pull-quote { border-left: 4px solid #8B2E12; padding-left: 20px; }
+
+        /* Card */
+        .card { background: rgba(255,255,255,0.82); border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: all 0.3s; }
+
+        /* Title slide hero */
+        .hero-emoji { font-size: 88px; animation: float 4s ease-in-out infinite; display: inline-block; }
+
+        /* Section header band */
+        .section-band { background: linear-gradient(135deg, #8B2E12 0%, #C4712A 100%); border-radius: 10px; padding: 6px 16px; display: inline-block; }
+
+        /* Stat callout */
+        .big-stat { font-family: 'DM Serif Display', serif; font-size: clamp(2.8rem, 5vw, 4rem); color: #8B2E12; line-height: 1; }
+    </style>
+</head>
+<body>
+
+<div class="mouse-spotlight" style="position:fixed;inset:0;z-index:99;pointer-events:none;"></div>
+
+<div class="deck">
+
+    <!-- SLIDE 1: TITLE -->
+    <div class="slide slide-1 active" data-slide="1">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:420px;height:420px;top:-100px;right:-80px;background:#C4712A;opacity:0.09;"></div>
+            <div class="blob" style="width:300px;height:300px;bottom:-80px;left:-60px;background:#8B2E12;opacity:0.07;"></div>
+            <div class="blob" style="width:200px;height:200px;top:45%;left:10%;background:#4A6741;opacity:0.06;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+        <div class="content text-center">
+            <div class="hero-emoji reveal">📺</div>
+            <h1 class="font-display text-[clamp(2.2rem,5vw,4rem)] font-normal tracking-tight mt-4 mb-3 reveal" style="color:#1E1B16;">
+                From the Discussion Board<br>
+                <span style="background:linear-gradient(90deg,#8B2E12,#C4712A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">to the Readings</span>
+            </h1>
+            <p class="text-[clamp(0.85rem,1.4vw,1.1rem)] text-text-muted tracking-[4px] uppercase mt-2 reveal">CI 635: The Business of Representation · Week 1 Wrap-Up</p>
+            <div class="rule mx-auto mt-6 reveal"></div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: FRAMING THE CONVERSATION -->
+    <div class="slide slide-2" data-slide="2">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:350px;height:350px;top:-80px;right:-60px;background:#C4712A;opacity:0.07;"></div>
+            <div class="blob" style="width:220px;height:220px;bottom:-60px;left:-40px;background:#8B2E12;opacity:0.05;"></div>
+        </div>
+        <div class="content">
+            <div class="section-band mb-4 reveal"><span style="color:#FEF9F5;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-family:DM Sans,sans-serif;">Setting the Stage</span></div>
+            <h2 class="font-display text-[clamp(1.8rem,3.5vw,2.8rem)] font-normal mb-2 reveal" style="color:#1E1B16;">You Already Knew This</h2>
+            <div class="rule mb-6 reveal"></div>
+            <p class="text-[1.05rem] text-text-secondary leading-relaxed mb-6 reveal" style="max-width:680px;">Before we assigned a single page of theory, your discussion posts were already mapping the conceptual terrain of both readings — intuitively, from your own media lives.</p>
+            <div class="grid grid-cols-3 gap-5 reveal">
+                <div class="card text-center">
+                    <div style="font-size:2rem;margin-bottom:8px;">💬</div>
+                    <div class="font-display text-[1.1rem]" style="color:#8B2E12;">3 Students</div>
+                    <div style="font-size:0.8rem;color:#7C7268;margin-top:4px;">whose posts we're reading with the theory today</div>
+                </div>
+                <div class="card text-center">
+                    <div style="font-size:2rem;margin-bottom:8px;">📖</div>
+                    <div class="font-display text-[1.1rem]" style="color:#8B2E12;">2 Readings</div>
+                    <div style="font-size:0.8rem;color:#7C7268;margin-top:4px;">Heldman &amp; Bargiachi (2025) and Lind (Ch. 1)</div>
+                </div>
+                <div class="card text-center">
+                    <div style="font-size:2rem;margin-bottom:8px;">🔗</div>
+                    <div class="font-display text-[1.1rem]" style="color:#8B2E12;">7 Concepts</div>
+                    <div style="font-size:0.8rem;color:#7C7268;margin-top:4px;">where your ideas and the readings connect</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE FULL MAPPING TABLE -->
+    <div class="slide slide-3" data-slide="3">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:300px;height:300px;top:-60px;right:-50px;background:#C4712A;opacity:0.06;"></div>
+            <div class="blob" style="width:200px;height:200px;bottom:-50px;left:-30px;background:#4A6741;opacity:0.05;"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(1.5rem,2.8vw,2.2rem)] font-normal mb-1 reveal" style="color:#1E1B16;">Discussion Posts → Theory</h2>
+            <div class="rule mb-4 reveal"></div>
+            <div class="reveal" style="background:rgba(255,255,255,0.82);border:1px solid rgba(0,0,0,0.08);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+                <table class="mapping-table">
+                    <thead>
+                        <tr>
+                            <th style="width:28%;">Reading Concept</th>
+                            <th style="width:34%;">Student Connection</th>
+                            <th style="width:38%;">From the Readings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="concept-cell">"You can't be what you can't see"</td>
+                            <td class="student-cell">Lily, Abbie &amp; Cam: seeing yourself in media as foundational to identity</td>
+                            <td class="reading-cell">Heldman &amp; Bargiachi — representation shapes aspiration &amp; self-worth</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Quantity vs. Quality of Representation</td>
+                            <td class="student-cell">Cam's definition: tokenism vs. normalization</td>
+                            <td class="reading-cell">Heldman &amp; Bargiachi — how often vs. how groups appear in media</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Symbolic Annihilation (Tuchman)</td>
+                            <td class="student-cell">Abbie: queer erasure on streaming platforms</td>
+                            <td class="reading-cell">Both readings — absence, condemnation &amp; trivialization of groups</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Agenda Setting &amp; Framing (Iyengar / Goffman)</td>
+                            <td class="student-cell">Lily: horror film's "punishing gaze" shapes viewer expectations</td>
+                            <td class="reading-cell">Heldman &amp; Bargiachi + Lind — media tells us what &amp; how to think</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Media as Primary Socializing Agent</td>
+                            <td class="student-cell">Cam: media precedes real-world encounters with difference</td>
+                            <td class="reading-cell">Lind — 8+ hrs/day; media surpasses family, school, religion</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Power Behind the Camera</td>
+                            <td class="student-cell">Abbie: who tells the story matters — identity &amp; authorship</td>
+                            <td class="reading-cell">Heldman &amp; Bargiachi — Hollywood's EEOC history; who gets to create</td>
+                        </tr>
+                        <tr>
+                            <td class="concept-cell">Dominant Ideology &amp; Intersectionality</td>
+                            <td class="student-cell">All three posts: overlapping identities shape media experiences</td>
+                            <td class="reading-cell">Lind — dominant ideology; Crenshaw's intersectionality framework</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: CONCEPT DEEP DIVE — SYMBOLIC ANNIHILATION -->
+    <div class="slide slide-4" data-slide="4">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-80px;left:-60px;background:#8B2E12;opacity:0.07;"></div>
+            <div class="blob" style="width:250px;height:250px;bottom:-60px;right:-40px;background:#C4712A;opacity:0.06;"></div>
+        </div>
+        <div class="content">
+            <div class="section-band mb-4 reveal"><span style="color:#FEF9F5;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-family:DM Sans,sans-serif;">Concept Close-Up</span></div>
+            <h2 class="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-normal mb-1 reveal" style="color:#1E1B16;">Symbolic Annihilation</h2>
+            <div class="rule mb-5 reveal"></div>
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <div class="pull-quote mb-5 reveal">
+                        <p style="font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;color:#3D3830;line-height:1.6;">"Through absence, condemnation, and trivialization, the media reflect a social world in which women are consistently devalued."</p>
+                        <p style="font-size:0.75rem;color:#7C7268;margin-top:6px;">— Gaye Tuchman (1978), via Lind</p>
+                    </div>
+                    <div class="pull-quote reveal" style="border-left-color:#4A6741;">
+                        <p style="font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;color:#3D3830;line-height:1.6;">"Groups that matter more in a culture have more power."</p>
+                        <p style="font-size:0.75rem;color:#7C7268;margin-top:6px;">— Heldman &amp; Bargiachi (2025)</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="card reveal">
+                        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#8B2E12;margin-bottom:4px;font-family:DM Sans,sans-serif;">Abbie's Post</div>
+                        <p style="font-size:0.88rem;line-height:1.5;color:#3D3830;">Identified how streaming platforms erase queer storylines mid-season — a contemporary form of symbolic annihilation.</p>
+                    </div>
+                    <div class="card reveal">
+                        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#4A6741;margin-bottom:4px;font-family:DM Sans,sans-serif;">The Extension</div>
+                        <p style="font-size:0.88rem;line-height:1.5;color:#3D3830;">Both readings expand Tuchman: applies to <em>any</em> marginalized group. Applied now to race, disability, body size, age, and sexuality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: CONCEPT DEEP DIVE — FRAMING -->
+    <div class="slide slide-5" data-slide="5">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:350px;height:350px;top:-70px;right:-50px;background:#4A6741;opacity:0.07;"></div>
+            <div class="blob" style="width:240px;height:240px;bottom:-60px;left:-40px;background:#C4712A;opacity:0.06;"></div>
+        </div>
+        <div class="content">
+            <div class="section-band mb-4 reveal" style="background:linear-gradient(135deg,#4A6741,#7A9E5A);"><span style="color:#FEF9F5;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-family:DM Sans,sans-serif;">Concept Close-Up</span></div>
+            <h2 class="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-normal mb-1 reveal" style="color:#1E1B16;">Framing &amp; the Gaze</h2>
+            <div class="rule mb-5 reveal" style="background:linear-gradient(90deg,#4A6741,#7A9E5A);"></div>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="flex flex-col gap-4">
+                    <div class="card reveal">
+                        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#8B2E12;margin-bottom:4px;font-family:DM Sans,sans-serif;">Lily's Post</div>
+                        <p style="font-size:0.88rem;line-height:1.5;color:#3D3830;">Analyzed the slasher film's "punishing gaze" — how camera angles frame women's bodies as objects of threat rather than subjects of experience.</p>
+                    </div>
+                    <div class="card reveal">
+                        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#4A6741;margin-bottom:4px;font-family:DM Sans,sans-serif;">The Extension</div>
+                        <p style="font-size:0.88rem;line-height:1.5;color:#3D3830;">Laura Mulvey's male gaze maps directly onto Iyengar's framing: the camera doesn't just record — it <em>organizes meaning</em>.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="pull-quote mb-5 reveal" style="border-left-color:#4A6741;">
+                        <p style="font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;color:#3D3830;line-height:1.6;">"Media does not directly tell us what to think, but instead tells us <em>what</em> to think about and <em>how</em> to think about it."</p>
+                        <p style="font-size:0.75rem;color:#7C7268;margin-top:6px;">— Iyengar, via Heldman &amp; Bargiachi</p>
+                    </div>
+                    <div class="pull-quote reveal" style="border-left-color:#C4712A;">
+                        <p style="font-family:'DM Serif Display',serif;font-size:1.05rem;font-style:italic;color:#3D3830;line-height:1.6;">"Framing establishes the meaning of an event or activity."</p>
+                        <p style="font-size:0.75rem;color:#7C7268;margin-top:6px;">— Erving Goffman (1974), via Lind</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: TWO APPROACHES -->
+    <div class="slide slide-6" data-slide="6">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:360px;height:360px;top:-70px;right:-50px;background:#8B2E12;opacity:0.07;"></div>
+            <div class="blob" style="width:230px;height:230px;bottom:-55px;left:-35px;background:#4A6741;opacity:0.06;"></div>
+        </div>
+        <div class="content">
+            <h2 class="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-normal mb-1 reveal" style="color:#1E1B16;">Two Ways to Study Media</h2>
+            <div class="rule mb-5 reveal"></div>
+            <p class="text-[0.95rem] text-text-secondary leading-relaxed mb-5 reveal">Lind introduces a fundamental tension in the field — one your posts already lived out:</p>
+            <div class="grid grid-cols-2 gap-6">
+                <div class="card reveal" style="border-top:3px solid #8B2E12;">
+                    <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:#8B2E12;margin-bottom:10px;">Social-Scientific</div>
+                    <ul style="font-size:0.85rem;color:#3D3830;line-height:1.7;padding-left:16px;">
+                        <li>Experiments &amp; surveys</li>
+                        <li>Objective, value-neutral stance</li>
+                        <li>Narrowly defined, measurable effects</li>
+                        <li>E.g., does violent media increase aggression?</li>
+                    </ul>
+                    <div style="margin-top:12px;font-size:0.78rem;color:#7C7268;font-style:italic;">Cam's quantitative framing of tokenism draws on this tradition</div>
+                </div>
+                <div class="card reveal" style="border-top:3px solid #4A6741;">
+                    <div style="font-family:'DM Serif Display',serif;font-size:1.15rem;color:#4A6741;margin-bottom:10px;">Critical / Cultural Studies</div>
+                    <ul style="font-size:0.85rem;color:#3D3830;line-height:1.7;padding-left:16px;">
+                        <li>Rhetorical &amp; textual analysis</li>
+                        <li>Explicitly political — seeks to end oppression</li>
+                        <li>Cumulative, lifetime effects of representation</li>
+                        <li>E.g., how does media perpetuate dominant ideology?</li>
+                    </ul>
+                    <div style="margin-top:12px;font-size:0.78rem;color:#7C7268;font-style:italic;">Lily's gaze analysis &amp; Abbie's authorship question are rooted here</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: THE INTERSECTIONALITY THREAD -->
+    <div class="slide slide-7" data-slide="7">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:380px;height:380px;top:-90px;left:-60px;background:#C4712A;opacity:0.07;"></div>
+            <div class="blob" style="width:260px;height:260px;bottom:-60px;right:-40px;background:#8B2E12;opacity:0.06;"></div>
+        </div>
+        <div class="content">
+            <div class="section-band mb-4 reveal" style="background:linear-gradient(135deg,#3D3830,#7C7268);"><span style="color:#FEF9F5;font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-family:DM Sans,sans-serif;">Running Thread</span></div>
+            <h2 class="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-normal mb-1 reveal" style="color:#1E1B16;">Intersectionality Across All Three Posts</h2>
+            <div class="rule mb-5 reveal" style="background:linear-gradient(90deg,#3D3830,#7C7268);"></div>
+            <div class="grid grid-cols-3 gap-5 mb-5">
+                <div class="card reveal" style="border-left:3px solid #8B2E12;">
+                    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8B2E12;margin-bottom:6px;font-family:DM Sans,sans-serif;">Lily</div>
+                    <p style="font-size:0.85rem;line-height:1.55;color:#3D3830;">Horror film victims: being young, female, and sexually active creates a specific, compounded target — not just "woman"</p>
+                </div>
+                <div class="card reveal" style="border-left:3px solid #C4712A;">
+                    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#C4712A;margin-bottom:6px;font-family:DM Sans,sans-serif;">Abbie</div>
+                    <p style="font-size:0.85rem;line-height:1.55;color:#3D3830;">Streaming platform erasure affects queer characters of color differently than white queer characters — race &amp; sexuality intersect</p>
+                </div>
+                <div class="card reveal" style="border-left:3px solid #4A6741;">
+                    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#4A6741;margin-bottom:6px;font-family:DM Sans,sans-serif;">Cam</div>
+                    <p style="font-size:0.85rem;line-height:1.55;color:#3D3830;">Normalization happens at the level of full, intersectional humanity — not just "more Black characters," but full persons</p>
+                </div>
+            </div>
+            <div class="pull-quote reveal">
+                <p style="font-family:'DM Serif Display',serif;font-size:1rem;font-style:italic;color:#3D3830;line-height:1.6;">"None of us can ever be <em>only</em> poor, <em>only</em> Native American, <em>only</em> female, <em>only</em> bisexual… We all experience multiple identities that combine, or intersect."</p>
+                <p style="font-size:0.75rem;color:#7C7268;margin-top:5px;">— Lind, citing Kimberlé Crenshaw (1989)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: KEY TAKEAWAY / CLOSING -->
+    <div class="slide slide-8" data-slide="8">
+        <div class="gradient-mesh">
+            <div class="blob" style="width:450px;height:450px;top:-110px;right:-90px;background:#8B2E12;opacity:0.1;"></div>
+            <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#C4712A;opacity:0.08;"></div>
+            <div class="blob" style="width:200px;height:200px;top:40%;left:8%;background:#4A6741;opacity:0.07;"></div>
+        </div>
+        <canvas class="particle-canvas" style="position:absolute;inset:0;z-index:1;"></canvas>
+        <div class="content text-center">
+            <div style="font-size:3.5rem;margin-bottom:16px;animation:float 4s ease-in-out infinite;display:inline-block;" class="reveal">💡</div>
+            <h2 class="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal mb-3 reveal" style="color:#1E1B16;">
+                The Critical Viewer<br>
+                <span style="background:linear-gradient(90deg,#8B2E12,#C4712A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Already Lives in You</span>
+            </h2>
+            <div class="rule mx-auto my-4 reveal"></div>
+            <p class="text-[1rem] text-text-secondary leading-relaxed mb-6 reveal" style="max-width:620px;margin:0 auto 24px;">Your posts didn't just react to media — they <em>analyzed</em> it. The readings give us shared vocabulary for what you were already doing. That's the goal of media literacy: not a new way of watching, but a more conscious version of watching you already do.</p>
+            <div class="grid grid-cols-3 gap-5 reveal">
+                <div class="card text-center" style="border-top:2px solid #8B2E12;">
+                    <div style="font-size:1.8rem;margin-bottom:6px;">🔍</div>
+                    <div style="font-family:'DM Serif Display',serif;font-size:0.95rem;color:#8B2E12;">Analyze</div>
+                    <div style="font-size:0.78rem;color:#7C7268;margin-top:4px;">Quantity &amp; quality of representation</div>
+                </div>
+                <div class="card text-center" style="border-top:2px solid #C4712A;">
+                    <div style="font-size:1.8rem;margin-bottom:6px;">🧩</div>
+                    <div style="font-family:'DM Serif Display',serif;font-size:0.95rem;color:#C4712A;">Contextualize</div>
+                    <div style="font-size:0.78rem;color:#7C7268;margin-top:4px;">Who makes media &amp; why it matters</div>
+                </div>
+                <div class="card text-center" style="border-top:2px solid #4A6741;">
+                    <div style="font-size:1.8rem;margin-bottom:6px;">✊</div>
+                    <div style="font-family:'DM Serif Display',serif;font-size:0.95rem;color:#4A6741;">Act</div>
+                    <div style="font-size:0.78rem;color:#7C7268;margin-top:4px;">Media literacy as civic practice</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav-controls">
+    <button class="nav-btn" onclick="changeSlide(-1)">&#8249;</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="changeSlide(1)">&#8250;</button>
+    <span class="slide-counter" id="counter">1 / 8</span>
+</div>
+
+<script>
+    let current = 1;
+    const total = document.querySelectorAll('.slide').length;
+    const dotsContainer = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    for (let i = 1; i <= total; i++) { const dot = document.createElement('div'); dot.className = 'dot' + (i === 1 ? ' active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); }
+    function goToSlide(n) {
+        const prev = document.querySelector('.slide.active');
+        const next = document.querySelector(`.slide[data-slide="${n}"]`);
+        if (prev) prev.classList.remove('active');
+        if (next) { next.classList.add('active'); animateSlide(next); }
+        current = n; updateNav();
+    }
+    function changeSlide(dir) { let next = current + dir; if (next < 1) next = total; if (next > total) next = 1; goToSlide(next); }
+    function updateNav() { document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i + 1 === current); }); counter.textContent = current + ' / ' + total; }
+    document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); } });
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', (e) => { const diff = touchStartX - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) changeSlide(diff > 0 ? 1 : -1); });
+
+    function animateSlide(slide) {
+        slide.querySelectorAll('.reveal').forEach((el, i) => {
+            el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+            el.offsetHeight;
+            const delay = i * 0.08;
+            el.style.transition = `opacity 0.35s ease ${delay}s, transform 0.35s ease ${delay}s`;
+            el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        const s = document.querySelector('.mouse-spotlight');
+        if (s) s.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,46,18,0.04), transparent 40%)`;
+    });
+
+    window.initParticles = function(canvas, options) {
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+        const count = options.count || 30;
+        let mx = -1000, my = -1000;
+        const particles = Array.from({ length: count }, () => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+            size: Math.random() * 2 + 0.6, alpha: Math.random() * 0.2 + 0.06
+        }));
+        canvas.addEventListener('mousemove', (e) => { const r = canvas.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
+        canvas.addEventListener('mouseleave', () => { mx = -1000; my = -1000; });
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                const dx = p.x - mx, dy = p.y - my, dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 110) { const f = (110-dist)/110*1.5; p.vx += (dx/dist)*f*0.08; p.vy += (dy/dist)*f*0.08; }
+                p.vx *= 0.98; p.vy *= 0.98; p.x += p.vx; p.y += p.vy;
+                if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(139,46,18,${p.alpha})`; ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        })();
+    };
+    document.querySelectorAll('.particle-canvas').forEach(c => window.initParticles(c, { count: 35 }));
+
+    try { animateSlide(document.querySelector('.slide.active')); } catch(e) {}
+</script>
+</body>
+</html>
