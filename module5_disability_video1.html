@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 5: Gatekeepers of Social Value</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f0ff;
+      --bg2: #ede7ff;
+      --surface: #ffffff;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --accent3: #ec4899;
+      --text: #1e0a3c;
+      --text2: #5b3a8a;
+      --text3: #8b6bb1;
+      --border: rgba(124,58,237,0.10);
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--text); }
+    .deck { width: 100vw; height: 100vh; position: relative; }
+    .slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(16px) scale(0.97); transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none; overflow: hidden; background: var(--bg); }
+    .slide.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .content { position: relative; z-index: 2; width: 100%; max-width: 1160px; padding: clamp(1.5rem,3.5vw,3.5rem); }
+    .blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); }
+    .b1 { width: 420px; height: 420px; top: -110px; right: -80px; background: var(--accent); opacity: .09; animation: fl1 14s ease-in-out infinite; }
+    .b2 { width: 300px; height: 300px; bottom: -80px; left: -50px; background: var(--accent2); opacity: .08; animation: fl2 18s ease-in-out infinite; }
+    .b3 { width: 200px; height: 200px; top: 42%; left: 14%; background: var(--accent3); opacity: .06; animation: fl1 20s ease-in-out infinite reverse; }
+    @keyframes fl1 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(38px,-32px) scale(1.07)} 70%{transform:translate(-22px,26px) scale(.95)} }
+    @keyframes fl2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-38px,-48px)} 66%{transform:translate(28px,18px)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem 1.6rem; box-shadow: 0 4px 24px rgba(124,58,237,.06); transition: transform .35s ease, box-shadow .3s ease; }
+    .card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 32px rgba(124,58,237,.12); }
+    .card-soft { background: linear-gradient(135deg, #f5f0ff, #ede7ff); }
+    h1, h2 { font-family: var(--font-display); line-height: 1.08; }
+    h1 { font-size: clamp(2.8rem,5.8vw,4.8rem); }
+    h2 { font-size: clamp(1.9rem,3.6vw,2.9rem); margin-bottom: 1.1rem; }
+    .label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); margin-bottom: .5rem; }
+    .stat-num { font-size: clamp(2rem,4.5vw,3.4rem); font-weight: 800; color: var(--accent); line-height: 1; }
+    .cite { font-size: .72rem; color: var(--text3); margin-top: .4rem; }
+    .accent-text { color: var(--accent); font-weight: 700; }
+    .gradient-text { background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bar-track { height: 14px; background: rgba(124,58,237,.10); border-radius: 99px; overflow: hidden; margin-top: .4rem; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width 1s ease; }
+    .q-bar { border-left: 4px solid var(--accent3); padding-left: 1rem; font-style: italic; }
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .4s ease, transform .4s ease; }
+    .nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(255,255,255,.82); backdrop-filter: blur(14px); padding: 9px 22px; border-radius: 40px; border: 1px solid var(--border); box-shadow: 0 8px 28px rgba(124,58,237,.10); }
+    .nb { width: 38px; height: 38px; border: none; background: var(--bg2); color: var(--accent); border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .25s; }
+    .nb:hover { background: #d8b4fe; }
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(124,58,237,.18); cursor: pointer; transition: background .3s, transform .3s; }
+    .dot.active { background: var(--accent); transform: scale(1.35); }
+    .sc { font-size: .78rem; color: var(--text3); min-width: 38px; text-align: center; }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .g21 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 1.4rem; align-items: center; }
+    .tag { display: inline-block; background: rgba(124,58,237,.10); color: var(--accent); border-radius: 99px; padding: .2rem .8rem; font-size: .78rem; font-weight: 600; margin-bottom: .6rem; }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="1">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center">
+    <div class="r" style="font-size:clamp(4.5rem,9vw,7rem); margin-bottom:1rem; animation: float 3.2s ease-in-out infinite;">🎬</div>
+    <p class="label r">Module 5 · Body Positivity</p>
+    <h1 class="gradient-text r" style="margin-bottom:1rem;">Gatekeepers of<br>Social Value</h1>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.25rem); color:var(--text2); max-width:680px; margin:0 auto;">Body size, fatphobia, and media representation — who gets to inhabit a story?</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: HOOK / THE PAUSE -->
+<div class="slide" data-slide="2">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Think of one.</h2>
+    <p class="r" style="font-size:1.1rem; color:var(--text2); max-width:780px; margin-bottom:1.6rem;">A fat character with a full, complex story — a protagonist whose body wasn't the problem to be solved, whose life wasn't deferred, whose role wasn't Comic Relief.</p>
+    <div class="g2">
+      <div class="card card-soft r" style="padding:2rem;">
+        <div style="font-size:3rem; margin-bottom:.8rem;">⏸️</div>
+        <p style="font-size:1.1rem; color:var(--text2);">That pause? <span class="accent-text">That's the data.</span></p>
+        <p style="font-size:.92rem; color:var(--text3); margin-top:.6rem;">Nearly half of Americans — 42.5% — have large bodies. And yet no popular films from the past decade center the life of a fat woman or girl.</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card r" style="padding:2rem;">
+        <div class="label">Peak screen time for fat characters</div>
+        <div class="stat-num">5.4%</div>
+        <p style="font-size:.92rem; color:var(--text2); margin-top:.6rem;">In their best year over the past decade, fat characters received just 5.4% of screen time in top-grossing films — and there is no upward trend.</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+    </div>
+    <div class="card r" style="margin-top:1rem; padding:1.2rem 1.6rem;">
+      <p class="q-bar" style="font-size:1rem; color:var(--text2);">"I am an unfinished thing and my life can really start when I lose weight. That then I will be a real person."</p>
+      <p class="cite" style="margin-top:.5rem;">— Lindy West, <em>Shrill: Notes from a Loud Woman</em> (epigraph, Ch. 4)</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: THROUGHLINE — connecting modules -->
+<div class="slide" data-slide="3">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Where this fits in the course</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Module 5 doesn't start from scratch — it applies frameworks you've already built.</p>
+    <div class="g3">
+      <div class="card r">
+        <div class="tag">Module 3</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Feminist Intersectionality</h3>
+        <p style="font-size:.88rem; color:var(--text2);">Not all women's experiences of oppression are the same. Race, sexuality, disability, and body size compound and complicate gendered bias. This week's data proves it: fat Latina, LGBTQ+, and disabled fat women are nearly erased entirely.</p>
+      </div>
+      <div class="card r">
+        <div class="tag">Module 4</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Disability Models</h3>
+        <p style="font-size:.88rem; color:var(--text2);">The medical model frames difference as a personal problem to be fixed. Fatphobia has been medicalized in exactly this way — given scientific cover that makes bias feel like fact. Weight gain is coded as moral failure, just as disability once was.</p>
+      </div>
+      <div class="card card-soft r">
+        <div class="tag">Module 5</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Body Size as Structure</h3>
+        <p style="font-size:.88rem; color:var(--text2);">Fatphobia is not personal aesthetics or market preference. It is a social justice issue — structural, intersectional, and deeply medicalized — operating through the same systems we've been analyzing all course.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: KEY CONCEPTS — Chapter 4 -->
+<div class="slide" data-slide="4">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Chapter 4 — Three things to carry in</h2>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="card r">
+        <div style="font-size:1.8rem; margin-bottom:.5rem;">⚕️</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Fatphobia is medicalized</h3>
+        <p style="font-size:.86rem; color:var(--text2);">Defined as a medical condition to be diagnosed and treated, fatphobia gains scientific cover that makes bias feel like objective fact — the same logic as the medical model of disability. This is why it remains socially <em>acceptable</em> in ways other forms of bias are not.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 190</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.8rem; margin-bottom:.5rem;">🏛️</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Fatphobia emerged with racism</h3>
+        <p style="font-size:.86rem; color:var(--text2);">The thin beauty standard for white women emerged during the 1700s expansion of slavery. Thinness became a marker of whiteness and racial superiority over Black women of size — a history that makes intersectional analysis essential, not optional.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 196</p>
+      </div>
+      <div class="card card-soft r">
+        <div style="font-size:1.8rem; margin-bottom:.5rem;">💼</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Fatphobia is a business decision</h3>
+        <p style="font-size:.86rem; color:var(--text2);">Who gets cast, how they are costumed, how much screen time they receive — these are production choices. And those choices give "cultural permission" for real-world discrimination in employment, medicine, and everyday life.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 192</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: THE TROPES -->
+<div class="slide" data-slide="5">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">The "unfinished thing" — narrative deferral</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">The industry assigns fat characters specific narrative functions — roles that exist to serve the thin protagonist's story, not to inhabit their own. Chapter 4 identifies the key tropes:</p>
+    <div class="g3" style="margin-bottom:1rem;">
+      <div class="card r">
+        <div style="font-size:1.8rem; margin-bottom:.4rem;">😂</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.4rem;">The Comic Relief</h3>
+        <p style="font-size:.85rem; color:var(--text2);">Fat women are <span class="accent-text">twice as likely</span> to be portrayed as funny (52.4% vs. 26.5%). Physical shortcomings played for laughs reinforce the idea that people of size are clumsy and incapable.</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.8rem; margin-bottom:.4rem;">🧍</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.4rem;">The Sidekick</h3>
+        <p style="font-size:.85rem; color:var(--text2);">Present for laughs and to advance the protagonist's arc. We are never asked to care about their lives. Their narrative is permanently subordinated to someone thinner.</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.8rem; margin-bottom:.4rem;">🤱</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.4rem;">The Mamma Hen</h3>
+        <p style="font-size:.85rem; color:var(--text2);">Nurturing, supportive, emotionally available — for everyone else. Her own desire, ambition, and story remain permanently offscreen.</p>
+      </div>
+    </div>
+    <div class="card card-soft r" style="padding:1.2rem 1.6rem;">
+      <p style="font-size:.92rem; color:var(--text2);">Your Discussion 5.2 post asks you to identify one film or TV example where a fat character is treated as an "unfinished thing." Which trope does it fit — and what does that pattern reveal about <span class="accent-text">whose body the industry treats as a protagonist's body?</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: REP PROJECT DATA -->
+<div class="slide" data-slide="6">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">The Rep Project — your data source</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.2rem;">A decade-long quantitative study of fat women in Hollywood film and TV — use this as an analytical tool, not just a citation.</p>
+    <div class="g4">
+      <div class="card r">
+        <div class="label">Population vs. film</div>
+        <div class="stat-num">42.5%</div>
+        <p style="font-size:.82rem; color:var(--text2); margin-top:.4rem;">of US women have large bodies</p>
+        <div class="bar-track" style="margin-top:.6rem;"><div class="bar-fill" data-width="43" style="width:43%"></div></div>
+        <div class="stat-num" style="font-size:1.6rem; margin-top:.6rem;">6.7%</div>
+        <p style="font-size:.82rem; color:var(--text2);">fat women in top films</p>
+        <div class="bar-track"><div class="bar-fill" data-width="7" style="width:7%"></div></div>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card r">
+        <div class="label">TV leads gap</div>
+        <div class="stat-num">14:1</div>
+        <p style="font-size:.82rem; color:var(--text2); margin-top:.4rem;">Non-fat leads outnumber fat women leads fourteen-to-one on television (93.7% vs. 6.3%)</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card r">
+        <div class="label">LGBTQ+ erasure</div>
+        <div class="stat-num">0%</div>
+        <p style="font-size:.82rem; color:var(--text2); margin-top:.4rem;">No fat women characters in film depicted as LGBTQ+, despite 7.1% of US women identifying as LGBTQ+</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card card-soft r">
+        <div class="label">Disability intersection</div>
+        <div class="stat-num">0%</div>
+        <p style="font-size:.82rem; color:var(--text2); margin-top:.4rem;">Fat women with disabilities in both film and TV — despite 26% of the US population living with a disability</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: INTERSECTIONALITY DETAIL -->
+<div class="slide" data-slide="7">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Intersectionality in the data</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Not all fat women are equally erased — intersecting identities compound the pattern. Some groups are better represented; others nearly disappear entirely.</p>
+    <div class="g21">
+      <div class="g2" style="gap:.9rem;">
+        <div class="card r">
+          <div class="label">Well-represented</div>
+          <p style="font-size:.88rem; color:var(--text2);">Fat Black women (14.9% film, 32.4% TV) and fat women 50+ (37.9% film) meet or exceed population benchmarks.</p>
+          <p class="cite">The Rep Project, 2022</p>
+        </div>
+        <div class="card r">
+          <div class="label">Underrepresented</div>
+          <p style="font-size:.88rem; color:var(--text2);">Fat Latine, MENA, Native American, and South Asian women are vastly underrepresented in both film and TV.</p>
+          <p class="cite">The Rep Project, 2022</p>
+        </div>
+        <div class="card r">
+          <div class="label">Nearly erased</div>
+          <p style="font-size:.88rem; color:var(--text2);">Fat LGBTQ+ women: 0% in film, 2.7% in TV. Fat disabled women: 0% in both — despite 26% disability prevalence.</p>
+          <p class="cite">The Rep Project, 2022</p>
+        </div>
+        <div class="card r">
+          <div class="label">Gender gap persists</div>
+          <p style="font-size:.88rem; color:var(--text2);">Fat men outnumber fat women 3:1 in film and 2:1 in TV. Fat women were just 26.2% of fat characters in film in 2022.</p>
+          <p class="cite">Heldman &amp; Bargiachi, 2025, p. 207</p>
+        </div>
+      </div>
+      <div class="card card-soft r" style="padding:2rem; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:1rem;">🔍</div>
+        <p style="font-size:1rem; color:var(--text2);">The intersection of fatness and disability produces <span class="accent-text">near-total erasure</span> — and that is not an accident.</p>
+        <p style="font-size:.88rem; color:var(--text3); margin-top:.8rem;">This is your Module 4 connection in action: whose body the industry has decided does not belong in a story.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: POSITIVE REPRESENTATIONS -->
+<div class="slide" data-slide="8">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">What good representation looks like</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Positive representations have begun to emerge — and they show us what's possible when fatness is central to a character's story, not the problem she has to overcome.</p>
+    <div class="g2">
+      <div class="card r">
+        <div style="font-size:2rem; margin-bottom:.5rem;">📺</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;"><em>Shrill</em> — Annie</h3>
+        <p style="font-size:.88rem; color:var(--text2);">Fashionable, romantically active, confident — while facing anti-fat bias in her workplace, medical offices, and everyday life. The series intentionally challenges fatphobia: Annie pushes back against body policing, shows joy in eating, and a fat pool party celebrates women of size.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 225</p>
+      </div>
+      <div>
+        <div class="card card-soft r" style="margin-bottom:1rem;">
+          <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.4rem;">Two models of positive representation</h3>
+          <p style="font-size:.88rem; color:var(--text2);">Fatness can be <strong>central</strong> to a character's story — foregrounded and challenged — or it can be <strong>incidental</strong>, simply part of who a character is without being their defining feature. Both normalize the idea that the stories of people of size are worth telling.</p>
+        </div>
+        <div class="card r">
+          <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.4rem;">The question for creators</h3>
+          <p style="font-size:.88rem; color:var(--text2);">Whose body gets to be a protagonist's body — not just occasionally, not just in prestige TV, but as an industry standard? That's the question your industry-facing posts will push toward this week.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: DISCUSSION ASSIGNMENT MAP -->
+<div class="slide" data-slide="9">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Discussion 5.2 — what your post needs to do</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.2rem;">Three moves, building on each other:</p>
+    <div class="g3" style="margin-bottom:1rem;">
+      <div class="card r">
+        <div class="tag">Move 1</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Fatphobia as business decision</h3>
+        <p style="font-size:.86rem; color:var(--text2);">Use at least one Rep Project statistic and one concept from Chapter 4 to explain how casting, costuming, and framing decisions reflect and reinforce anti-fat bias — not just individual prejudice.</p>
+      </div>
+      <div class="card r">
+        <div class="tag">Move 2</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">The "unfinished thing"</h3>
+        <p style="font-size:.86rem; color:var(--text2);">Identify one film or TV example where a fat character's narrative agency is deferred. Which trope does it fit — Comic Relief, Sidekick, Mamma Hen? What does that pattern give "cultural permission" for in real life?</p>
+      </div>
+      <div class="card card-soft r">
+        <div class="tag">Move 3</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Industry-facing question</h3>
+        <p style="font-size:.86rem; color:var(--text2);">Pose one open question that demands a concrete, structural answer — a casting protocol, development fund, writers' room policy. Push peers toward proposition, not just values.</p>
+      </div>
+    </div>
+    <div class="card r" style="padding:1.1rem 1.6rem;">
+      <p style="font-size:.9rem; color:var(--text2);">📅 <strong>Initial post due Thursday · Peer responses due Monday</strong> — In your response, step into the role of a <span class="accent-text">content development strategist</span> and respond with one concrete, evidence-based strategic intervention.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: A NOTE ON LANGUAGE -->
+<div class="slide" data-slide="10">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">A note on language</h2>
+    <div class="g21" style="margin-top:1rem;">
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">Use: fat</div>
+          <p style="font-size:.93rem; color:var(--text2);">"Fat" is the preferred term in the size acceptance and fat activist movements — a reclaimed, neutral descriptor of body size. Chapter 4 uses it intentionally, and you are encouraged to do the same in your posts.</p>
+          <p class="cite">Heldman &amp; Bargiachi, 2025, p. 189</p>
+        </div>
+        <div class="card r">
+          <div class="label">Avoid unless quoting directly</div>
+          <p style="font-size:.93rem; color:var(--text2);">Stigmatizing clinical language like "overweight" or "obese" medicalizes body size and reinforces the very bias the readings ask you to analyze. Avoid these terms in your own voice.</p>
+        </div>
+      </div>
+      <div class="card card-soft r" style="padding:2rem; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:1rem;">✍🏽</div>
+        <p style="font-size:1rem; color:var(--text2);">Language is an analytical choice. How you name something shapes how you are able to think about it.</p>
+        <p style="font-size:.88rem; color:var(--text3); margin-top:.8rem;">This week's readings will likely change how you watch media. Come to the discussion with that energy.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: CLOSING -->
+<div class="slide" data-slide="11">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center;">
+    <div class="r" style="font-size:clamp(4rem,8vw,6.5rem); margin-bottom:1rem; animation: float 3.2s ease-in-out infinite;">💜</div>
+    <h2 class="gradient-text r" style="font-size:clamp(2.2rem,4.5vw,3.8rem); margin-bottom:1rem;">Whose story gets told?</h2>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.2rem); color:var(--text2); max-width:740px; margin:0 auto 1.6rem;">This week asks you to move from the data to a business case — from naming the pattern to proposing what would actually have to change. The industry question you pose this week is the same kind of thinking your Critical Analysis Paper will require.</p>
+    <div class="g3" style="text-align:left; max-width:860px; margin:0 auto;">
+      <div class="card r">
+        <p class="label">From Module 3</p>
+        <p style="font-size:.86rem; color:var(--text2);">Intersectionality reveals that erasure compounds: fat + disabled + LGBTQ+ = near-total absence.</p>
+      </div>
+      <div class="card r">
+        <p class="label">From Module 4</p>
+        <p style="font-size:.86rem; color:var(--text2);">The medical model frames fatness as individual failure — the same logic that once justified disability discrimination.</p>
+      </div>
+      <div class="card card-soft r">
+        <p class="label">Module 5</p>
+        <p style="font-size:.86rem; color:var(--text2);">Change requires structural intervention — not good intentions, but specific policies, protocols, and business cases.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="nb" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nb" onclick="changeSlide(1)">&#8250;</button>
+  <span class="sc" id="counter">1 / 11</span>
+</div>
+
+<script>
+let current = 1;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function goTo(n) {
+  document.querySelector('.slide.active').classList.remove('active');
+  document.querySelector(`.slide[data-slide="${n}"]`).classList.add('active');
+  current = n;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  counterEl.textContent = n + ' / ' + total;
+  animateSlide(document.querySelector('.slide.active'));
+}
+function changeSlide(dir) { let n = current + dir; if (n < 1) n = total; if (n > total) n = 1; goTo(n); }
+function animateSlide(slide) {
+  slide.querySelectorAll('.r').forEach((el, i) => {
+    el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.offsetHeight;
+    el.style.transition = `opacity 0.38s ease ${i * 0.07}s, transform 0.38s ease ${i * 0.07}s`;
+    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  });
+  slide.querySelectorAll('.bar-fill:not(.init)').forEach((bar, i) => {
+    bar.classList.add('init'); const w = bar.dataset.width || '0';
+    bar.style.width = '0%'; bar.style.transition = `width 0.7s ease ${i * 0.1}s`; bar.offsetHeight; bar.style.width = w + '%';
+  });
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+});
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1); });
+animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>
