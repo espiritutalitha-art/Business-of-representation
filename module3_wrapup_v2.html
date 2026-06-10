@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 3 Wrap-Up: Barbie, Feminism & Media Representation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #fff0f5;
+      --pink-mid: #fce7f3;
+      --pink-deep: #fbc8de;
+      --accent: #e0177a;
+      --accent2: #c026d3;
+      --accent3: #fb7185;
+      --text: #3b0a24;
+      --text2: #7a2e57;
+      --text3: #a85c80;
+      --surface: #ffffff;
+      --glass: rgba(255,255,255,0.78);
+      --border: rgba(224,23,122,0.10);
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; background: var(--pink-light); font-family: var(--font-body); color: var(--text); }
+    .deck { width: 100vw; height: 100vh; position: relative; }
+    .slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(18px) scale(0.97); transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none; overflow: hidden; background: var(--pink-light); }
+    .slide.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .content { position: relative; z-index: 2; width: 100%; max-width: 1160px; padding: clamp(1.5rem,3.5vw,3.5rem); }
+    /* blobs */
+    .blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(72px); }
+    .b1 { width: 440px; height: 440px; top: -120px; right: -90px; background: var(--accent); opacity: .10; animation: fl1 14s ease-in-out infinite; }
+    .b2 { width: 300px; height: 300px; bottom: -80px; left: -50px; background: var(--accent3); opacity: .09; animation: fl2 18s ease-in-out infinite; }
+    .b3 { width: 200px; height: 200px; top: 40%; left: 12%; background: var(--accent2); opacity: .07; animation: fl1 20s ease-in-out infinite reverse; }
+    @keyframes fl1 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(40px,-35px) scale(1.08)} 70%{transform:translate(-25px,28px) scale(.95)} }
+    @keyframes fl2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-40px,-50px)} 66%{transform:translate(30px,20px)} }
+    /* cards */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem 1.6rem; box-shadow: 0 4px 24px rgba(224,23,122,.06); transition: transform .35s ease, box-shadow .3s ease; }
+    .card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 32px rgba(224,23,122,.12); }
+    .card-pink { background: linear-gradient(135deg, #fff0f8, #fce7f3); }
+    /* typography */
+    h1, h2 { font-family: var(--font-display); line-height: 1.08; }
+    h1 { font-size: clamp(2.8rem,6vw,5rem); }
+    h2 { font-size: clamp(1.9rem,3.8vw,3rem); margin-bottom: 1.2rem; }
+    .label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); margin-bottom: .5rem; }
+    .stat-num { font-size: clamp(2rem,4.5vw,3.4rem); font-weight: 800; color: var(--accent); line-height: 1; }
+    .cite { font-size: .72rem; color: var(--text3); margin-top: .4rem; }
+    .accent-text { color: var(--accent); font-weight: 700; }
+    .gradient-text { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    /* bar */
+    .bar-track { height: 14px; background: rgba(224,23,122,.10); border-radius: 99px; overflow: hidden; margin-top: .4rem; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent3)); border-radius: 99px; transition: width 1s ease; }
+    /* quote accent */
+    .q-bar { border-left: 4px solid var(--accent); padding-left: 1rem; }
+    /* reveal */
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .4s ease, transform .4s ease; }
+    /* nav */
+    .nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(255,255,255,.82); backdrop-filter: blur(14px); padding: 9px 22px; border-radius: 40px; border: 1px solid var(--border); box-shadow: 0 8px 28px rgba(224,23,122,.10); }
+    .nb { width: 38px; height: 38px; border: none; background: var(--pink-mid); color: var(--accent); border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .25s; }
+    .nb:hover { background: var(--pink-deep); }
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(224,23,122,.18); cursor: pointer; transition: background .3s, transform .3s; }
+    .dot.active { background: var(--accent); transform: scale(1.35); }
+    .sc { font-size: .78rem; color: var(--text3); min-width: 38px; text-align: center; }
+    /* grids */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .g21 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.4rem; align-items: center; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .float { animation: float 3.2s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="1">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center">
+    <div class="float r" style="font-size:clamp(5rem,10vw,8rem); margin-bottom:1rem;">💖</div>
+    <p class="label r">Module 3 Wrap-Up</p>
+    <h1 class="gradient-text r" style="margin-bottom:1rem;">Barbie, Feminism,<br>and Media Representation</h1>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.25rem); color:var(--text2); max-width:700px; margin:0 auto;">Key statistics · Feminist frameworks · Intersectional critique · Your industry-facing questions</p>
+  </div>
+</div>
+
+<!-- SLIDE 2: THE STRUCTURAL PICTURE (stats) -->
+<div class="slide" data-slide="2">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">The structural picture</h2>
+    <p class="r" style="color:var(--text2); margin-bottom:1.4rem; font-size:1.05rem;">Visible gains for women in Hollywood — but the system of male domination persists. The takeaway: to close the gender gap, we have to fix hiring and promotion practices in Hollywood (Heldman &amp; Bargiachi, 2025, p. 75).</p>
+    <div class="g4">
+      <div class="card r">
+        <div class="label">Screen representation</div>
+        <div class="stat-num">2:1</div>
+        <p style="font-size:.85rem;color:var(--text2);margin-top:.5rem;">Men outnumber women in film and TV.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 73</p>
+      </div>
+      <div class="card r">
+        <div class="label">Screen time</div>
+        <div class="stat-num">30.9%</div>
+        <p style="font-size:.85rem;color:var(--text2);margin-top:.5rem;">Women's share of screen time in top films; men receive nearly 70%.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 73</p>
+      </div>
+      <div class="card r">
+        <div class="label">Directors</div>
+        <div class="stat-num">24:1</div>
+        <p style="font-size:.85rem;color:var(--text2);margin-top:.5rem;">Ratio of male to female directors in top-grossing films over a decade.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 73</p>
+      </div>
+      <div class="card r">
+        <div class="label">Industry power</div>
+        <div class="stat-num">97%</div>
+        <p style="font-size:.85rem;color:var(--text2);margin-top:.5rem;">Men hold 97% of top clout positions; women hold only 3%.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, p. 73</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: REPRESENTATION IS UNEVEN -->
+<div class="slide" data-slide="3">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Representation is uneven</h2>
+    <p class="r" style="color:var(--text2); margin-bottom:1.4rem; font-size:1.05rem;">Counting women is not enough — we also have to ask <em>which</em> women are visible, how they are framed, and who remains largely absent.</p>
+    <div class="g3">
+      <div class="card r">
+        <h3 style="color:var(--accent);margin-bottom:.6rem;font-size:1rem;">Women of Color</h3>
+        <p style="font-size:.88rem;color:var(--text2);">BIPOC women characters have doubled over the past decade — from 23.8% in 2012 to 55.1% in 2022 — yet they remain underrepresented in industry power and are still stereotyped in key ways.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, pp. 120–124</p>
+      </div>
+      <div class="card r">
+        <h3 style="color:var(--accent);margin-bottom:.6rem;font-size:1rem;">Older Women</h3>
+        <p style="font-size:.88rem;color:var(--text2);">One-in-three U.S. women is 50 or older, yet none of the top-grossing films of the past decade feature a woman 50+ lead, and only one-in-four films pass the Ageless Test.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, pp. 134–140</p>
+      </div>
+      <div class="card r">
+        <h3 style="color:var(--accent);margin-bottom:.6rem;font-size:1rem;">Disabled &amp; Fat Women</h3>
+        <p style="font-size:.88rem;color:var(--text2);">Despite one-in-four U.S. women having a disability, disabled women peak at 3.2% of women characters. Only 6.3% of TV shows have a fat woman lead, despite 42.5% of U.S. women being fat.</p>
+        <p class="cite">Heldman &amp; Bargiachi, 2025, pp. 129–143</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: BARBIE AS MILESTONE -->
+<div class="slide" data-slide="4">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Barbie as a milestone</h2>
+    <div class="g2" style="margin-top:.8rem;">
+      <div>
+        <div class="card card-pink r" style="margin-bottom:1rem;">
+          <div class="label">Historic achievement</div>
+          <p style="font-size:.93rem;color:var(--text2);">Barbie (2023) is the highest-grossing film ever directed by a woman solo (Greta Gerwig), with a $145M budget — far above the sub-$20M ceiling faced by nearly all women directors (Heldman &amp; Bargiachi, 2025, p. 73). As Lily noted, this makes it an outlier, not a turning point.</p>
+        </div>
+        <div class="card r">
+          <div class="label">Popular feminism</div>
+          <p style="font-size:.93rem;color:var(--text2);">The film embeds feminist language and symbols in mainstream culture — Gerwig described it as feminist "in the way it includes everyone." This is popular feminism at work: accessible, widely circulated, but also susceptible to co-optation (Byrnes, Lorec, &amp; May, 2025).</p>
+        </div>
+      </div>
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">The polysemous doll</div>
+          <p style="font-size:.93rem;color:var(--text2);">Barbie's ambivalent cultural history — narrow beauty standards alongside diverse careers and identities — makes her <span class="accent-text">polysemous</span>: she can be mainstream, contradictory, empowering, and commodified at once (Byrnes, Lorec, &amp; May, 2025, p. 762).</p>
+        </div>
+        <div class="card card-pink r">
+          <div class="label">What the film does boldly</div>
+          <p style="font-size:.93rem;color:var(--text2);">Ken's arc exposes restrictive masculinity. Barbie Land stages a feminist utopia. The "Hi Barbie" scene activates a collective feminine identification that invites spectators in (Byrnes, Lorec, &amp; May, 2025, p. 761). These are genuine provocations worth weighing before naming the film's limits.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: "SHE'S EVERYTHING" — SCENE ANALYSIS -->
+<div class="slide" data-slide="5">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r"><em>"She's Everything"</em>: Key Scenes &amp; Themes</h2>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="card r">
+        <div style="font-size:2rem;margin-bottom:.5rem;">🏖️</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">"Hi Barbie" — Collective Identification</h3>
+        <p style="font-size:.86rem;color:var(--text2);">The scene activates a shared feminine community and invites spectators to position both self and other equally as Barbie — a powerful, inclusive gesture (Byrnes, Lorec, &amp; May, 2025, p. 761).</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:2rem;margin-bottom:.5rem;">🪄</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">Galatea's Arc — Becoming Human</h3>
+        <p style="font-size:.86rem;color:var(--text2);">Stereotypical Barbie moves from idealized icon to person with agency. Just as she cannot be everything, the film cannot be the final word on feminism — and that is part of its honesty (Byrnes, Lorec, &amp; May, 2025, p. 762).</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:2rem;margin-bottom:.5rem;">💼</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">Ken's Arc — Restrictive Masculinity</h3>
+        <p style="font-size:.86rem;color:var(--text2);">Ken's journey into patriarchy and back exposes how "acting like a man" means suppressing vulnerability — millions of boys and men learn early that weakness must stay hidden (Heldman &amp; Bargiachi, 2025, pp. 109–113).</p>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:1rem;">
+      <div class="card r">
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">🗣️</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">The Gloria Monologue</h3>
+        <p style="font-size:.86rem;color:var(--text2);">As Abbie observed, the monologue speaks from a white woman's perspective — even as it is delivered by a woman of color. The emotional universalism lands differently depending on whose experience you bring to the theater.</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.8rem;margin-bottom:.4rem;">👑</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">President Barbie — Utopia's Limit</h3>
+        <p style="font-size:.86rem;color:var(--text2);">A Black woman holds the highest position in Barbie Land — yet the film never asks why she can only be President in a fictional utopia. Barbie Land treats itself as color-blind, which, as Lily argues, is where universalism becomes exclusion.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: THE INTERSECTIONALITY CRITIQUE -->
+<div class="slide" data-slide="6">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">The intersectionality critique</h2>
+    <div class="g21" style="margin-top:1rem;">
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">White feminism vs. intersectional feminism</div>
+          <p style="font-size:.93rem;color:var(--text2);">White feminism centers privileged women and treats misogyny as universal, affecting all women equally. Intersectional feminism acknowledges how race, class, disability, and sexuality shape different experiences of oppression (Okunoren, 2024).</p>
+        </div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">Barbie Land as inverted patriarchy</div>
+          <p style="font-size:.93rem;color:var(--text2);">Okunoren argues that Barbie Land is not a matriarchy — it is simply an inverted patriarchy. A reversal of a broken system "fails to imagine anything radically different" (Okunoren, 2024).</p>
+        </div>
+        <div class="card r">
+          <div class="label">Lily's "bad poetry" frame</div>
+          <p style="font-size:.93rem;color:var(--text2);">Universalizing language, in trying to speak to everyone, ends up speaking specifically to no one. Stereotypical Barbie cannot represent all Barbies — the plot itself gives her a categorically different experience (cellulite, flat feet, thoughts of death).</p>
+        </div>
+      </div>
+      <div class="card card-pink r" style="text-align:center;padding:2rem 1.5rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
+        <p style="font-size:1.05rem;color:var(--text2);font-style:italic;line-height:1.55;">"How can the sole voice and story of a skinny, cis-gendered, able-bodied, white woman empower everybody else?"</p>
+        <p class="cite" style="margin-top:.8rem;font-size:.78rem;">Okunoren, 2024</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: CAM'S COUNTERPOINT -->
+<div class="slide" data-slide="7">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">A productive counterpoint</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Cam offers an important check on the critique — forcing intersectionality can sometimes weaken the focus of a story that has its own specific history to reckon with.</p>
+    <div class="g2">
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">On the doll's history</div>
+          <p style="font-size:.92rem;color:var(--text2);">Barbie has a US-centric, historically white history — and the film doesn't pretend otherwise. Cam argues there is value in a story that grapples honestly with its own baggage rather than papering over it.</p>
+        </div>
+        <div class="card r">
+          <div class="label">On Barbie Land's internal logic</div>
+          <p style="font-size:.92rem;color:var(--text2);">As a fictional world, Barbie Land operates by different rules. President Barbie, a diverse family structure, and Barbies of all shapes and sizes all exist within it — details the film doesn't erase.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div class="label">Awards culture reveals the real bias</div>
+          <p style="font-size:.92rem;color:var(--text2);">The Barbieheimer mockery and the Critics' Choice Award going to the hypermasculine "I'm Just Ken" — a joke song — reveal where the industry's sympathies actually lie, regardless of Barbie's box office.</p>
+        </div>
+        <div class="card card-pink r">
+          <div class="label">The "both/and" tension</div>
+          <p style="font-size:.92rem;color:var(--text2);">The film questions the system it never fully escapes. That tension is not a flaw to resolve — it is a site for analysis, and it is exactly what a strong critical analysis paper will navigate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: STUDENT INDUSTRY-FACING QUESTIONS -->
+<div class="slide" data-slide="8">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Your industry-facing questions</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Each of you pushed the analysis toward practice — asking what Hollywood should actually <em>do</em> with what Barbie taught us.</p>
+    <div class="g3">
+      <div class="card r">
+        <div style="font-size:1.6rem;margin-bottom:.5rem;">💬</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">Abbie</h3>
+        <p style="font-size:.86rem;color:var(--text2);" class="q-bar">"If Barbie proved that female-led films can be massively profitable, what steps can we take to support women and diverse directors, writers, and actors?"</p>
+        <p style="font-size:.82rem;color:var(--text3);margin-top:.6rem;">Grounded in Module 2 data showing diverse casts outperform.</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.6rem;margin-bottom:.5rem;">💬</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">Lily</h3>
+        <p style="font-size:.86rem;color:var(--text2);" class="q-bar">"Using Barbie as a building block, how do you plan to represent the diversity of womanhood — in both experience and narrative — going forward?"</p>
+        <p style="font-size:.82rem;color:var(--text3);margin-top:.6rem;">Pushes beyond celebration toward specificity and accountability.</p>
+      </div>
+      <div class="card r">
+        <div style="font-size:1.6rem;margin-bottom:.5rem;">💬</div>
+        <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.5rem;">Cam</h3>
+        <p style="font-size:.86rem;color:var(--text2);" class="q-bar">"How can media creatives use Barbie as an example of the importance of films honing in on specific social issues — and clarifying their place in the modern media landscape?"</p>
+        <p style="font-size:.82rem;color:var(--text3);margin-top:.6rem;">Centers intentionality and story-specific focus over quota-filling.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: SHARPENING THE ASK — STRATEGIES -->
+<div class="slide" data-slide="9">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">From question to executive challenge</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.4rem;">Good industry questions become powerful when they demand a specific, measurable commitment — not just a direction, but a mechanism. Here are the kinds of concrete asks your questions point toward:</p>
+    <div class="g2">
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div style="font-size:1.4rem;margin-bottom:.4rem;">💰</div>
+          <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.4rem;">Development Fund Tied to Barbie's Profits</h3>
+          <p style="font-size:.88rem;color:var(--text2);">A dedicated fund — seeded by Barbie's $1.4B gross — for intersectional women-led projects, particularly from Black, Latine, disabled, and queer women directors who face the sub-$20M budget ceiling.</p>
+        </div>
+        <div class="card r">
+          <div style="font-size:1.4rem;margin-bottom:.4rem;">📊</div>
+          <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.4rem;">Screen-Time Equity Benchmark</h3>
+          <p style="font-size:.88rem;color:var(--text2);">A studio-level commitment to close the 70/30 screen-time gap within five years, with public reporting — moving from a structural audit to a contractual standard.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card r" style="margin-bottom:1rem;">
+          <div style="font-size:1.4rem;margin-bottom:.4rem;">🎬</div>
+          <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.4rem;">Green-Lighting Policy for Intersectional Leads</h3>
+          <p style="font-size:.88rem;color:var(--text2);">Green-lighting criteria that require intersectional lead characters — not ensemble diversity — so that representation moves from background to center, with a specific story to carry.</p>
+        </div>
+        <div class="card card-pink r">
+          <div style="font-size:1.4rem;margin-bottom:.4rem;">🤝</div>
+          <h3 style="color:var(--accent);font-size:.95rem;margin-bottom:.4rem;">Community Partnership &amp; Story Authenticity</h3>
+          <p style="font-size:.88rem;color:var(--text2);">Require community partnership consultations during development — not just casting — so that diverse narratives are built with, not for, the communities they represent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: CLOSING -->
+<div class="slide" data-slide="10">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center;">
+    <div class="float r" style="font-size:clamp(4rem,8vw,6.5rem); margin-bottom:1rem;">🎀</div>
+    <h2 class="gradient-text r" style="font-size:clamp(2.2rem,4.5vw,3.8rem); margin-bottom:1rem;">From reaction to analysis</h2>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.2rem); color:var(--text2); max-width:740px; margin:0 auto 1.6rem;">Module 3 asked us to move beyond liking or disliking Barbie toward a sharper question: <em>how does representation work, and whom does it serve?</em></p>
+    <div class="g3" style="text-align:left; max-width:860px; margin:0 auto;">
+      <div class="card r">
+        <p class="label">The data</p>
+        <p style="font-size:.88rem;color:var(--text2);">Structural inequality persists. Systemic change requires fixing hiring and promotion — not celebrating one blockbuster.</p>
+      </div>
+      <div class="card r">
+        <p class="label">The film</p>
+        <p style="font-size:.88rem;color:var(--text2);">Barbie is both a genuine milestone and a film constrained by its own white feminist lens — a "both/and" that rewards analysis.</p>
+      </div>
+      <div class="card r">
+        <p class="label">The challenge ahead</p>
+        <p style="font-size:.88rem;color:var(--text2);">Your critical analysis papers will push this further — toward specific scenes, specific evidence, and specific proposals for change.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end deck -->
+
+<div class="nav">
+  <button class="nb" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nb" onclick="changeSlide(1)">&#8250;</button>
+  <span class="sc" id="counter">1 / 10</span>
+</div>
+
+<script>
+let current = 1;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  document.querySelector('.slide.active').classList.remove('active');
+  const next = document.querySelector(`.slide[data-slide="${n}"]`);
+  next.classList.add('active');
+  current = n;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  counterEl.textContent = n + ' / ' + total;
+  animateSlide(next);
+}
+
+function changeSlide(dir) {
+  let n = current + dir;
+  if (n < 1) n = total;
+  if (n > total) n = 1;
+  goTo(n);
+}
+
+function animateSlide(slide) {
+  slide.querySelectorAll('.r').forEach((el, i) => {
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.offsetHeight;
+    const delay = i * 0.07;
+    el.style.transition = `opacity 0.38s ease ${delay}s, transform 0.38s ease ${delay}s`;
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+});
+
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1); });
+
+// Init first slide
+animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>
