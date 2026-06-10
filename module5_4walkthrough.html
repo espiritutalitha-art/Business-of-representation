@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 5.4 Walkthrough</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff5f9;
+      --bg2: #ffe4ef;
+      --surface: #ffffff;
+      --accent: #db2777;
+      --accent2: #9333ea;
+      --accent3: #f59e0b;
+      --text: #2d0a1e;
+      --text2: #7c2d52;
+      --text3: #b06090;
+      --border: rgba(219,39,119,.10);
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg); font-family: var(--font-body); color: var(--text); }
+    .deck { width: 100vw; height: 100vh; position: relative; }
+    .slide { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: translateY(16px) scale(0.97); transition: opacity 0.55s ease, transform 0.55s ease; pointer-events: none; overflow: hidden; background: var(--bg); }
+    .slide.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .content { position: relative; z-index: 2; width: 100%; max-width: 1160px; padding: clamp(1.5rem,3.5vw,3.5rem); }
+    .blobs { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); }
+    .b1 { width: 420px; height: 420px; top: -110px; right: -80px; background: var(--accent); opacity: .07; animation: fl1 14s ease-in-out infinite; }
+    .b2 { width: 300px; height: 300px; bottom: -80px; left: -50px; background: var(--accent2); opacity: .07; animation: fl2 18s ease-in-out infinite; }
+    .b3 { width: 200px; height: 200px; top: 42%; left: 14%; background: var(--accent3); opacity: .05; animation: fl1 20s ease-in-out infinite reverse; }
+    @keyframes fl1 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(38px,-32px) scale(1.07)} 70%{transform:translate(-22px,26px) scale(.95)} }
+    @keyframes fl2 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-38px,-48px)} 66%{transform:translate(28px,18px)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 1.3rem 1.5rem; box-shadow: 0 4px 24px rgba(219,39,119,.06); transition: transform .35s ease, box-shadow .3s ease; }
+    .card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 32px rgba(219,39,119,.12); }
+    .card-soft { background: linear-gradient(135deg, #fff0f7, #f5e6ff); }
+    .card-warm { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+    h1, h2 { font-family: var(--font-display); line-height: 1.08; }
+    h1 { font-size: clamp(2.8rem,5.8vw,4.8rem); }
+    h2 { font-size: clamp(1.9rem,3.6vw,2.9rem); margin-bottom: 1.1rem; }
+    .label { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text3); margin-bottom: .5rem; }
+    .stat-num { font-size: clamp(2rem,4.5vw,3.4rem); font-weight: 800; color: var(--accent); line-height: 1; }
+    .cite { font-size: .72rem; color: var(--text3); margin-top: .4rem; }
+    .accent-text { color: var(--accent); font-weight: 700; }
+    .accent2-text { color: var(--accent2); font-weight: 700; }
+    .gradient-text { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .q-bar { border-left: 4px solid var(--accent); padding-left: 1rem; }
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .4s ease, transform .4s ease; }
+    .nav { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 100; background: rgba(255,255,255,.85); backdrop-filter: blur(14px); padding: 9px 22px; border-radius: 40px; border: 1px solid var(--border); box-shadow: 0 8px 28px rgba(219,39,119,.10); }
+    .nb { width: 38px; height: 38px; border: none; background: var(--bg2); color: var(--accent); border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .25s; }
+    .nb:hover { background: #fbcfe8; }
+    .dots { display: flex; gap: 7px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(219,39,119,.18); cursor: pointer; transition: background .3s, transform .3s; }
+    .dot.active { background: var(--accent); transform: scale(1.35); }
+    .sc { font-size: .78rem; color: var(--text3); min-width: 38px; text-align: center; }
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .g21 { display: grid; grid-template-columns: 1.35fr 1fr; gap: 1.4rem; align-items: start; }
+    .tag { display: inline-block; background: rgba(219,39,119,.10); color: var(--accent); border-radius: 99px; padding: .2rem .8rem; font-size: .78rem; font-weight: 600; margin-bottom: .6rem; }
+    .tag2 { display: inline-block; background: rgba(147,51,234,.10); color: var(--accent2); border-radius: 99px; padding: .2rem .8rem; font-size: .78rem; font-weight: 600; margin-bottom: .6rem; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0; }
+    .pill { border-radius: 99px; padding: .25rem .9rem; font-size: .82rem; font-weight: 600; }
+    .pill-yes { background: rgba(219,39,119,.12); color: var(--accent); }
+    .pill-no { background: rgba(147,51,234,.12); color: var(--accent2); text-decoration: line-through; }
+    .pill-q { background: rgba(245,158,11,.15); color: #92400e; }
+  </style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="1">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center">
+    <div class="r" style="font-size:clamp(4rem,8vw,6.5rem); margin-bottom:1rem; animation: float 3.2s ease-in-out infinite;">🎬</div>
+    <p class="label r">Assignment 5.4 Walkthrough</p>
+    <h1 class="gradient-text r" style="margin-bottom:1rem;">Terminology &amp; the<br>Ideological Work of Language</h1>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.25rem); color:var(--text2); max-width:720px; margin:0 auto 1rem;">A step-by-step walkthrough using the <em>Barbie</em> (2023) press &amp; marketing campaign</p>
+    <div class="r" style="display:inline-flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-top:.5rem;">
+      <span class="pill pill-yes">500–700 words</span>
+      <span class="pill pill-yes">APA citations</span>
+      <span class="pill pill-yes">3 moves</span>
+      <span class="pill pill-yes">Due Monday</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: WHAT THIS ASSIGNMENT ASKS -->
+<div class="slide" data-slide="2">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Three moves, one argument</h2>
+    <div class="g3" style="margin-top:1rem;">
+      <div class="card r">
+        <div class="tag">Move 1</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Reclamation vs. Pathologization</h3>
+        <p style="font-size:.87rem; color:var(--text2);">Map the language your artifact uses — and what it conspicuously avoids. Which terms appear? Which are absent? How do those choices align or conflict with the Media Reader's preferred and rejected terms?</p>
+      </div>
+      <div class="card r">
+        <div class="tag">Move 2</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Language &amp; Material Consequences</h3>
+        <p style="font-size:.87rem; color:var(--text2);">Connect your language analysis to the business logic that keeps fat people peripheral. Use at least one Rep Project statistic. Make a clear claim: <em>what does this language do in the broader economy of representation?</em></p>
+      </div>
+      <div class="card card-soft r">
+        <div class="tag">Move 3</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.5rem;">Micro-Guidelines for Creators</h3>
+        <p style="font-size:.87rem; color:var(--text2);">Shift from critic to strategist. Write 3–4 actionable guidelines for writers, marketers, or executives — grounded in the Media Reader or Rep Project data — that address both creative and business perspectives.</p>
+      </div>
+    </div>
+    <div class="card card-warm r" style="margin-top:1rem; padding:1.1rem 1.6rem;">
+      <p style="font-size:.9rem; color:var(--text2);">📌 We'll walk through all three moves using the <span class="accent-text"><em>Barbie</em> (2023) press campaign</span> as a worked example — then you'll apply the same methodology to an artifact of your own choosing.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: CHOOSING YOUR ARTIFACT -->
+<div class="slide" data-slide="3">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Choosing your artifact</h2>
+    <p class="r" style="color:var(--text2); font-size:1.05rem; margin-bottom:1.2rem;">You need an artifact where language about body size is doing <span class="accent-text">explicit ideological work</span> — where word choices are deliberate, certain terms appear and others are absent, and those choices have real consequences.</p>
+    <div class="g2" style="margin-bottom:1rem;">
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="label">Strong artifact choices</div>
+          <ul style="font-size:.87rem; color:var(--text2); padding-left:1.1rem; line-height:1.8;">
+            <li>A streaming series with a fat lead + press tour language</li>
+            <li>A reality show that medicalizes fat bodies in promos</li>
+            <li>An ad campaign claiming "real" bodies without naming them</li>
+            <li>Studio press materials — interviews, casting announcements, marketing copy</li>
+          </ul>
+        </div>
+        <div class="card card-warm r">
+          <p style="font-size:.87rem; color:var(--text2);">The best artifacts are ones where there's a <span class="accent-text">gap</span> between what the language claims and what the production actually delivers. That gap is where your analysis lives.</p>
+        </div>
+      </div>
+      <div class="card card-soft r" style="padding:1.8rem; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-size:2.5rem; margin-bottom:.8rem;">🎀</div>
+        <h3 style="color:var(--accent); font-size:1rem; margin-bottom:.6rem;">Our worked example</h3>
+        <p style="font-size:.88rem; color:var(--text2);">The <em>Barbie</em> (2023) press &amp; marketing campaign — a text you already know analytically from Module 3, now examined for what its <em>language</em> about body size is doing ideologically.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: MOVE 1 — MAPPING THE LANGUAGE -->
+<div class="slide" data-slide="4">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r"><span class="gradient-text">Move 1</span> — Map the language</h2>
+    <p class="r" style="color:var(--text2); font-size:1rem; margin-bottom:1.1rem;">What terms does the <em>Barbie</em> press campaign use? What's conspicuously absent?</p>
+    <div class="g21">
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="label">Terms that appear in official materials</div>
+          <div class="pill-row">
+            <span class="pill pill-yes">curvy</span>
+            <span class="pill pill-yes">diverse</span>
+            <span class="pill pill-yes">real</span>
+            <span class="pill pill-yes">inclusive</span>
+            <span class="pill pill-yes">"Barbie energy"</span>
+          </div>
+          <p style="font-size:.85rem; color:var(--text2);">"Barbie energy" — <em>Vogue</em>, May 2023 — defined as "a certain ineffable combination of beauty and exuberance." Codes thinness as a <em>quality</em>, not a body type. Naturalizes the thin ideal without naming it.</p>
+          <p class="cite">Vogue, May 2023; Mattel/Warner Bros. press materials</p>
+        </div>
+        <div class="card r">
+          <div class="label">Terms conspicuously absent</div>
+          <div class="pill-row">
+            <span class="pill pill-no">fat</span>
+            <span class="pill pill-no">plus-size</span>
+            <span class="pill pill-no">body size</span>
+            <span class="pill pill-no">fatphobia</span>
+          </div>
+          <p style="font-size:.85rem; color:var(--text2);">The word "fat" appears almost nowhere in official press materials — despite the campaign explicitly claiming body diversity as a brand value.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card card-soft r" style="margin-bottom:.9rem; padding:1.4rem;">
+          <div class="label">Media Reader framework</div>
+          <p style="font-size:.86rem; color:var(--text2); margin-bottom:.7rem;"><span class="accent-text">"Fat"</span> = preferred neutral descriptor (reclaimed)</p>
+          <p style="font-size:.86rem; color:var(--text2); margin-bottom:.7rem;"><span class="accent2-text">"Curvy/diverse/real"</span> = euphemisms that aestheticize body size without politicizing it</p>
+          <p style="font-size:.86rem; color:var(--text2);">"Overweight/obese" = pathologizing clinical language to avoid</p>
+          <p class="cite">Heldman &amp; Bargiachi, 2025, p. 189</p>
+        </div>
+        <div class="card card-warm r" style="padding:1.2rem;">
+          <p style="font-size:.88rem; color:var(--text2);">The <span class="accent-text">absence of "fat"</span> in a campaign built around body representation is not neutral. <strong>It is a choice.</strong> Your analysis needs to name what that choice is doing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: MOVE 1 CONTINUED — WHAT'S ABSENT -->
+<div class="slide" data-slide="5">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">The Amy Schumer moment</h2>
+    <p class="r" style="color:var(--text2); font-size:1rem; margin-bottom:1.2rem;">The one time the press tour engaged directly with body size — and what the studio's response reveals.</p>
+    <div class="g2">
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="label">What happened</div>
+          <p style="font-size:.88rem; color:var(--text2);">Amy Schumer was originally cast as Barbie, then departed. In press coverage, she noted: <span class="accent-text">"Plus-size is considered size 16 in America."</span> The implication: the studio's vision of a "diverse" Barbie still defaulted to a thin ideal.</p>
+          <p class="cite">Schumer, quoted in press coverage, 2017</p>
+        </div>
+        <div class="card r">
+          <div class="label">The studio's response</div>
+          <p style="font-size:.88rem; color:var(--text2);">Silence. No press statement. No reframing. "Barbie energy" language continued unchallenged — and Margot Robbie was cast.</p>
+          <p style="font-size:.85rem; color:var(--text3); margin-top:.5rem;">This is Chapter 4's argument in action: anti-fat bias is socially acceptable precisely because it goes unquestioned.</p>
+          <p class="cite">Heldman &amp; Bargiachi, 2025, p. 190</p>
+        </div>
+      </div>
+      <div class="card card-soft r" style="padding:1.8rem;">
+        <div style="font-size:2rem; margin-bottom:.8rem;">🔍</div>
+        <h3 style="color:var(--accent); font-size:.95rem; margin-bottom:.6rem;">The analytical move here</h3>
+        <p style="font-size:.88rem; color:var(--text2); margin-bottom:.8rem;">The campaign could simultaneously claim to celebrate "real" and "diverse" bodies while defaulting to the thin ideal as its unmarked norm — and face almost no mainstream press scrutiny for the contradiction.</p>
+        <p style="font-size:.88rem; color:var(--text2);">That contradiction — between the language of inclusion and the production decision — <span class="accent-text">is your argument.</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: MOVE 2 — MATERIAL CONSEQUENCES -->
+<div class="slide" data-slide="6">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r"><span class="gradient-text">Move 2</span> — Language &amp; material consequences</h2>
+    <p class="r" style="color:var(--text2); font-size:1rem; margin-bottom:1.2rem;">Connect your language analysis to the business logic. Use at least one Rep Project statistic to make a <span class="accent-text">concrete claim.</span></p>
+    <div class="g3" style="margin-bottom:1rem;">
+      <div class="card r">
+        <div class="label">The gap</div>
+        <div class="stat-num">42.5%</div>
+        <p style="font-size:.82rem; color:var(--text2); margin-top:.4rem;">of US women have large bodies</p>
+        <div style="font-size:1.4rem; font-weight:800; color:var(--accent); margin:.4rem 0;">vs.</div>
+        <div style="font-size:1.8rem; font-weight:800; color:var(--accent2);">6.7%</div>
+        <p style="font-size:.82rem; color:var(--text2);">fat women in top films</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card r">
+        <div class="label">What "diverse" actually means</div>
+        <p style="font-size:.87rem; color:var(--text2); margin-bottom:.6rem;">When studios use "curvy" and "diverse" rather than "fat," they perform inclusion without committing to it — capturing the ticket purchases and cultural goodwill of 42.5% of American women while keeping the film anchored to the thin ideal.</p>
+        <p style="font-size:.85rem; color:var(--text2);"><span class="accent-text">That's not just a language problem.</span> That's a revenue strategy.</p>
+        <p class="cite">The Rep Project, 2022</p>
+      </div>
+      <div class="card card-soft r">
+        <div class="label">Your claim</div>
+        <p style="font-size:.87rem; color:var(--text2); margin-bottom:.7rem;">Language manages the <em>optics</em> of inclusion without changing the underlying production logic. Executives can point to the word "diverse" in press materials — the Rep Project data shows what "diverse" actually means on screen.</p>
+        <div class="q-bar" style="border-color:var(--accent2);">
+          <p style="font-size:.85rem; font-style:italic; color:var(--text2);">What does this language <em>do</em> in the broader economy of representation?</p>
+        </div>
+      </div>
+    </div>
+    <div class="card card-warm r" style="padding:1rem 1.5rem;">
+      <p style="font-size:.88rem; color:var(--text2);">💡 This is your analytical core — the bridge between words and business logic. Make a clear, arguable claim. Don't just describe the gap; <span class="accent-text">explain who benefits from it.</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: MOVE 3 — MICRO-GUIDELINES AS QUESTIONS -->
+<div class="slide" data-slide="7">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r"><span class="gradient-text">Move 3</span> — Micro-guidelines: your questions</h2>
+    <p class="r" style="color:var(--text2); font-size:1rem; margin-bottom:1.1rem;">I'm not giving you the guidelines — that's your job. But here are the questions that should be driving them. Think about <span class="accent-text">both perspectives</span> — and how they can reinforce each other.</p>
+    <div class="g2">
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="tag">For writers &amp; showrunners</div>
+          <p style="font-size:.86rem; color:var(--text2);">When you write a character description or casting breakdown, which terms are you using to describe body size — and what do those terms signal to casting about which bodies are actually acceptable? How does the Media Reader's distinction between reclaimed and pathologizing language change what you put on the page?</p>
+        </div>
+        <div class="card r">
+          <div class="tag">For development executives</div>
+          <p style="font-size:.86rem; color:var(--text2);">The Rep Project shows fat disabled and fat LGBTQ+ women at or near 0% in both film and TV. If a project is being marketed on body diversity, what production-stage mechanism would actually close the gap between that language and those numbers? Think specific — a benchmark, a protocol, a greenlight condition.</p>
+          <p class="cite">The Rep Project, 2022</p>
+        </div>
+      </div>
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="tag">For marketing &amp; publicity</div>
+          <p style="font-size:.86rem; color:var(--text2);">If your campaign uses words like "diverse," "real," or "inclusive," what specific bodies does that language actually commit you to? And if there's a gap between your marketing language and what's on screen — who notices, and what does it cost you? The Rep Project's 42.5% benchmark is a good place to start building that business case.</p>
+        </div>
+        <div class="card card-soft r">
+          <div class="tag">For all three</div>
+          <p style="font-size:.86rem; color:var(--text2);">Language can lead — it can signal intent and shape culture. But can it change anything on its own, without the production decisions to back it up? What would it look like for the <span class="accent-text">creative and business sides to move together</span>, rather than one getting ahead of the other?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: ESSAY STRUCTURE ROADMAP -->
+<div class="slide" data-slide="8">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div></div>
+  <div class="content">
+    <h2 class="r">Your essay — writing roadmap</h2>
+    <p class="r" style="color:var(--text2); font-size:1rem; margin-bottom:1.2rem;">500–700 words. Move in this order:</p>
+    <div class="g2">
+      <div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="label" style="color:var(--accent);">Open — 1–2 sentences</div>
+          <p style="font-size:.87rem; color:var(--text2);">Identify your artifact and lead with your argument. <span class="accent-text">Don't warm up.</span> One sentence naming the artifact; one sentence making your claim about what its body-size language is doing ideologically.</p>
+        </div>
+        <div class="card r" style="margin-bottom:.9rem;">
+          <div class="label" style="color:var(--accent);">Move 1 — ~150 words</div>
+          <p style="font-size:.87rem; color:var(--text2);">Close textual analysis: which terms appear, which are absent, how those choices align or conflict with the Media Reader's framework. Ground every observation in the chapter's preferred/rejected language distinctions.</p>
+          <p class="cite">Heldman &amp; Bargiachi, 2025, p. 189</p>
+        </div>
+        <div class="card r">
+          <div class="label" style="color:var(--accent);">Move 2 — ~150 words</div>
+          <p style="font-size:.87rem; color:var(--text2);">One Rep Project statistic + one clear claim about what the language does in the economy of representation. Bridge between words and business logic. Make it arguable — not just descriptive.</p>
+          <p class="cite">The Rep Project, 2022</p>
+        </div>
+      </div>
+      <div>
+        <div class="card card-soft r" style="margin-bottom:.9rem;">
+          <div class="label" style="color:var(--accent2);">Move 3 — ~150 words</div>
+          <p style="font-size:.87rem; color:var(--text2);">3–4 micro-guidelines, each grounded in the Media Reader or Rep Project. Speak directly to a specific role — writer, marketer, or executive. Think about how the creative and business perspectives can reinforce each other. Each bullet = one actionable intervention.</p>
+        </div>
+        <div class="card card-warm r">
+          <div class="label">Citations</div>
+          <p style="font-size:.87rem; color:var(--text2);">APA throughout. Both sources must appear — Chapter 4 and The Rep Project. Cite specific page numbers for the Media Reader and specific statistics for the Rep Project.</p>
+        </div>
+        <div class="card r" style="margin-top:.9rem;">
+          <div class="label">Artifact choice</div>
+          <p style="font-size:.87rem; color:var(--text2);">Choose something you find genuinely interesting — your analysis will be stronger. Any artifact where language is doing explicit ideological work on body size.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: CLOSING -->
+<div class="slide" data-slide="9">
+  <div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+  <div class="content" style="text-align:center;">
+    <div class="r" style="font-size:clamp(4rem,8vw,6rem); margin-bottom:1rem; animation: float 3.2s ease-in-out infinite;">💜</div>
+    <h2 class="gradient-text r" style="font-size:clamp(2rem,4vw,3.4rem); margin-bottom:1rem;">Critic → Strategist</h2>
+    <p class="r" style="font-size:clamp(1rem,1.8vw,1.2rem); color:var(--text2); max-width:760px; margin:0 auto 1.6rem;">The skill this assignment builds is one of the most important in the industry: reading language not just for what it says, but for what it <em>does</em> — and translating that into actionable change.</p>
+    <div class="card card-soft r" style="max-width:760px; margin:0 auto 1.4rem; padding:1.4rem 1.8rem; text-align:left;">
+      <p class="q-bar" style="font-size:1rem; color:var(--text2);">"When you can walk into a marketing meeting and say <span class="accent-text">'this word is doing this specific thing, and here's the data on what it costs us'</span> — that's the move. That's what separates a media critic from a media strategist."</p>
+    </div>
+    <div class="r" style="display:inline-flex; gap:.8rem; flex-wrap:wrap; justify-content:center;">
+      <span class="pill pill-yes">📅 Due Monday</span>
+      <span class="pill pill-yes">500–700 words</span>
+      <span class="pill pill-yes">APA citations</span>
+      <span class="pill pill-q">Questions? I'm here 💜</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="nb" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nb" onclick="changeSlide(1)">&#8250;</button>
+  <span class="sc" id="counter">1 / 9</span>
+</div>
+
+<script>
+let current = 1;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const dotsEl = document.getElementById('dots');
+const counterEl = document.getElementById('counter');
+for (let i = 1; i <= total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 1 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+function goTo(n) {
+  document.querySelector('.slide.active').classList.remove('active');
+  document.querySelector(`.slide[data-slide="${n}"]`).classList.add('active');
+  current = n;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === n));
+  counterEl.textContent = n + ' / ' + total;
+  animateSlide(document.querySelector('.slide.active'));
+}
+function changeSlide(dir) { let n = current + dir; if (n < 1) n = total; if (n > total) n = 1; goTo(n); }
+function animateSlide(slide) {
+  slide.querySelectorAll('.r').forEach((el, i) => {
+    el.style.transition = 'none'; el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.offsetHeight;
+    el.style.transition = `opacity 0.38s ease ${i * 0.07}s, transform 0.38s ease ${i * 0.07}s`;
+    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  });
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+});
+let tx = 0;
+document.addEventListener('touchstart', e => tx = e.touches[0].clientX);
+document.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) changeSlide(d > 0 ? 1 : -1); });
+animateSlide(document.querySelector('.slide.active'));
+</script>
+</body>
+</html>
