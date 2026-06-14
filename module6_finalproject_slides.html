@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 — Video 2: Final Project Walkthrough</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #2d2d2d; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+  .deck { width: 900px; position: relative; }
+  .slide { display: none; background: #f0ece0; border-radius: 12px; padding: 56px 64px 48px; min-height: 540px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); flex-direction: column; justify-content: flex-start; }
+  .slide.active { display: flex; }
+
+  /* Title slide */
+  .slide-title { background: #4a7c59; color: #f0ece0; align-items: center; text-align: center; justify-content: center; }
+  .slide-title h1 { font-size: 2.2em; line-height: 1.3; margin-bottom: 18px; }
+  .slide-title .sub { font-size: 1.1em; opacity: 0.85; font-style: italic; max-width: 640px; line-height: 1.6; }
+  .slide-title .module-badge { background: rgba(255,255,255,0.18); border-radius: 30px; padding: 6px 22px; font-size: 1em; margin-bottom: 22px; display: inline-block; }
+
+  /* Standard content slide */
+  .slide-head h2 { font-size: 1.9em; color: #4a7c59; border-bottom: 3px solid #4a7c59; padding-bottom: 10px; margin-bottom: 28px; }
+  .slide-head ul { list-style: none; padding: 0; }
+  .slide-head ul li { font-size: 1.08em; color: #2d2d2d; padding: 9px 0 9px 22px; border-left: 4px solid #c8845a; margin-bottom: 10px; line-height: 1.5; }
+  .slide-head ul li strong { color: #4a7c59; }
+
+  /* Two-column options */
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; }
+  .option-box { background: #fff8ee; border-radius: 10px; padding: 20px 22px; border-top: 5px solid #4a7c59; }
+  .option-box.warm { border-top-color: #c8845a; }
+  .option-box .opt-label { font-size: 0.82em; font-weight: bold; text-transform: uppercase; color: #4a7c59; margin-bottom: 8px; letter-spacing: 0.05em; }
+  .option-box.warm .opt-label { color: #c8845a; }
+  .option-box p { font-size: 0.97em; color: #2d2d2d; line-height: 1.6; }
+  .option-box .tag { display: inline-block; background: #4a7c59; color: #f0ece0; border-radius: 20px; padding: 2px 12px; font-size: 0.8em; margin-top: 10px; }
+  .option-box.warm .tag { background: #c8845a; }
+
+  /* Callout */
+  .callout { background: #4a7c59; color: #f0ece0; border-radius: 10px; padding: 18px 26px; margin: 18px 0 10px; font-size: 1.05em; line-height: 1.6; }
+  .callout.warm { background: #c8845a; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+  .timeline-item { display: flex; gap: 18px; align-items: flex-start; }
+  .week-badge { background: #4a7c59; color: #f0ece0; border-radius: 8px; padding: 6px 14px; font-size: 0.85em; white-space: nowrap; min-width: 90px; text-align: center; margin-top: 2px; }
+  .week-badge.warm { background: #c8845a; }
+  .timeline-text { font-size: 1.02em; color: #2d2d2d; line-height: 1.55; }
+  .timeline-text strong { color: #4a7c59; }
+
+  /* Framework grid */
+  .framework-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px; }
+  .framework-box { background: #fff8ee; border-left: 5px solid #4a7c59; border-radius: 8px; padding: 14px 16px; }
+  .framework-box.warm { border-left-color: #c8845a; }
+  .framework-box .fw-label { font-size: 0.82em; font-weight: bold; text-transform: uppercase; color: #4a7c59; margin-bottom: 6px; }
+  .framework-box.warm .fw-label { color: #c8845a; }
+  .framework-box p { font-size: 0.95em; color: #2d2d2d; line-height: 1.5; }
+
+  /* Closing */
+  .slide-close { background: #4a7c59; color: #f0ece0; align-items: center; text-align: center; justify-content: center; }
+  .slide-close h2 { font-size: 2em; margin-bottom: 18px; }
+  .slide-close p { font-size: 1.15em; opacity: 0.9; max-width: 600px; line-height: 1.7; }
+
+  /* Nav */
+  .nav { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 22px; }
+  .nav button { background: #4a7c59; color: #f0ece0; border: none; border-radius: 8px; padding: 10px 28px; font-size: 1em; font-family: Georgia, serif; cursor: pointer; transition: background 0.2s; }
+  .nav button:hover { background: #3a6047; }
+  .nav button:disabled { background: #888; cursor: default; }
+  .nav .counter { color: #ccc; font-size: 0.95em; font-family: Georgia, serif; min-width: 70px; text-align: center; }
+  .progress { width: 900px; height: 5px; background: #555; border-radius: 3px; margin-top: 10px; }
+  .progress-bar { height: 5px; background: #4a7c59; border-radius: 3px; transition: width 0.3s; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- Slide 1: Title -->
+  <div class="slide slide-title active">
+    <div class="module-badge">Module 6 — Video 2</div>
+    <h1>Final Project Walkthrough:<br>Multimedia Case Study</h1>
+    <p class="sub">Your opportunity to bring the whole course together — and share your analysis with the world.</p>
+  </div>
+
+  <!-- Slide 2: What Is the Final Project? -->
+  <div class="slide slide-head">
+    <h2>What Is the Final Project?</h2>
+    <div class="options">
+      <div class="option-box">
+        <div class="opt-label">Option 1</div>
+        <p>Build on your <strong>Critical Analysis Paper</strong> — expand your argument, deepen your analysis, and push it further.</p>
+        <span class="tag">Expand existing work</span>
+      </div>
+      <div class="option-box warm">
+        <div class="opt-label">Option 2</div>
+        <p>Start fresh with a <strong>new media artifact or identity category</strong> from the course.</p>
+        <span class="tag">Start fresh</span>
+      </div>
+    </div>
+    <div class="callout warm" style="margin-top:20px;font-size:0.97em;">In both cases: your final product must combine a <strong>written component</strong> with an <strong>oral component</strong> — 10 to 12 minutes. Both posted on Canvas.</div>
+  </div>
+
+  <!-- Slide 3: Two Formats -->
+  <div class="slide slide-head">
+    <h2>Choose Your Format</h2>
+    <div class="options">
+      <div class="option-box">
+        <div class="opt-label">Format A</div>
+        <p><strong>Podcast</strong> (oral) paired with an <strong>Interactive Slide Deck</strong> (written/visual)</p>
+        <p style="margin-top:10px;font-size:0.9em;color:#666;">The podcast is your argument. The slide deck is your written companion.</p>
+        <span class="tag">Oral + Written</span>
+      </div>
+      <div class="option-box warm">
+        <div class="opt-label">Format B</div>
+        <p><strong>Essay</strong> (written) paired with a <strong>Short Video Presentation</strong> of key arguments (oral)</p>
+        <p style="margin-top:10px;font-size:0.9em;color:#666;">The essay is your written analysis. The video brings your key arguments to life.</p>
+        <span class="tag">Written + Oral</span>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:20px;font-size:0.97em;">Oral component length: <strong>10–12 minutes</strong> — focused, well-developed, and clearly argued.</div>
+  </div>
+
+  <!-- Slide 4: Why Multimedia? -->
+  <div class="slide slide-head">
+    <h2>Why Multimedia?</h2>
+    <ul>
+      <li>One of the core learning goals of this course is to <strong>communicate complex ideas about representation, diversity, and media business practices</strong> clearly and persuasively in both written and oral formats</li>
+      <li>Analysis is only as powerful as your ability to <strong>share it</strong></li>
+      <li>A podcast or video asks you to distill your argument, speak to an audience, and make your ideas land — not just on paper, but <strong>out loud</strong></li>
+      <li>This is a skill that matters <strong>well beyond this course</strong></li>
+    </ul>
+  </div>
+
+  <!-- Slide 5: Choosing Your Path -->
+  <div class="slide slide-head">
+    <h2>Choosing Your Path</h2>
+    <ul>
+      <li>Is there <strong>more you wanted to say</strong> in your Critical Analysis Paper that the format didn't allow? → Expanding it may be the natural move</li>
+      <li>Is there a <strong>media text or identity category from the second half of the course</strong> you're more excited about? → Starting fresh may serve you better</li>
+      <li>Either path is equally valid — choose the one that gives you the <strong>most to work with and the most to say</strong></li>
+    </ul>
+    <div class="callout warm" style="margin-top:20px;">The best projects come from students who chose something they were <em>genuinely invested in.</em></div>
+  </div>
+
+  <!-- Slide 6: Frameworks -->
+  <div class="slide slide-head">
+    <h2>The Frameworks You'll Draw On</h2>
+    <div class="framework-grid">
+      <div class="framework-box">
+        <div class="fw-label">Quantitative</div>
+        <p>Population baselines, representation gaps, and screen time data from <em>The Media Reader</em></p>
+      </div>
+      <div class="framework-box warm">
+        <div class="fw-label">Qualitative</div>
+        <p>Stereotype analysis, tropes, the male gaze, symbolic annihilation, the Ageless Test</p>
+      </div>
+      <div class="framework-box warm">
+        <div class="fw-label">Intersectional</div>
+        <p>How does your text handle the overlap of race, gender, age, disability, and sexuality?</p>
+      </div>
+      <div class="framework-box">
+        <div class="fw-label">Methodological</div>
+        <p>Close reading guided by the GDI creator questions, coding categories from Chonody et al., and other course frameworks</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7: Timeline -->
+  <div class="slide slide-head">
+    <h2>What to Do — and What Comes Next</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="week-badge">Week 6</div>
+        <div class="timeline-text">Read the Final Project overview carefully. Let your media text choice and format preference simmer — ask yourself: does every new framework open up new questions about my text?</div>
+      </div>
+      <div class="timeline-item">
+        <div class="week-badge warm">Week 7</div>
+        <div class="timeline-text"><strong>Project Selection & Proposal:</strong> Submit a 100–200 word proposal outlining your chosen media project, why it's significant, and the key business and ethical questions it raises.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="week-badge warm">Week 7</div>
+        <div class="timeline-text"><strong>Research & Planning:</strong> Gather academic, industry, and news sources. Consider a librarian appointment. Begin analyzing: business context, representation considerations, and outcomes & lessons learned.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 8: I'm Here to Help -->
+  <div class="slide slide-head">
+    <h2>I'm Here to Help</h2>
+    <ul>
+      <li>Questions about <strong>which option or format</strong> is right for you? Reach out.</li>
+      <li>Want to <strong>think through your media text choice</strong> before committing? That's what office hours and the course inbox are for.</li>
+      <li>Not sure if your text is <strong>rich enough</strong> to sustain a multi-framework analysis? Let's talk it through.</li>
+    </ul>
+    <div class="callout" style="margin-top:22px;">You've done excellent work getting here. The final project is your opportunity to bring it all together — and I have every confidence you're ready for it.</div>
+  </div>
+
+  <!-- Slide 9: Closing -->
+  <div class="slide slide-close">
+    <h2>Let's Get to Work 🌿</h2>
+    <p>Take your time with the overview, start letting ideas percolate, and I'll see you in the next video where we walk through Assignments 6.3 and 6.4.</p>
+  </div>
+
+</div>
+
+<div class="progress"><div class="progress-bar" id="pbar" style="width:11.11%"></div></div>
+<div class="nav">
+  <button id="prev" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <span class="counter" id="counter">1 / 9</span>
+  <button id="next" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  function changeSlide(dir) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current+1) + ' / ' + total;
+    document.getElementById('pbar').style.width = ((current+1)/total*100) + '%';
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === total - 1;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+</script>
+</body>
+</html>
