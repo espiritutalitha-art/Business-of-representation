@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4 Wrap-Up: Modeling the Gap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #f0ede6;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .deck {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    padding: 60px 80px;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0; left: 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide themes */
+  .slide-title { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); }
+  .slide-theme { background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%); }
+  .slide-standout { background: linear-gradient(135deg, #1a1a2e 0%, #162032 100%); }
+  .slide-growth { background: linear-gradient(135deg, #16213e 0%, #1f2d3d 100%); }
+  .slide-ahead { background: linear-gradient(135deg, #0f3460 0%, #16213e 100%); }
+
+  /* Typography */
+  .module-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e8a87c;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    color: #f0ede6;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #f0ede6;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #e8a87c;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: #b8c4d0;
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  /* Accent line */
+  .accent-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e8a87c, #d4648a);
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    border-left: 3px solid #e8a87c;
+  }
+
+  .card.teal { border-left-color: #4ecdc4; }
+  .card.rose { border-left-color: #d4648a; }
+  .card.gold { border-left-color: #f7c59f; }
+  .card.blue { border-left-color: #6ca0dc; }
+
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #e8a87c;
+    margin-bottom: 8px;
+  }
+
+  .card.teal .card-title { color: #4ecdc4; }
+  .card.rose .card-title { color: #d4648a; }
+  .card.gold .card-title { color: #f7c59f; }
+  .card.blue .card-title { color: #6ca0dc; }
+
+  .card p {
+    font-size: 0.92rem;
+    color: #c8d4de;
+    line-height: 1.65;
+  }
+
+  .card strong { color: #f0ede6; }
+
+  /* Stat badge */
+  .stat-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: rgba(232, 168, 124, 0.12);
+    border: 1px solid rgba(232, 168, 124, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #e8a87c;
+    font-weight: 700;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    color: #8fa3b3;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* Student spotlight */
+  .spotlight {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spotlight::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem;
+    color: rgba(232, 168, 124, 0.08);
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    line-height: 1;
+  }
+
+  .spotlight-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #e8a87c;
+    margin-bottom: 10px;
+  }
+
+  .spotlight p {
+    font-size: 0.95rem;
+    color: #c8d4de;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .spotlight strong { color: #f0ede6; }
+
+  .spotlight-tag {
+    display: inline-block;
+    margin-top: 12px;
+    background: rgba(232, 168, 124, 0.15);
+    color: #e8a87c;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(232,168,124,0.3);
+  }
+
+  .spotlight-tag.teal {
+    background: rgba(78,205,196,0.12);
+    color: #4ecdc4;
+    border-color: rgba(78,205,196,0.3);
+  }
+
+  /* Growth answer box */
+  .answer-box {
+    background: rgba(78, 205, 196, 0.07);
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-left: 3px solid #4ecdc4;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+  }
+
+  .answer-box .question {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #4ecdc4;
+    margin-bottom: 10px;
+  }
+
+  .answer-box p {
+    font-size: 0.9rem;
+    color: #c8d4de;
+    line-height: 1.7;
+  }
+
+  .answer-box strong { color: #f0ede6; }
+
+  /* Reminder box */
+  .reminder {
+    background: rgba(212, 100, 138, 0.1);
+    border: 1px solid rgba(212, 100, 138, 0.3);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .reminder-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .reminder-text h4 {
+    color: #d4648a;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .reminder-text p {
+    font-size: 0.9rem;
+    color: #c8d4de;
+    line-height: 1.6;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    padding: 10px 20px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: none;
+    border: none;
+    color: #c8d4de;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .nav button:hover { color: #e8a87c; background: rgba(232,168,124,0.1); }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .nav-counter {
+    font-size: 0.78rem;
+    color: #8fa3b3;
+    letter-spacing: 0.1em;
+    min-width: 55px;
+    text-align: center;
+  }
+
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .dot.active { background: #e8a87c; transform: scale(1.3); }
+
+  /* Two-col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .col-left { }
+  .col-right { }
+
+  /* List style */
+  ul.styled {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+  }
+
+  ul.styled li {
+    padding: 8px 0 8px 20px;
+    position: relative;
+    font-size: 0.9rem;
+    color: #c8d4de;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  ul.styled li:last-child { border-bottom: none; }
+
+  ul.styled li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #e8a87c;
+    font-weight: 600;
+  }
+
+  ul.styled li strong { color: #f0ede6; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide slide-title active" id="slide-1">
+    <div class="module-label">The Business of Representation · Module 4</div>
+    <h1>Modeling the Gap</h1>
+    <div class="accent-line"></div>
+    <p class="subtitle">Disability, representation, and the assumptions that shape what we see — and who we see — on screen.</p>
+    <div class="stat-row" style="margin-top: 40px; max-width: 700px;">
+      <div class="stat">
+        <span class="stat-num">28.7%</span>
+        <div class="stat-label">of Americans have a disability</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2.6–4.7%</span>
+        <div class="stat-label">of TV characters have a disability</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">21%</span>
+        <div class="stat-label">authentic casting rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: Three Models -->
+  <div class="slide slide-theme" id="slide-2">
+    <div class="module-label">Key Framework · Olkin (2022)</div>
+    <h2>Three Models of Disability</h2>
+    <div class="accent-line"></div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">🕯 Moral Model</div>
+        <p>Disability tied to character, karma, or spiritual meaning. On screen: evil villains with physical differences, or "chosen" survivors with miraculous strength. <strong>Disability as sign.</strong></p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">🏥 Medical Model</div>
+        <p>Disability as pathology to be corrected toward "normalcy." On screen: the hopeless disabled person saved by an able-bodied friend, or the hero who overcomes their condition. <strong>Disability as problem.</strong></p>
+      </div>
+      <div class="card rose">
+        <div class="card-title">🌐 Social Model</div>
+        <p>Disability as identity shaped by environment and social barriers — not the individual. On screen: multiple disabled characters forming community, advocating for change. <strong>Disability as context.</strong></p>
+      </div>
+    </div>
+    <p style="margin-top: 20px; font-size: 0.85rem; color: #8fa3b3; font-style: italic;">The model an industry operates from shapes every casting decision, every script choice, every role it offers — or withholds.</p>
+  </div>
+
+  <!-- SLIDE 3: The Gap & Authentic Casting -->
+  <div class="slide slide-theme" id="slide-3">
+    <div class="module-label">Key Data · Conroy et al. (2024)</div>
+    <h2>The Representation Gap</h2>
+    <div class="accent-line"></div>
+    <div class="two-col">
+      <div class="col-left">
+        <div class="cards">
+          <div class="card blue">
+            <div class="card-title">📺 TV Representation</div>
+            <p>Characters with disabilities ranged from <strong>2.6% (2020) to 4.7% (2021)</strong> — against a <strong>28.7% population benchmark.</strong> Progress is real but fragile.</p>
+          </div>
+          <div class="card gold">
+            <div class="card-title">🎬 Authentic Casting</div>
+            <p>Only <strong>21% of disabled characters</strong> are portrayed by actors with the same or similar disability. 79% of disabled roles still go to non-disabled actors.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-right">
+        <div class="cards">
+          <div class="card teal">
+            <div class="card-title">📡 Platform Gap</div>
+            <p><strong>Streaming: 4.7%</strong> vs. <strong>Broadcast/Cable: 3.3%</strong>. The difference matters — but it doesn't mean the medical model has loosened its grip on either platform.</p>
+          </div>
+          <div class="card rose">
+            <div class="card-title">🏆 Awards Gap</div>
+            <p><strong>No Emmy for Best Comedy</strong> has ever gone to a show with a disabled lead in 74 years. Only 5% of Best Drama Emmys feature disabled leads.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: Quality of Representation -->
+  <div class="slide slide-theme" id="slide-4">
+    <div class="module-label">Key Framework · GDI Creator Questions</div>
+    <h2>How Are Disabled Characters Portrayed?</h2>
+    <div class="accent-line"></div>
+    <div class="two-col">
+      <div class="col-left">
+        <h3>Common Tropes to Resist</h3>
+        <ul class="styled">
+          <li><strong>The Bitter Crip</strong> — tragic, depressed, isolated</li>
+          <li><strong>The Super Crip</strong> — 22.9% of disabled characters; transcendence as the only story</li>
+          <li><strong>Inspiration Porn</strong> — disability as motivation for non-disabled characters</li>
+          <li><strong>The Cure Narrative</strong> — disability resolved, "normalcy" restored</li>
+          <li><strong>The Brave Overcomer</strong> — language like "fighter," "warrior," "survivor" frames disability as the enemy</li>
+        </ul>
+      </div>
+      <div class="col-right">
+        <h3>The GDI Creator Questions</h3>
+        <ul class="styled">
+          <li><strong>Multidimensional?</strong> Traits, humor, flaws, and goals beyond disability</li>
+          <li><strong>Subtle language?</strong> Does framing reinforce tragedy or inspiration tropes — even unintentionally?</li>
+          <li><strong>Diverse experience?</strong> Range across skin tone, body type, age, class, disability type</li>
+          <li><strong>Authentic casting?</strong> Actors with lived experience, and disabled professionals behind the camera</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Intersectionality -->
+  <div class="slide slide-theme" id="slide-5">
+    <div class="module-label">Key Data · The Media Reader (Heldman & Bargiachi, 2025)</div>
+    <h2>Disability &amp; Intersectionality</h2>
+    <div class="accent-line"></div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">🎨 Race</div>
+        <p>White characters are <strong>1.5× more likely</strong> to be depicted as disabled than characters of color (p. 156). In TV, disabled BIPOC characters <strong>do not consistently appear</strong> at population parity.</p>
+      </div>
+      <div class="card rose">
+        <div class="card-title">⚧ Gender</div>
+        <p><strong>71.4% of on-screen disability</strong> representation is male vs. 28.6% female — even though women make up half the disabled population. Some years show <strong>0% disabled women leads</strong> in top films (p. 171).</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">🏳️‍🌈 LGBTQIA+</div>
+        <p>LGBTQIA+ characters appear with disabilities at <strong>8.5%</strong> vs. 3.7% for non-LGBTQIA+ — but <strong>zero disabled film leads</strong> who are LGBTQIA+ in the last decade (p. 180).</p>
+      </div>
+    </div>
+    <p style="margin-top: 20px; font-size: 0.88rem; color: #8fa3b3; font-style: italic;">The question isn't just: is disability represented? It's: <em>whose</em> disability is represented — and whose remains invisible?</p>
+  </div>
+
+  <!-- SLIDE 6: Cam Spotlight -->
+  <div class="slide slide-standout" id="slide-6">
+    <div class="module-label">Student Standout</div>
+    <h2>Cam's Sharp Moves</h2>
+    <div class="accent-line"></div>
+    <div class="spotlight">
+      <div class="spotlight-name">✦ Discussion 4.2 — Modeling the Gap</div>
+      <p>Cam's argument that disability under the social model is treated as <strong>"optional unless narratively important"</strong> cut right to the heart of how Hollywood uses disability as a plot device rather than as an identity. Connecting this to the claim that <strong>casting disability is better performed than lived</strong> was a precise and original analytical move — one that Lily then extended beautifully in her response.</p>
+      <span class="spotlight-tag">Social Model Applied with Precision</span>
+    </div>
+    <div class="spotlight">
+      <div class="spotlight-name">✦ Discussion 5.2 — Fatphobia as Industry Logic</div>
+      <p>Cam's analysis of <em>Kiss Him, Not Me</em> applied West's "unfinished thing" framework to a specific narrative arc — including the weight-regain episode — and flagged the <strong>art style itself</strong> as a deliberate ideological choice. Tracing fatphobia not just as cultural attitude but as <strong>embedded industry practice</strong> (casting decisions, profit logic) showed advanced structural thinking.</p>
+      <span class="spotlight-tag teal">Framework as Diagnostic Tool</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Lily Spotlight -->
+  <div class="slide slide-standout" id="slide-7">
+    <div class="module-label">Student Standout</div>
+    <h2>Lily's Sharp Moves</h2>
+    <div class="accent-line"></div>
+    <div class="spotlight">
+      <div class="spotlight-name">✦ Discussion 4.2 — Modeling the Gap</div>
+      <p>Lily's sharpest move: <strong>using the silence in the UCLA data as evidence</strong>. Inferring that the absence of behind-the-camera disability statistics means those numbers are "discounted or nonexistent" is exactly the kind of critical thinking that reads absence as data. Her response to Cam — using DiCaprio's Oscar win for <em>What's Eating Gilbert Grape</em> as evidence that Hollywood <strong>rewards performed disability over lived experience</strong> — advanced the argument beyond agreement.</p>
+      <span class="spotlight-tag">Silence as Evidence</span>
+    </div>
+    <div class="spotlight">
+      <div class="spotlight-name">✦ Assignment 4.3 — Written Analysis</div>
+      <p>Lily's intersectional analysis of <em>Out of My Mind</em> found genuine tension in the data: Melody's character <strong>simultaneously confirms the racial pattern</strong> (white disabled lead) <strong>and defies the gender pattern</strong> (disabled female lead in a year of near-zero disabled women leads). That both/and analytical move — finding contradiction rather than confirmation — is the hallmark of Exceeds-level intersectional thinking.</p>
+      <span class="spotlight-tag teal">Both/And Intersectional Thinking</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Class Growth Edge — Two strong answers -->
+  <div class="slide slide-growth" id="slide-8">
+    <div class="module-label">Class-Wide Growth Edge · Strong Answers Modeled</div>
+    <h2>Pushing the Analysis Further</h2>
+    <div class="accent-line"></div>
+    <div class="answer-box">
+      <div class="question">❓ Why does streaming (4.7%) show higher disability representation than broadcast (3.3%)?</div>
+      <p>This difference isn't evidence that streaming has rejected the medical model — it's evidence that <strong>streaming can better afford to accommodate it.</strong> Broadcast operates on tighter schedules, live production demands, and advertiser pressure to maximize mainstream appeal. These conditions apply medical model logic most aggressively: disabled actors are read as production risks. Streaming's longer timelines and prestige-driven, subscriber-based model slightly lower the perceived "cost" of disability. <strong>The medical model's logic remains intact on both platforms.</strong> Streaming just has more resources to manage it.</p>
+    </div>
+    <div class="answer-box">
+      <div class="question">❓ Whose disability experience is still missing — even when representation improves?</div>
+      <p>Even when representation numbers inch upward, the gains are <strong>not distributed equally.</strong> White disabled characters are 1.5× more likely to be depicted than characters of color. Disabled BIPOC characters don't consistently appear at population parity on TV. There have been <strong>zero disabled LGBTQIA+ film leads</strong> in a decade. A film like <em>Out of My Mind</em> can be genuinely groundbreaking — and still center a white, young, female experience of CP while leaving other disabled BIPOC and LGBTQIA+ experiences invisible. <strong>Progress that only represents some disabled people is partial progress.</strong></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Authentic Casting & Saba -->
+  <div class="slide slide-theme" id="slide-9">
+    <div class="module-label">Key Takeaway · Saba (2025) + Easterseals</div>
+    <h2>What Authentic Casting Actually Requires</h2>
+    <div class="accent-line"></div>
+    <div class="cards cards-2">
+      <div class="card teal">
+        <div class="card-title">🎭 The Pool Gap Problem</div>
+        <p>The primary barrier to authentic casting is the <strong>"pool gap"</strong> — disabled actors are often not registered with traditional agencies. Passive casting (waiting for submissions) guarantees failure. Authentic casting requires <strong>active outreach</strong>: medical community pipelines, NGO partnerships, grassroots referral networks.</p>
+      </div>
+      <div class="card rose">
+        <div class="card-title">🎥 360-Degree Representation</div>
+        <p>True representation doesn't end at the lens. Disabled professionals <strong>behind the camera</strong> — in writing rooms, directing chairs, production roles — are essential. The Easterseals Disability Film Challenge models this: building a specialized talent pipeline that reduces future sourcing costs and elevates narrative accuracy.</p>
+      </div>
+      <div class="card gold">
+        <div class="card-title">📝 Narrative ROI</div>
+        <p>Authentic attachment prevents costly medical inaccuracies and "cringe" reshoots. When Phoebe-Rae Taylor brought her lived CP experience to <em>Out of My Mind</em>, the production gained <strong>on-set problem-solving</strong> that consultants alone couldn't provide. Lived experience is a creative asset, not a liability.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">🌟 Gavin McHugh & 9-1-1</div>
+        <p>McHugh's forearm crutches weren't written around — they were <strong>written into</strong> the show. The skateboarding sequence in Season 3 shows Christopher's disability driving emotional truth and narrative conflict. This is what "disability as identity, not obstacle" looks like in practice.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Looking Ahead -->
+  <div class="slide slide-ahead" id="slide-10">
+    <div class="module-label">Looking Ahead</div>
+    <h2>Module 5: Body Size &amp; the Business of Representation</h2>
+    <div class="accent-line"></div>
+    <div class="two-col">
+      <div class="col-left">
+        <h3>What's Coming</h3>
+        <ul class="styled">
+          <li><strong>Fatphobia as industry logic</strong> — not just individual bias</li>
+          <li><strong>Lindy West's "unfinished thing"</strong> — how media frames fat bodies as conditional</li>
+          <li><strong>The Rep Project data</strong> — 42.5% population benchmark vs. near-zero fat leads</li>
+          <li><strong>Media as gatekeeper</strong> — whose bodies are visible, desirable, worthy of story</li>
+          <li><strong>From critique to craft</strong> — what would genuine fat representation require?</li>
+        </ul>
+        <p style="margin-top: 16px; font-size: 0.85rem; color: #8fa3b3;">You've built strong analytical habits in Module 4. Module 5 will ask you to apply them to a different — and in many ways more normalized — form of discrimination.</p>
+      </div>
+      <div class="col-right">
+        <div class="reminder">
+          <div class="reminder-icon">📝</div>
+          <div class="reminder-text">
+            <h4>Due This Thursday</h4>
+            <p>Your <strong>working draft</strong> for the peer review is due Thursday. This is a low-stakes, generative submission — it doesn't have to be polished. Post what you have so your peer reviewers have something to work with. The peer review itself is where the real learning happens.</p>
+          </div>
+        </div>
+        <div class="reminder" style="margin-top: 16px; background: rgba(108, 160, 220, 0.1); border-color: rgba(108, 160, 220, 0.3);">
+          <div class="reminder-icon">👀</div>
+          <div class="reminder-text">
+            <h4 style="color: #6ca0dc;">Peer Review Tip</h4>
+            <p>When you review a classmate's draft, use the frameworks from this module as your lens. Ask: what model is embedded in their example? What intersectional gap are they missing? What's the strongest claim they haven't made yet?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <button id="prevBtn" onclick="changeSlide(-1)" disabled>←</button>
+  <div class="nav-dots" id="navDots"></div>
+  <span class="nav-counter" id="counter">1 / 10</span>
+  <button id="nextBtn" onclick="changeSlide(1)">→</button>
+</nav>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  const dotsContainer = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' && current < total - 1) changeSlide(1);
+    if (e.key === 'ArrowLeft' && current > 0) changeSlide(-1);
+  });
+</script>
+</body>
+</html>
