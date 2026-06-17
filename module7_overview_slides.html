@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7: Disney's DEI Rollback</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a2e;
+    color: #f0ede6;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .deck { width: 100%; height: 100vh; position: relative; }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    padding: 60px 80px;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0; left: 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slide-title { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); }
+  .slide-theme { background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%); }
+  .slide-standout { background: linear-gradient(135deg, #1a1a2e 0%, #162032 100%); }
+  .slide-quote { background: linear-gradient(135deg, #0f1f3d 0%, #1a1a2e 100%); }
+  .slide-stat { background: linear-gradient(135deg, #1a1a2e 0%, #1c2a1a 100%); }
+  .slide-ahead { background: linear-gradient(135deg, #0f3460 0%, #16213e 100%); }
+
+  .module-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e8a87c;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    color: #f0ede6;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #f0ede6;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #e8a87c;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 1.15rem;
+    color: #b8c4d0;
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  .accent-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #e8a87c, #d4648a);
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  .cards { display: grid; gap: 20px; margin-top: 10px; }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    border-left: 3px solid #e8a87c;
+  }
+
+  .card.teal { border-left-color: #4ecdc4; }
+  .card.rose { border-left-color: #d4648a; }
+  .card.gold { border-left-color: #f7c59f; }
+  .card.blue { border-left-color: #6ca0dc; }
+  .card.green { border-left-color: #7ec8a0; }
+
+  .card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #e8a87c;
+    margin-bottom: 8px;
+  }
+
+  .card.teal .card-title { color: #4ecdc4; }
+  .card.rose .card-title { color: #d4648a; }
+  .card.gold .card-title { color: #f7c59f; }
+  .card.blue .card-title { color: #6ca0dc; }
+  .card.green .card-title { color: #7ec8a0; }
+
+  .card p { font-size: 0.92rem; color: #c8d4de; line-height: 1.65; }
+  .card strong { color: #f0ede6; }
+
+  .stat-row { display: flex; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
+
+  .stat {
+    background: rgba(232, 168, 124, 0.12);
+    border: 1px solid rgba(232, 168, 124, 0.25);
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    flex: 1;
+  }
+
+  .stat.green-stat {
+    background: rgba(126, 200, 160, 0.12);
+    border-color: rgba(126, 200, 160, 0.25);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #e8a87c;
+    font-weight: 700;
+    display: block;
+  }
+
+  .stat.green-stat .stat-num { color: #7ec8a0; }
+
+  .stat-label { font-size: 0.78rem; color: #8fa3b3; margin-top: 4px; line-height: 1.4; }
+
+  .blockquote {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 32px 40px;
+    position: relative;
+    overflow: hidden;
+    max-width: 860px;
+  }
+
+  .blockquote::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 9rem;
+    color: rgba(232, 168, 124, 0.08);
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    line-height: 1;
+  }
+
+  .blockquote p {
+    font-size: 1.05rem;
+    color: #c8d4de;
+    line-height: 1.8;
+    font-style: italic;
+    position: relative;
+    z-index: 1;
+  }
+
+  .blockquote strong { color: #f0ede6; font-style: normal; }
+
+  .attribution {
+    margin-top: 16px;
+    font-size: 0.8rem;
+    color: #e8a87c;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .timeline-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #e8a87c;
+    font-weight: 700;
+    min-width: 52px;
+    padding-top: 2px;
+  }
+
+  .timeline-text {
+    font-size: 0.9rem;
+    color: #c8d4de;
+    line-height: 1.6;
+    border-left: 2px solid rgba(232,168,124,0.2);
+    padding-left: 18px;
+  }
+
+  .timeline-text strong { color: #f0ede6; }
+
+  .link-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: rgba(232, 168, 124, 0.12);
+    border: 1px solid rgba(232, 168, 124, 0.35);
+    border-radius: 10px;
+    padding: 12px 22px;
+    color: #e8a87c;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .link-btn:hover {
+    background: rgba(232,168,124,0.22);
+    color: #f0ede6;
+  }
+
+  .link-btn.teal {
+    background: rgba(78,205,196,0.1);
+    border-color: rgba(78,205,196,0.3);
+    color: #4ecdc4;
+  }
+
+  .link-btn.teal:hover { background: rgba(78,205,196,0.2); color: #f0ede6; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+
+  ul.styled { list-style: none; padding: 0; margin-top: 8px; }
+
+  ul.styled li {
+    padding: 8px 0 8px 20px;
+    position: relative;
+    font-size: 0.9rem;
+    color: #c8d4de;
+    line-height: 1.6;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  ul.styled li:last-child { border-bottom: none; }
+  ul.styled li::before { content: '→'; position: absolute; left: 0; color: #e8a87c; font-weight: 600; }
+  ul.styled li strong { color: #f0ede6; }
+
+  .tag {
+    display: inline-block;
+    background: rgba(232,168,124,0.15);
+    color: #e8a87c;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(232,168,124,0.3);
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+
+  .tag.rose { background: rgba(212,100,138,0.12); color: #d4648a; border-color: rgba(212,100,138,0.3); }
+  .tag.teal { background: rgba(78,205,196,0.12); color: #4ecdc4; border-color: rgba(78,205,196,0.3); }
+  .tag.blue { background: rgba(108,160,220,0.12); color: #6ca0dc; border-color: rgba(108,160,220,0.3); }
+
+  .divider-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 20px 0;
+  }
+
+  .italic-question {
+    font-size: 1rem;
+    font-style: italic;
+    color: #8fa3b3;
+    margin-top: 20px;
+    line-height: 1.7;
+  }
+
+  /* Nav */
+  .nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50px;
+    padding: 10px 20px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: none;
+    border: none;
+    color: #c8d4de;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .nav button:hover { color: #e8a87c; background: rgba(232,168,124,0.1); }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .nav-counter { font-size: 0.78rem; color: #8fa3b3; letter-spacing: 0.1em; min-width: 55px; text-align: center; }
+
+  .nav-dots { display: flex; gap: 6px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s; }
+  .dot.active { background: #e8a87c; transform: scale(1.3); }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide slide-title active" id="slide-1">
+    <div class="module-label">The Business of Representation · Module 7</div>
+    <h1>Disney's DEI Rollback</h1>
+    <div class="accent-line"></div>
+    <p class="subtitle">A case study on the ground: what companies say, what they erase, and what the choices reveal about leadership under pressure.</p>
+    <div class="stat-row" style="margin-top: 40px; max-width: 720px;">
+      <div class="stat">
+        <span class="stat-num">2021</span>
+        <div class="stat-label">Year "Reimagine Tomorrow" launched</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">2024</span>
+        <div class="stat-label">Year it disappeared from Disney's SEC filing</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3M+</span>
+        <div class="stat-label">Views on the original Reimagine Tomorrow film</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: This Week -->
+  <div class="slide slide-theme" id="slide-2">
+    <div class="module-label">Week 7 · Case Study on the Ground</div>
+    <h2>A break from The Media Reader</h2>
+    <div class="accent-line"></div>
+    <p class="subtitle" style="margin-bottom: 28px;">This week, we step away from theory and turn to a real-time case study. Disney's DEI rollback puts everything we've been building to work.</p>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">📄 Reading 1</div>
+        <p><strong>Blog Mickey</strong> — the document of record. What was removed from the SEC filing and what replaced it.</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">🏢 Reading 2</div>
+        <p><strong>Diversity.com</strong> — the stakeholder picture. Who pushed, who reacted, and what the business case reveals.</p>
+      </div>
+      <div class="card rose">
+        <div class="card-title">🎬 Reading 3</div>
+        <p><strong>Variety</strong> — the industry-wide lens. Hollywood's retreat from DEI and the politics driving it.</p>
+      </div>
+    </div>
+    <p class="italic-question">Pay attention to what gets named, what gets erased, and what the framing reveals.</p>
+  </div>
+
+  <!-- SLIDE 3: What Disney Changed -->
+  <div class="slide slide-theme" id="slide-3">
+    <div class="module-label">Reading 1 · Blog Mickey, February 2025</div>
+    <h2>What Disney Changed</h2>
+    <div class="accent-line"></div>
+    <div class="two-col">
+      <div>
+        <p class="subtitle" style="font-size: 1rem; margin-bottom: 20px;">In November 2024, Disney filed its annual SEC report — a legal document where every word is deliberate.</p>
+        <ul class="styled">
+          <li><strong>"Reimagine Tomorrow"</strong> removed from DEI section</li>
+          <li><strong>"Heroes Work Here"</strong> — veteran hiring program — added in its place</li>
+          <li>Employee diversity fellowships scrapped</li>
+          <li>Inclusive appearance guidelines removed</li>
+          <li>DEI page rebranded as <strong>"Belong"</strong></li>
+        </ul>
+        <a class="link-btn teal" href="https://inclusion.twdc.com/" target="_blank">→ Visit Disney's "Belong" page</a>
+      </div>
+      <div>
+        <div class="card rose">
+          <div class="card-title">Why this is a legal story, not just a PR story</div>
+          <p>SEC filings carry regulatory and financial weight. Removing a program from an investor report is not a communications decision — it is a compliance and strategic one. Every word added or removed has legal consequences.</p>
+        </div>
+        <p class="italic-question" style="margin-top: 20px;">What does Disney gain by making its reporting legally defensible? What might it risk in the long term?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: History of Reimagine Tomorrow -->
+  <div class="slide slide-standout" id="slide-4">
+    <div class="module-label">Reading 1 · The Documentary Record</div>
+    <h2>History of Reimagine Tomorrow</h2>
+    <div class="accent-line"></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-text">Disney announces the Reimagine Tomorrow initiative — a "large-scale platform for <strong>amplifying underrepresented voices</strong>."</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2021</div>
+        <div class="timeline-text">Program launches. The 2021 annual report describes it as building on Disney's "<strong>longstanding commitment to diversity, equity and inclusion.</strong>" Revision of <strong>The Disney Look</strong> guidelines to embrace more inclusive appearance standards.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2022–23</div>
+        <div class="timeline-text">Program continues to appear in annual SEC filings. Disney collaborates with advocacy groups to enhance <strong>LGBTQ+ representation</strong> in programming.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-text">November SEC filing: Reimagine Tomorrow is <strong>gone</strong>. The website is taken down. The program is replaced by Heroes Work Here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: GDI Quote -->
+  <div class="slide slide-quote" id="slide-5">
+    <div class="module-label">Geena Davis Institute · On the original Reimagine Tomorrow film</div>
+    <div class="blockquote" style="margin-top: 16px;">
+      <p>"So how do we change what we see? At Disney, we start by acknowledging that the images we show and the stories we tell affect how people see themselves, how we see each other, and we <strong>haven't always gotten it right.</strong> But to Reimagine Tomorrow, we have to commit today to do all we can to use the power of storytelling, be honest about the world as it was, and reflect the world as it is — imagining the world as it can be to show <strong>the magic in every life.</strong> One complex, beautiful human story at a time."</p>
+      <div class="attribution">Geena Davis Institute — Reimagine Tomorrow launch coverage</div>
+    </div>
+    <p class="italic-question" style="margin-top: 28px;">This film received over 3 million views. The website is now down. What does that tell us about the costs of erasure?</p>
+  </div>
+
+  <!-- SLIDE 6: Why the Change Matters -->
+  <div class="slide slide-stat" id="slide-6">
+    <div class="module-label">Reading 2 · Diversity.com · The Business Case for Diversity</div>
+    <h2>Why the Change Matters</h2>
+    <div class="accent-line"></div>
+    <div class="stat-row" style="margin-bottom: 28px;">
+      <div class="stat green-stat">
+        <span class="stat-num">35%</span>
+        <div class="stat-label">Companies with strong DEI programs are 35% more likely to outperform peers financially (McKinsey, 2023)</div>
+      </div>
+      <div class="stat green-stat">
+        <span class="stat-num">78%</span>
+        <div class="stat-label">of Disney employees said DEI initiatives fostered a more welcoming workplace (McKinsey, 2023)</div>
+      </div>
+    </div>
+    <div class="cards cards-3">
+      <div class="card green">
+        <div class="card-title">Customer Engagement</div>
+        <p>Inclusive storytelling has drawn in diverse audiences, boosting <strong>streaming subscriptions</strong> and box office performance.</p>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Employee Satisfaction</div>
+        <p>DEI initiatives fostered a <strong>more welcoming workplace</strong> — with measurable effects on retention and morale.</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">Innovation</div>
+        <p>Diverse teams drive <strong>better decision-making</strong> — critical for a creative business model that depends on originality.</p>
+      </div>
+    </div>
+    <a class="link-btn" href="https://www.mckinsey.com/featured-insights/diversity-and-inclusion/diversity-wins-interactive" target="_blank">→ McKinsey Diversity Wins Interactive</a>
+  </div>
+
+  <!-- SLIDE 7: Stakeholder Pressures -->
+  <div class="slide slide-theme" id="slide-7">
+    <div class="module-label">Reading 2 · Diversity.com · Competing Pressures</div>
+    <h2>Who Pushed — and Why</h2>
+    <div class="accent-line"></div>
+    <div class="cards cards-3">
+      <div class="card rose">
+        <div class="card-title">🏛 Political Climate</div>
+        <p>Executive orders targeting DEI programs. Companies including <strong>Meta</strong> publicly ending their own initiatives. Disney reevaluating to align with "the evolving political and legal landscape."</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Activist Investors</div>
+        <p>Shareholders applauded the move as a return to <strong>"core business priorities."</strong> Investor pressure was a decisive factor in the rollback decision.</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">🤝 Advocates & Employees</div>
+        <p>Advocacy groups called the rollback a <strong>contradiction of Disney's brand.</strong> Employees expressed concerns about losing hard-won workplace inclusion progress.</p>
+      </div>
+    </div>
+    <p class="italic-question" style="margin-top: 24px;">If diverse content is profitable, how do you explain activist investor pressure winning? Whose interests are being prioritized?</p>
+  </div>
+
+  <!-- SLIDE 8: Hollywood-wide retreat -->
+  <div class="slide slide-standout" id="slide-8">
+    <div class="module-label">Reading 3 · Variety · Industry-Wide Retreat</div>
+    <h2>Disney Is Not Alone</h2>
+    <div class="accent-line"></div>
+    <div class="two-col">
+      <div>
+        <h3 style="color: #d4648a;">Scaling Back</h3>
+        <ul class="styled">
+          <li><strong>Disney</strong> — "Reimagine Tomorrow" removed</li>
+          <li><strong>Amazon</strong> — walked back DEI hiring programs</li>
+          <li><strong>Paramount</strong> — scaled back DEI embedding in hiring</li>
+          <li><strong>Warner Bros. Discovery</strong> — "Diversity Digest" dropped</li>
+          <li><strong>Google, Target, Accenture</strong> — reduced programs under pressure</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: #7ec8a0;">Doubling Down</h3>
+        <ul class="styled">
+          <li><strong>Apple</strong> — publicly reaffirmed DEI commitments</li>
+          <li><strong>Costco</strong> — publicly doubled down on inclusion</li>
+          <li><strong>Goldman Sachs</strong> — cited long-term benefits of inclusive workplace</li>
+        </ul>
+        <p class="italic-question" style="margin-top: 20px;">What structural or financial differences explain why some companies can resist external pressure more successfully than others?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Key Voices -->
+  <div class="slide slide-quote" id="slide-9">
+    <div class="module-label">Reading 3 · Variety · Key Voices in the Debate</div>
+    <h2>What People Are Saying</h2>
+    <div class="accent-line"></div>
+    <div class="cards cards-2" style="margin-bottom: 0;">
+      <div class="card rose">
+        <div class="card-title">Vernā Myers · Former Head of Inclusion, Netflix</div>
+        <p>"Bullying is causing a lot of companies to reassess. Most smart companies are just trying to figure out how far this is going to go. <strong>They're trying to stay out of the crosshairs.</strong>"</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">Joslyn Barnes · Producer, Nickel Boys</div>
+        <p>"<strong>There's going to be a lot of self-censorship.</strong> We're already seeing that — people going to kiss the ring, so to speak."</p>
+      </div>
+      <div class="card gold">
+        <div class="card-title">Vernā Myers · On long-term business reality</div>
+        <p>"It's almost impossible for entertainment companies to withdraw holistically from the work of DEI. <strong>There's no way you're going to compete</strong> without creating the kind of authentic programming where people feel reflected."</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Stacy Smith · USC Annenberg Inclusion Initiative</div>
+        <p>"Companies have bigger problems than the chaos in Washington. <strong>It's the audience that the C-suite should fear the most.</strong>"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: Discussion Lenses -->
+  <div class="slide slide-ahead" id="slide-10">
+    <div class="module-label">7.2 Discussion · Your Assignment This Week</div>
+    <h2>Three Lenses, Three Analysts</h2>
+    <div class="accent-line"></div>
+    <p class="subtitle" style="margin-bottom: 28px;">Each of you has been assigned one lens. Go deep on it — then engage a classmate who took a different angle.</p>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">⚖️ Legal vs. Ethical Lens</div>
+        <p>Is the shift to veteran programs a <strong>compliance strategy</strong> or <strong>corporate self-censorship?</strong> What does Disney gain short-term — and risk long-term?</p>
+      </div>
+      <div class="card teal">
+        <div class="card-title">💼 Stakeholder & Business Lens</div>
+        <p>If diverse content is profitable, how did <strong>activist investors win?</strong> Whose interests are being prioritized — and is this a defensible leadership position?</p>
+      </div>
+      <div class="card rose">
+        <div class="card-title">🎭 Representation & Audience Lens</div>
+        <p>What does this rollback cost the <strong>audiences, employees, creators, and communities</strong> Disney says it serves? What changes when representation becomes expendable?</p>
+      </div>
+    </div>
+    <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+      <span class="tag">Initial post due Thu, Jul 2</span>
+      <span class="tag rose">Response post due Tue, Jul 7</span>
+      <span class="tag teal">Use the readings as evidence</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: Close -->
+  <div class="slide slide-title" id="slide-11">
+    <div class="module-label">Module 7 · Closing Thought</div>
+    <h1>What Gets Named.<br>What Gets Erased.</h1>
+    <div class="accent-line"></div>
+    <p class="subtitle" style="margin-bottom: 32px;">Disney didn't just change a program name. It changed what it's willing to say publicly about who it values and why. That's worth paying close attention to.</p>
+    <div class="blockquote" style="max-width: 700px;">
+      <p>"It's the audience that the C-suite should fear the most."</p>
+      <div class="attribution">Stacy Smith · USC Annenberg Inclusion Initiative</div>
+    </div>
+    <p class="italic-question" style="margin-top: 28px;">I'll see you in the discussion. 🎬</p>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <button id="prev-btn" onclick="changeSlide(-1)" disabled>&#8592;</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <span class="nav-counter" id="nav-counter">1 / 11</span>
+  <button id="next-btn" onclick="changeSlide(1)">&#8594;</button>
+</nav>
+
+<script>
+  let current = 1;
+  const total = 11;
+
+  const dotsContainer = document.getElementById('nav-dots');
+  for (let i = 1; i <= total; i++) {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 1) dot.classList.add('active');
+    dot.onclick = () => goToSlide(i);
+    dotsContainer.appendChild(dot);
+  }
+
+  function goToSlide(n) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    document.querySelectorAll('.dot')[current - 1].classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    document.querySelectorAll('.dot')[current - 1].classList.add('active');
+    document.getElementById('nav-counter').textContent = current + ' / ' + total;
+    document.getElementById('prev-btn').disabled = current === 1;
+    document.getElementById('next-btn').disabled = current === total;
+  }
+
+  function changeSlide(dir) { goToSlide(current + dir); }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' && current < total) changeSlide(1);
+    if (e.key === 'ArrowLeft' && current > 1) changeSlide(-1);
+  });
+</script>
+</body>
+</html>
