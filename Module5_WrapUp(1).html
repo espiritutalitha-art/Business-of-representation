@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 Wrap-Up: The Business of Fatphobia</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #1a1a2e;
+    color: #f0f0f0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .slide.active { display: flex; }
+
+  /* Slide types */
+  .slide-title {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    text-align: center;
+    align-items: center;
+  }
+
+  .slide-concept {
+    background: #16213e;
+  }
+
+  .slide-data {
+    background: #0f3460;
+  }
+
+  .slide-student {
+    background: #1a1a2e;
+    border-left: 6px solid #e94560;
+  }
+
+  .slide-paper {
+    background: #16213e;
+    border-left: 6px solid #f5a623;
+  }
+
+  .slide-ahead {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    text-align: center;
+    align-items: center;
+  }
+
+  /* Typography */
+  .module-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #e94560;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 36px;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 28px;
+  }
+
+  h3 {
+    font-size: 22px;
+    color: #e94560;
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    color: #a0b4c8;
+    line-height: 1.5;
+    max-width: 750px;
+  }
+
+  p {
+    font-size: 19px;
+    line-height: 1.7;
+    color: #d0dce8;
+    max-width: 860px;
+    margin-bottom: 16px;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 36px;
+    margin: 10px 0 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 22px 30px;
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .stat-number {
+    font-size: 44px;
+    font-weight: bold;
+    color: #e94560;
+    font-family: 'Arial', sans-serif;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 14px;
+    color: #a0b4c8;
+    margin-top: 8px;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.4;
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .concept-card {
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 22px 26px;
+    border-top: 3px solid #e94560;
+  }
+
+  .concept-card.gold { border-top-color: #f5a623; }
+  .concept-card.blue { border-top-color: #4a90d9; }
+  .concept-card.teal { border-top-color: #50c8b4; }
+
+  .concept-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #e94560;
+    margin-bottom: 10px;
+  }
+
+  .concept-card.gold .concept-title { color: #f5a623; }
+  .concept-card.blue .concept-title { color: #4a90d9; }
+  .concept-card.teal .concept-title { color: #50c8b4; }
+
+  .concept-card p {
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.55;
+    color: #c8d8e8;
+  }
+
+  .quote-block {
+    border-left: 4px solid #e94560;
+    padding: 16px 24px;
+    margin: 18px 0;
+    background: rgba(233,69,96,0.08);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .quote-block p {
+    font-style: italic;
+    font-size: 18px;
+    color: #e8d8c0;
+    margin: 0;
+  }
+
+  .quote-block .attribution {
+    font-size: 13px;
+    color: #a0b4c8;
+    font-style: normal;
+    margin-top: 8px;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .student-tag {
+    display: inline-block;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: #e94560;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .student-tag.gold { background: #f5a623; color: #1a1a2e; }
+  .student-tag.blue { background: #4a90d9; }
+  .student-tag.teal { background: #50c8b4; color: #1a1a2e; }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ul li {
+    font-size: 18px;
+    color: #d0dce8;
+    line-height: 1.6;
+    padding: 8px 0 8px 24px;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  ul li:last-child { border-bottom: none; }
+
+  ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #e94560;
+    font-weight: bold;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .paper-card {
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-bottom: 18px;
+  }
+
+  .paper-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #f5a623;
+    margin-bottom: 8px;
+  }
+
+  .paper-card p {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    color: #c8d8e8;
+  }
+
+  .paper-card .next {
+    font-size: 14px;
+    color: #a0b4c8;
+    font-family: 'Arial', sans-serif;
+    font-style: italic;
+  }
+
+  .ahead-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
+
+  .reminder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 24px;
+    max-width: 680px;
+    text-align: left;
+  }
+
+  .reminder-item {
+    background: rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #d0dce8;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .reminder-item .due {
+    font-size: 12px;
+    color: #e94560;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 30px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 10px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .nav button:hover { background: rgba(233,69,96,0.4); }
+  .nav button:disabled { opacity: 0.25; cursor: default; }
+
+  .slide-counter {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: #a0b4c8;
+    letter-spacing: 1px;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: #e94560;
+    transition: width 0.3s ease;
+    z-index: 200;
+  }
+
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: #e94560;
+    margin: 16px 0 24px 0;
+  }
+
+  .divider.gold { background: #f5a623; }
+  .divider.center { margin: 16px auto 24px auto; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide slide-title active">
+    <div class="module-label">Module 5 · Wrap-Up</div>
+    <h1>The Business<br>of Fatphobia</h1>
+    <div class="divider center"></div>
+    <p class="subtitle">How Hollywood turns body size into a business decision — and what your work this module revealed about the mechanisms behind it.</p>
+  </div>
+
+  <!-- SLIDE 2: CORE CONCEPTS -->
+  <div class="slide slide-concept">
+    <div class="module-label">Core Frameworks</div>
+    <h2>What We Were Asking</h2>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-title">Fatphobia as Industry Logic</div>
+        <p>Anti-fat bias isn't only a cultural attitude — it's built into casting decisions, narrative conventions, and marketing assumptions that shape what gets made.</p>
+      </div>
+      <div class="concept-card gold">
+        <div class="concept-title">The "Unfinished Thing"</div>
+        <p>Lindy West: fat characters are treated as incomplete versions of themselves — their full personhood deferred until the body changes or the arc resolves.</p>
+      </div>
+      <div class="concept-card blue">
+        <div class="concept-title">Cultural Permission</div>
+        <p>Media representations don't just reflect discrimination — they license it, giving audiences permission to treat fat people as less credible, less desirable, less worthy.</p>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-title">Gatekeeping & Value</div>
+        <p>The industry decides which bodies are bankable. Fat bodies are overwhelmingly cast as comic, cautionary, or conditional — rarely as simply central.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE DATA -->
+  <div class="slide slide-data">
+    <div class="module-label">The Rep Project · Key Statistics</div>
+    <h2>The Numbers Behind the Pattern</h2>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-number">42.5%</div>
+        <div class="stat-label">of the U.S. population is fat</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">6.7%</div>
+        <div class="stat-label">of film characters are fat women</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">6×</div>
+        <div class="stat-label">more likely: non-fat women rated "better than average looking"</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">2×</div>
+        <div class="stat-label">more likely: fat women coded as "funny"</div>
+      </div>
+    </div>
+    <p>Anti-fat bias is documented as higher than bias against any other marginalized group studied. Weight stigma is itself a health risk — not just a byproduct of one.</p>
+  </div>
+
+  <!-- SLIDE 4: STUDENT WORK — ABBIE -->
+  <div class="slide slide-student">
+    <div class="module-label">Discussion 5.2 · Student Work</div>
+    <h2>Abbie on <em>Superbad</em></h2>
+    <div class="student-tag">Abbie Cramer</div>
+    <p>Abbie chose Seth — the film's <em>central protagonist</em> — and argued that even leads aren't exempt from the "unfinished thing" logic. Seth's body is framed as the origin of his dysfunction, his desperation, and his cruelty — not just a detail of his character.</p>
+    <div class="quote-block">
+      <p>"Seth might be better understood through the lens of conditional personhood: his full humanity is always just out of reach, promised once the insecurity his body caused is resolved."</p>
+      <div class="attribution">— Analysis of Seth Cohen, Superbad (2007)</div>
+    </div>
+    <p><strong style="color:#e94560;">What this complicates:</strong> The "unfinished thing" isn't only for sidekicks. A fat protagonist can still be subject to the same deferral logic — and that's a more insidious form of it.</p>
+  </div>
+
+  <!-- SLIDE 5: STUDENT WORK — LILY -->
+  <div class="slide slide-student" style="border-left-color: #f5a623;">
+    <div class="module-label">Discussion 5.2 · Student Work</div>
+    <h2>Lily on <em>Sierra Burgess Is a Loser</em></h2>
+    <div class="student-tag gold">Lily</div>
+    <p>Lily's analysis surfaced a key tension: Sierra Burgess presents itself as empowering, but its visual and narrative logic pathologizes Sierra's body at every level — from the fragmenting mirror scene to the framing of her cruelty as a psychological product of being fat.</p>
+    <div class="quote-block" style="border-left-color: #f5a623; background: rgba(245,166,35,0.08);">
+      <p>"The film doesn't show a fatphobic society mistreating Sierra. It shows a girl whose body has apparently made her cruel and broken — and that lets the audience off the hook entirely."</p>
+      <div class="attribution">— On Sierra Burgess Is a Loser (Netflix, 2018)</div>
+    </div>
+    <p><strong style="color:#f5a623;">What this adds:</strong> Sympathetic representation can still do ideological damage. The most insidious fatphobia doesn't mock — it explains.</p>
+  </div>
+
+  <!-- SLIDE 6: STUDENT WORK — RESPONSE POSTS -->
+  <div class="slide slide-student" style="border-left-color: #50c8b4;">
+    <div class="module-label">Discussion 5.2 · Response Posts</div>
+    <h2>Where the Conversation Got Interesting</h2>
+    <div class="two-col">
+      <div>
+        <div class="student-tag teal">Lily → Cam</div>
+        <p>Lily brought in a <em>Biggest Loser</em> contestant's own words — "if I lost the weight, loving someone will be so much easier" — as living proof that media tropes don't stay on screen. She then identified a sharp contradiction: a show built entirely around fat bodies generating $96.6M annually for a network that otherwise marginalizes them.</p>
+        <p style="color:#50c8b4; font-size:16px;">The industry profits from fat bodies as spectacle while refusing to treat them as narrative subjects.</p>
+      </div>
+      <div>
+        <div class="student-tag gold">Lily → Abbie</div>
+        <p>Lily introduced <em>Paul Blart: Mall Cop</em> — a fat protagonist who is also intelligent, desirable, and a good father — and asked whether Kevin James co-writing his own vehicle changes the representational calculus.</p>
+        <p style="color:#f5a623; font-size:16px;">Can a fat creator reclaim a trope from the inside — or does the market still set the terms?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: WHAT THE EXAMPLES REVEALED -->
+  <div class="slide slide-concept">
+    <div class="module-label">Synthesis</div>
+    <h2>What Your Examples Revealed Together</h2>
+    <ul>
+      <li>Fat protagonists are not exempt from deferral logic — centrality is not the same as full personhood <em>(Seth, Superbad)</em></li>
+      <li>Sympathetic framing can reproduce the same ideological damage as mockery — by locating the problem in the fat person rather than in the fatphobic world <em>(Sierra Burgess)</em></li>
+      <li>Media tropes become real belief systems — the <em>Biggest Loser</em> contestant's words show the direct line between screen and self-perception</li>
+      <li>The industry's relationship to fat bodies is contradictory: lucrative as spectacle, marginal as subjects</li>
+      <li>Creator identity complicates but doesn't resolve these patterns — the market still structures what fat creators can make <em>(Paul Blart)</em></li>
+    </ul>
+  </div>
+
+  
+  <!-- SLIDE 8: LILY'S PAPER -->
+  <div class="slide slide-paper" style="border-left-color:#f5a623;">
+    <div class="module-label">Critical Analysis Paper · 5.3</div>
+    <h2>Lily: <em>Wicked</em></h2>
+    <div class="student-tag gold">Lily</div>
+    <p>Lily's paper uses <em>Wicked</em> to ask a genuinely strong question: what happens when a mainstream blockbuster gives its villainized body a fuller humanity, while still relying on the visual and industrial logics that made that body legible as villainous in the first place?</p>
+    <div class="paper-card" style="background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.25);">
+      <div class="paper-title" style="color:#f5a623;">What is Working</div>
+      <p>The race and disability frameworks are already doing important work, and the notes on casting, poster design, and the Wheelchair/Nessarose example show that Lily is thinking both on-screen and behind the camera.</p>
+      <div class="next">Next step: tighten the thesis so the paper clearly says what <em>Wicked</em> does, not just what it contains. Then decide which scenes best carry the argument — the Ozdust moment, the "The Wizard and I" sequence, or Cynthia Erivo's poster response — and use them to show the same framework at work.</div>
+    </div>
+  </div>
+
+<!-- SLIDE 9: CAM'S PAPER -->
+  <div class="slide slide-paper">
+    <div class="module-label">Critical Analysis Paper · 5.3</div>
+    <h2>Cam: <em>Heated Rivalry</em></h2>
+    <div class="student-tag" style="background:#4a90d9;">Cam Talmage</div>
+    <p>Cam's paper takes on one of the most analytically rich examples of the module: a show whose breakout success directly challenged industry assumptions about the marketability of queer and neurodivergent representation simultaneously.</p>
+    <div class="paper-card">
+      <div class="paper-title">The Central Argument</div>
+      <p>Shane Hollander's autism is author-confirmed canon — deliberately coded through masking, routine, and literal communication — but never named onscreen. The show invites neurotypical audiences to enjoy representation they may not recognize as disability representation at all.</p>
+      <div class="next">Next step: Convert the outline into claims. The three key scenes — Episode 1 (flirting exchange), Episode 2 (masking monologue), Episode 6 (cottage routine) — are your primary textual evidence. Use Hall's encoding/decoding model and Mullis's social model to build the analytical framework around them.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: ABBIE'S PAPER -->
+  <div class="slide slide-paper">
+    <div class="module-label">Critical Analysis Paper · 5.3</div>
+    <h2>Abbie: <em>Sinners</em></h2>
+    <div class="student-tag" style="background:#e94560;">Abbie Cramer</div>
+    <p>Abbie's paper examines how <em>Sinners</em> uses horror genre conventions to challenge — or reproduce — assumptions about who is worthy of fear, survival, and narrative centrality. The structural argument is promising and the source selection is strong.</p>
+    <div class="paper-card" style="background: rgba(233,69,96,0.08); border-color: rgba(233,69,96,0.25);">
+      <div class="paper-title" style="color:#e94560;">What's Working</div>
+      <p>The media economics framework is clearly defined and the case study examples are well-chosen. The intersectionality angle is present and has real potential.</p>
+      <div class="next">Next step: Tighten the thesis so the vampire interference example connects directly to the opening argument. Add source citations to the theoretical framework section, and develop the intersectionality dimension more explicitly in the analysis.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: PEER REVIEW REFLECTION -->
+  <div class="slide slide-concept">
+    <div class="module-label">Peer Review · What Strong Feedback Does</div>
+    <h2>From Diagnosis to Direction</h2>
+    <p>Both peer reviews this module showed genuine engagement and accurate identification of gaps. The growth edge for everyone — in peer review as in paper writing — is the same move:</p>
+    <div class="concept-grid" style="margin-top: 16px;">
+      <div class="concept-card" style="border-top-color:#a0b4c8;">
+        <div class="concept-title" style="color:#a0b4c8;">Developing</div>
+        <p>"Your theoretical framework needs more data and your argument feels vague."</p>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-title">Exceptional</div>
+        <p>"In paragraph 3, your vampire example disconnects from the media economics frame — here is a specific source that could bridge them, and here is what it would do for your argument."</p>
+      </div>
+    </div>
+    <p style="margin-top: 24px;">The best peer feedback names a specific moment, proposes a specific direction, and explains why it would strengthen the argument. Diagnosis is the floor. Direction is the goal.</p>
+  </div>
+
+  
+  <!-- SLIDE: 5.4 SHORT WRITTEN ANALYSIS -->
+  <div class="slide slide-concept">
+    <div class="module-label">Assignment 5.4 · Terminology &amp; Ideological Work</div>
+    <h2>Language as a Weapon — and a Choice</h2>
+    <div class="two-col">
+      <div>
+        <div class="student-tag gold">Lily · <em>The Biggest Loser</em></div>
+        <p>Lily shows that the show pathologizes fat bodies through every language layer simultaneously: the voiceover ("they're fat!"), the elimination line ("cut the fat"), the editing of bodies alongside donuts, and the public weigh-in ritual. No neutral or affirming terms appear at all — "people of size," "plus-size," and "fat" as a neutral descriptor are entirely absent.</p>
+        <p style="color:#f5a623; font-size:16px;">Key insight: The show doesn't just reflect stigma — it is structurally designed around humiliation, making positive language about fat bodies formally impossible.</p>
+      </div>
+      <div>
+        <div class="student-tag" style="background:#4a90d9;">Cam · <em>The DUFF</em></div>
+        <p>Cam shows that <em>The DUFF</em> occupies more ambiguous ideological ground: it avoids medicalized terms like "obese" or "overweight," but still frames "fat" as a social insult Bianca must overcome. The film critiques the label while depending on the stigma attached to it.</p>
+        <p style="color:#4a90d9; font-size:16px;">Key insight: A film can avoid pathologizing language and still do ideological damage — by treating fatness as a social problem the character must resolve rather than a neutral aspect of identity.</p>
+      </div>
+    </div>
+    <div style="margin-top:24px; background: rgba(255,255,255,0.05); border-radius:10px; padding:18px 24px;">
+      <p style="font-size:16px; color:#a0b4c8; margin:0;"><strong style="color:#ffffff;">Together, these two examples reveal the full spectrum:</strong> from a show that weaponizes body-size language overtly and structurally (<em>The Biggest Loser</em>) to a film that reproduces stigma more quietly, through what it assumes its audience already believes (<em>The DUFF</em>). Language does ideological work even when it is trying not to.</p>
+    </div>
+  </div>
+
+<!-- SLIDE 12: LOOKING AHEAD -->
+  <div class="slide slide-ahead">
+    <div class="ahead-icon">🎬</div>
+    <div class="module-label">Coming Up · Module 6</div>
+    <h1 style="font-size: 44px;">Older Adults &<br>Aging on Screen</h1>
+    <div class="divider center gold"></div>
+    <p class="subtitle" style="margin-bottom: 32px;">From "successful aging" myths to the near-invisibility of older BIPOC and LGBTQ+ characters — Module 6 brings a dual-lens framework: quantitative representation data and qualitative trope analysis, in conversation.</p>
+    <div class="reminder-list">
+      <div class="reminder-item">
+        <span>📝 Critical Analysis Paper — final revision</span>
+        <span class="due">DUE MON JUL 6</span>
+      </div>
+      <div class="reminder-item">
+        <span>📊 6.3 Synthesizing Methodologies assignment</span>
+        <span class="due">DUE MON JUN 29</span>
+      </div>
+      <div class="reminder-item">
+        <span>🎯 6.4 Case Study Application</span>
+        <span class="due">DUE MON JUN 29</span>
+      </div>
+      <div class="reminder-item">
+        <span>🎬 Final Project introduced in Module 6 — read the overview now</span>
+        <span class="due">HEADS UP</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end deck -->
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <button id="prevBtn" onclick="changeSlide(-1)" disabled>← Prev</button>
+  <span class="slide-counter" id="counter">1 / 13</span>
+  <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+
+  function changeSlide(dir) {
+    slides[current].classList.remove('active');
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    slides[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    document.getElementById('progressBar').style.width = ((current + 1) / total * 100) + '%';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Init progress bar
+  document.getElementById('progressBar').style.width = (1 / total * 100) + '%';
+</script>
+
+</body>
+</html>
