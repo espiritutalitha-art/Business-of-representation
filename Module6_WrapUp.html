@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 Wrap-Up — The Business of Representation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f0f;
+    color: #f0ede8;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .deck {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    padding: 60px 80px;
+    position: absolute;
+    top: 0; left: 0;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide themes */
+  .slide-title { background: #0f0f0f; }
+  .slide-media-reader { background: #0f1a2e; }
+  .slide-chonody { background: #1a0f1a; }
+  .slide-compare { background: #0f0f0f; }
+  .slide-lily { background: #0f1a14; }
+  .slide-cam { background: #1a140f; }
+  .slide-push-lily { background: #0f1520; }
+  .slide-push-cam { background: #1a1510; }
+  .slide-close { background: #0f0f0f; }
+
+  /* Typography */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.6;
+  }
+
+  p {
+    font-size: clamp(14px, 1.6vw, 18px);
+    line-height: 1.75;
+    opacity: 0.85;
+    max-width: 780px;
+  }
+
+  .subtitle {
+    font-size: clamp(16px, 2vw, 22px);
+    opacity: 0.6;
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+
+  /* Accent colors */
+  .accent-blue { color: #7eb8f7; }
+  .accent-purple { color: #c89ef7; }
+  .accent-green { color: #7ef7b0; }
+  .accent-amber { color: #f7d07e; }
+  .accent-rose { color: #f77eb8; }
+
+  /* Layout helpers */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 32px;
+  }
+
+  .col { }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+
+  .card p { font-size: clamp(13px, 1.4vw, 16px); }
+
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .pill-blue { background: rgba(126,184,247,0.15); color: #7eb8f7; }
+  .pill-purple { background: rgba(200,158,247,0.15); color: #c89ef7; }
+  .pill-green { background: rgba(126,247,176,0.15); color: #7ef7b0; }
+  .pill-amber { background: rgba(247,208,126,0.15); color: #f7d07e; }
+  .pill-rose { background: rgba(247,126,184,0.15); color: #f77eb8; }
+
+  blockquote {
+    border-left: 3px solid rgba(255,255,255,0.2);
+    padding-left: 20px;
+    margin: 16px 0;
+    font-style: italic;
+    opacity: 0.75;
+    font-size: clamp(13px, 1.4vw, 16px);
+    line-height: 1.7;
+  }
+
+  ul {
+    list-style: none;
+    margin-top: 12px;
+  }
+
+  ul li {
+    font-size: clamp(13px, 1.4vw, 16px);
+    line-height: 1.7;
+    opacity: 0.85;
+    padding: 6px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+
+  ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    opacity: 0.4;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 20px 24px;
+    min-width: 160px;
+  }
+
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    opacity: 0.5;
+    line-height: 1.4;
+  }
+
+  /* Navigation */
+  .nav {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #f0ede8;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 10px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .nav-counter {
+    font-size: 12px;
+    opacity: 0.35;
+    min-width: 48px;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+
+  /* Slide number indicator */
+  .slide-indicator {
+    position: fixed;
+    top: 32px;
+    right: 48px;
+    font-size: 11px;
+    opacity: 0.25;
+    letter-spacing: 0.15em;
+  }
+
+  /* Logo */
+  .logo {
+    position: fixed;
+    top: 32px;
+    left: 48px;
+    font-size: 11px;
+    opacity: 0.3;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* Divider */
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: rgba(255,255,255,0.15);
+    margin: 20px 0;
+  }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: rgba(255,255,255,0.3);
+    transition: width 0.4s ease;
+    z-index: 200;
+  }
+
+  .highlight-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="logo">CI-705 · Business of Representation</div>
+<div class="slide-indicator" id="slide-indicator">01 / 09</div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1: Title -->
+  <div class="slide slide-title active" id="slide-1">
+    <div class="eyebrow">Module 6 · Wrap-Up</div>
+    <h1>Seeing Aging<br><span style="opacity:0.4;">Two Ways</span></h1>
+    <div class="divider"></div>
+    <p class="subtitle">The Media Reader &amp; Chonody — What Each Methodology Reveals,<br>What Each Conceals, and How Your Analysis Is Getting Stronger</p>
+    <div style="margin-top: 48px; opacity: 0.3; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;">Summer 2026 · Talitha Espiritu-Charara</div>
+  </div>
+
+  <!-- SLIDE 2: Media Reader -->
+  <div class="slide slide-media-reader" id="slide-2">
+    <div class="eyebrow">Methodology 01</div>
+    <h2>The Media Reader<br><span class="accent-blue">Quantitative Lens</span></h2>
+    <div class="two-col">
+      <div class="col">
+        <div class="pill pill-blue">What it asks</div>
+        <ul>
+          <li>Who is on screen? Age, gender, race, sexual orientation</li>
+          <li>How often do older adults appear as leads vs. supporting characters?</li>
+          <li>Is the film commercially successful? Emmy winner? Top-grossing?</li>
+          <li>How do these numbers compare to population baselines?</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="pill pill-blue">Key findings</div>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="stat-number accent-blue">34.1%</div>
+            <div class="stat-label">Population baseline for 50+ characters</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number accent-blue">2.1%</div>
+            <div class="stat-label">Peak representation for older LGBTQ+ characters</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number accent-blue">25%</div>
+            <div class="stat-label">Older women in top-grossing films by 2022</div>
+          </div>
+        </div>
+        <p style="margin-top: 16px; font-size: 13px; opacity:0.55;">The door is open — but how narrow is the doorway?</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: Chonody -->
+  <div class="slide slide-chonody" id="slide-3">
+    <div class="eyebrow">Methodology 02</div>
+    <h2>Chonody et al.<br><span class="accent-purple">Qualitative Lens</span></h2>
+    <div class="two-col">
+      <div class="col">
+        <div class="pill pill-purple">What it asks</div>
+        <ul>
+          <li>What stereotypes shape how aging is <em>portrayed</em>?</li>
+          <li>Does the character exhibit aging loss, rigidity, loneliness, successful aging?</li>
+          <li>What does the narrative say aging <em>means</em>?</li>
+          <li>Whose version of aging gets centered — and whose is left out?</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="pill pill-purple">Key stereotype categories</div>
+        <ul>
+          <li><span class="accent-purple">Nostalgia</span> — 53.3% of characters</li>
+          <li><span class="accent-purple">Rigidity toward aging/life</span> — 45.7%</li>
+          <li><span class="accent-purple">Loneliness</span> — 28.3%</li>
+          <li><span class="accent-purple">Successful aging</span> — 89.1% contribute to society</li>
+          <li><span class="accent-purple">Worried about looks</span> — nearly half of female characters</li>
+          <li><span class="accent-purple">Sexy oldie</span> — present but contingent on youth</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: The Tension -->
+  <div class="slide slide-compare" id="slide-4">
+    <div class="eyebrow">The Core Tension</div>
+    <h2>What Each Lens<br><span style="opacity:0.45;">Makes Visible — and Invisible</span></h2>
+    <div class="two-col" style="margin-top: 28px;">
+      <div class="card">
+        <div class="pill pill-blue">Quantitative lens sees</div>
+        <ul>
+          <li>Whether older adults appear at all</li>
+          <li>Commercial viability of older-led stories</li>
+          <li>Progress (or lack of it) over time</li>
+          <li>Intersectional gaps by race, gender, sexuality</li>
+        </ul>
+        <div class="divider" style="margin-top:20px;"></div>
+        <p style="font-size:13px; opacity:0.5;">But cannot see: <em>how</em> aging is framed, what stereotypes are reinforced, whose version of aging is centered</p>
+      </div>
+      <div class="card">
+        <div class="pill pill-purple">Qualitative lens sees</div>
+        <ul>
+          <li>The narrative architecture underneath the numbers</li>
+          <li>Which stereotypes are present, subverted, or reinforced</li>
+          <li>What the film says aging <em>means</em></li>
+          <li>The "silvered beauty myth" and successful aging trap</li>
+        </ul>
+        <div class="divider" style="margin-top:20px;"></div>
+        <p style="font-size:13px; opacity:0.5;">But cannot see: <em>financial impact</em>, whether the film can be greenlit, or whether progress is being made over time</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Lily Standout -->
+  <div class="slide slide-lily" id="slide-5">
+    <div class="eyebrow">Student Work · Lily Maguire</div>
+    <h2><em>Grace and Frankie</em><br><span class="accent-green">Standout Moments</span></h2>
+    <div class="two-col" style="margin-top: 24px;">
+      <div class="col">
+        <div class="tag">Strongest move</div>
+        <div class="highlight-box">
+          <blockquote>"On screen, the representation is working, however, off screen the representation is lacking."</blockquote>
+          <p style="font-size: 13px; margin-top: 10px;">Lily identified something the quantitative methodology <em>cannot capture</em>: that straight actors playing queer roles displace authentically queer older performers from a space where older LGBTQ+ representation has been 0.0% in 8 out of 10 documented years.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="tag">Best creative strategy</div>
+        <div class="highlight-box">
+          <blockquote>"A spin-off series about two older BIPOC women who move through life perhaps in similar fashion to Grace and Frankie, but with different experiences."</blockquote>
+          <p style="font-size: 13px; margin-top: 10px;">Specific, intersectional, narratively grounded. This is what an Exceeds-level industry recommendation looks like — it proposes a structure and explains what it would make visible that the original cannot.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Cam Standout -->
+  <div class="slide slide-cam" id="slide-6">
+    <div class="eyebrow">Student Work · Cam Talmage</div>
+    <h2><em>The Book Club</em><br><span class="accent-amber">Standout Moments</span></h2>
+    <div class="two-col" style="margin-top: 24px;">
+      <div class="col">
+        <div class="tag">Sharpest observation</div>
+        <div class="highlight-box">
+          <blockquote>"This approach does not really look at how aging is shown, just who is on screen, and whether the film is successful."</blockquote>
+          <p style="font-size: 13px; margin-top: 10px;">A precise critique of quantitative methodology's limits — and exactly the kind of meta-awareness that separates a good analysis from a really strong one.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="tag">Best synthesis</div>
+        <div class="highlight-box">
+          <blockquote>"A film can look successful in numbers but still be limited in how it represents aging."</blockquote>
+          <p style="font-size: 13px; margin-top: 10px;">This is the thesis-level claim the tension section is built for. It synthesizes both methodologies in a single confident sentence — the kind of statement that should open the analysis, not conclude it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Pushing Lily Further -->
+  <div class="slide slide-push-lily" id="slide-7">
+    <div class="eyebrow">Pushing It Further · Lily</div>
+    <h2>What <em>Grace and Frankie</em><br><span class="accent-blue">Could Do More</span></h2>
+    <div class="two-col" style="margin-top: 24px;">
+      <div class="col">
+        <div class="pill pill-blue">Scene-level Chonody</div>
+        <p>When Grace is publicly humiliated at a work meeting after her true age is revealed, that scene <em>enacts</em> the "sexy oldie" warning directly — her credibility was contingent on perceived youth all along. Naming the scene, describing what happens, and interpreting it through Chonody moves the qualitative lens from Mastery to Exceeds.</p>
+      </div>
+      <div class="col">
+        <div class="pill pill-blue">Explicit methodology tension</div>
+        <p>The Media Reader counts Sol and Robert as a LGBTQ+ win. Chonody would ask: what story are they actually being given? Does it challenge or reinforce stereotypes about older queer men? Putting the two lenses in <em>direct conversation</em> — rather than treating them separately — is the core analytical move the tension section is asking for.</p>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top: 24px; max-width: 100%;">
+      <p style="font-size: 13px;"><span class="accent-blue">Model response insight:</span> "The quantitative lens shows us that the door is open; the qualitative lens shows us how narrow the doorway actually is." — The successful aging model in <em>Grace and Frankie</em> is only available to those who are white, wealthy, and able-bodied. That is the structural argument underneath Lily's on-screen/off-screen distinction.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Pushing Cam Further -->
+  <div class="slide slide-push-cam" id="slide-8">
+    <div class="eyebrow">Pushing It Further · Cam</div>
+    <h2>What <em>The Book Club</em><br><span class="accent-amber">Could Do More</span></h2>
+    <div class="two-col" style="margin-top: 24px;">
+      <div class="col">
+        <div class="pill pill-amber">Ground each Chonody category in a scene</div>
+        <p>The discomfort with dating apps in <em>The Book Club</em> is played for comedy — the audience is positioned to laugh at older women being confronted with desire. That framing reinforces the idea that sexuality in older women is surprising rather than ongoing. <em>That</em> is the Chonody argument, but it only works if you describe the scene first and then interpret it.</p>
+      </div>
+      <div class="col">
+        <div class="pill pill-amber">Intersectional creative strategy</div>
+        <p>All four leads in <em>The Book Club</em> are white and heterosexual — a structural gap the Media Reader identifies as one of the most persistent problems in older women's representation. A strong proposal would name a specific character, describe a storyline organized around professional authority rather than romance, and tie it to the intersectional gaps the data reveals.</p>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top: 24px; max-width: 100%;">
+      <p style="font-size: 13px;"><span class="accent-amber">Model response insight:</span> "The quantitative win becomes a qualitative ceiling" — if studios internalize <em>The Book Club</em> template as the formula for older women's stories, they replicate the same narrow version of aging indefinitely. The business case requires <em>both</em> lenses together.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: Close -->
+  <div class="slide slide-close" id="slide-9">
+    <div class="eyebrow">Moving Forward</div>
+    <h2>Your Critical Analysis Paper<br><span style="opacity:0.4;">&amp; Final Project</span></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="margin-top: 8px;">
+      <div class="col">
+        <div class="pill pill-rose">Carry these instincts forward</div>
+        <ul>
+          <li>Ask what each methodology makes <em>invisible</em>, not just visible</li>
+          <li>Ground every Chonody category in a specific scene or narrative moment</li>
+          <li>Make your creative strategy intersectional and evidence-based</li>
+          <li>Let your strongest sentence open the argument, not close it</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="pill pill-rose">You are both ready</div>
+        <p>Lily — your writing instincts and your willingness to look beyond the numbers are already producing original, confident analysis. Cam — your sharpest sentences reveal real analytical depth. The Critical Analysis Paper is where these instincts get to work at full scale.</p>
+        <p style="margin-top: 16px;">I am genuinely excited to see what you both bring to the work ahead. 🌿</p>
+      </div>
+    </div>
+    <div style="margin-top: 40px; opacity: 0.2; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;">Module 6 · The Business of Representation · Summer 2026</div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">← Prev</button>
+  <span class="nav-counter" id="nav-counter">1 / 9</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+  let current = 1;
+  const total = 9;
+
+  function changeSlide(dir) {
+    const prev = document.getElementById('slide-' + current);
+    prev.classList.remove('active');
+    current = Math.max(1, Math.min(total, current + dir));
+    const next = document.getElementById('slide-' + current);
+    next.classList.add('active');
+    document.getElementById('nav-counter').textContent = current + ' / ' + total;
+    document.getElementById('slide-indicator').textContent = String(current).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    document.getElementById('progress').style.width = ((current / total) * 100) + '%';
+    document.getElementById('prev-btn').style.opacity = current === 1 ? '0.3' : '1';
+    document.getElementById('next-btn').style.opacity = current === total ? '0.3' : '1';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Init
+  document.getElementById('progress').style.width = ((1 / total) * 100) + '%';
+  document.getElementById('prev-btn').style.opacity = '0.3';
+</script>
+</body>
+</html>
