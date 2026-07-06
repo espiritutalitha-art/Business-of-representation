@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 8.2 — Modeling Your Work-in-Progress Draft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #f0efec;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.deck {
+  width: 100%;
+  max-width: 1100px;
+  height: 640px;
+  background: #151515;
+  border-radius: 16px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #2a2a2a;
+}
+.progress-bar { height: 5px; background: #262626; width: 100%; }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e0546b, #4a90c2);
+  width: 14.28%;
+  transition: width 0.3s ease;
+}
+.slide {
+  flex: 1;
+  display: none;
+  padding: 52px 68px;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.slide.active { display: flex; }
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e0546b;
+  margin-bottom: 14px;
+}
+h1 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 34px;
+  font-weight: 400;
+  margin-bottom: 18px;
+  color: #f5f4f1;
+  line-height: 1.2;
+}
+h2 {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 14px;
+  color: #6bb0e0;
+}
+p, li { font-size: 16px; line-height: 1.65; color: #c9c6c1; }
+.quote-box {
+  background: #1f1f1f;
+  border-left: 4px solid #e0546b;
+  padding: 18px 22px;
+  border-radius: 8px;
+  font-style: italic;
+  margin: 18px 0;
+  font-size: 15.5px;
+  color: #d8d5d0;
+}
+.callout {
+  background: rgba(107,176,224,0.08);
+  border: 1px solid rgba(107,176,224,0.25);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 18px;
+  font-size: 15px;
+  color: #6bb0e0;
+  font-weight: 500;
+}
+ul { padding-left: 22px; margin-top: 8px; }
+li { margin-bottom: 8px; }
+.section-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-top: 24px; }
+.section-card {
+  background: #1c1c1c;
+  border: 1px solid #2e2e2e;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #8a8781;
+}
+.timestamp {
+  position: absolute;
+  top: 24px; right: 32px;
+  font-size: 11.5px;
+  color: #5a5854;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 68px;
+  border-top: 1px solid #262626;
+}
+.nav-btn {
+  background: #f0efec;
+  color: #0a0a0a;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+.nav-btn:hover:not(:disabled) { opacity: 0.85; }
+.slide-counter { font-size: 12.5px; color: #6a6763; font-weight: 600; }
+.powered-by { font-size: 10.5px; color: #4a4844; }
+
+.hero-slide { position: relative; padding: 0; justify-content: flex-end; }
+.hero-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.5;
+}
+.hero-overlay {
+  position: relative; z-index: 2;
+  background: linear-gradient(to top, rgba(10,10,10,0.95) 20%, rgba(10,10,10,0.5) 70%, transparent 100%);
+  padding: 52px 68px;
+  width: 100%;
+}
+.rep-img-wrap { margin-top: 18px; border-radius: 10px; overflow: hidden; border: 1px solid #2e2e2e; }
+.rep-img-wrap img { width: 100%; display: block; max-height: 220px; object-fit: cover; }
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- SLIDE 1 -->
+  <div class="slide active hero-slide">
+    <img class="hero-img" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/b79cb25ebcb10f34f7293767ac8e7ba69aed4436.jpg" alt="Grace and Frankie">
+    <div class="hero-overlay">
+      <div class="eyebrow">Module 8.2</div>
+      <h1>Modeling Your Work-in-Progress Draft</h1>
+      <p style="margin-top:12px; font-size:18px; color:#d8d5d0;">Using <em>Grace and Frankie</em> to show the shape of a strong 8.2 draft — before you build your own.</p>
+      <div class="callout">Goal: not a finished analysis, but a model of structure, evidence, and tension you can apply to your own case study.</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide">
+    <div class="timestamp">0:30–1:15</div>
+    <div class="eyebrow">Section 1 of 4</div>
+    <h2>Introduction &amp; Objectives</h2>
+    <p>Name your case study. State your analytical angle. Preview the central tension. That's the whole job.</p>
+    <div class="quote-box">"This case study examines <em>Grace and Frankie</em>, Netflix's longest-running original series, as a lens into how streaming platforms represent older women — and what that representation reveals about the business calculations behind so-called 'legacy audiences.' Does its success prove aging stories are commercially viable, or reveal the limits of how far the industry will go?"</div>
+    <div class="callout">Don't overbuild this section — three moves, done fast.</div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide">
+    <div class="timestamp">1:15–2:45</div>
+    <div class="eyebrow">Section 2 of 4</div>
+    <h2>Business Analysis</h2>
+    <p>Bring real data: subscribers, renewals, marketing strategy, comparable shows. Then ask what the numbers actually prove.</p>
+    <div class="quote-box">"<em>Grace and Frankie</em> ran seven seasons, becoming one of Netflix's most consistent performers without younger-skewing viral buzz. Its longevity suggests real value in reaching an older audience — but was its greenlight a genuine bet, or a low-risk show Netflix could quietly keep running?"</div>
+    <div class="callout">A strong business analysis interrogates the numbers, it doesn't just report them.</div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide">
+    <div class="timestamp">2:45–4:15</div>
+    <div class="eyebrow">Section 3 of 4</div>
+    <h2>Representation Analysis</h2>
+    <p>This is usually your richest section — and where tension with the business analysis should surface.</p>
+    <div class="rep-img-wrap">
+      <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/213778463ed4eb760e74bd91eab523a3169b9e01.jpg" alt="Grace and Frankie farewell inside look">
+    </div>
+    <div class="quote-box">"Grace and Frankie are funny, sexually active, entrepreneurial, and central to the plot — a challenge to TV's history of sidelining older women. But who gets this kind of representation? Both leads are white, financially secure, and conventionally attractive. The show expands representation of aging, but not of who gets to age visibly on screen."</div>
+    <div class="callout">Don't just describe representation — interrogate its edges: who's included, and who still isn't.</div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide">
+    <div class="timestamp">4:15–5:15</div>
+    <div class="eyebrow">Section 4 of 4</div>
+    <h2>Findings, Recommendations &amp; Conclusion</h2>
+    <p>Bring it together. Look forward. Make a claim about what the industry should do next.</p>
+    <div class="quote-box">"<em>Grace and Frankie</em> shows stories centering older women can be commercially sustainable, not just critically praised — but its narrow representation of <em>which</em> older women get this treatment reveals real limits. Recommendation: platforms betting on 'legacy audiences' should diversify who represents that audience, not just how many episodes they greenlight."</div>
+    <div class="callout">A summary restates. A conclusion recommends.</div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide">
+    <div class="timestamp">5:15–5:30</div>
+    <div class="eyebrow">Quick Reminder</div>
+    <h2>Multimedia Integration</h2>
+    <p>Your draft needs at least one visual, audio, or interactive element — a chart, a clip, a pull-quote slide.</p>
+    <div class="section-grid">
+      <div class="section-card">Intro &amp; Objectives</div>
+      <div class="section-card">Business Analysis</div>
+      <div class="section-card">Representation Analysis</div>
+      <div class="section-card">Findings &amp; Conclusion</div>
+    </div>
+    <div class="callout" style="margin-top:24px;">It doesn't need to be polished yet — focus on clarity of argument first. You'll refine production value before finals.</div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide">
+    <div class="timestamp">5:30–6:00</div>
+    <div class="eyebrow">Look Ahead</div>
+    <h2>Preview: What Your Peers Will Evaluate</h2>
+    <p>Knowing the Peer Feedback Form now helps you draft smarter today. Reviewers will assess:</p>
+    <ul>
+      <li><strong>The Core Argument</strong> — can they restate your thesis in their own words?</li>
+      <li><strong>Evidence &amp; Support</strong> — where is your evidence strongest, and where is it thin?</li>
+      <li><strong>The Tension</strong> — how well did you navigate business goals vs. representation considerations?</li>
+    </ul>
+    <div class="callout">Ask yourself as you draft: could a classmate summarize my core claim after watching this once? That's your north star for Friday.</div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+      <span class="slide-counter" id="counter">1 / 7</span>
+      <span class="powered-by">Powered by perplexity</span>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+function showSlide(i) {
+  slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+  document.getElementById('counter').textContent = (i+1) + ' / ' + total;
+  document.getElementById('progressFill').style.width = ((i+1)/total*100) + '%';
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === total-1;
+}
+function changeSlide(dir) {
+  current = Math.min(total-1, Math.max(0, current+dir));
+  showSlide(current);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+});
+showSlide(0);
+</script>
+</body>
+</html>
