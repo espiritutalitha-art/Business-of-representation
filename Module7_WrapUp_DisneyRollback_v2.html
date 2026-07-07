@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="slides-format" content="viewport">
+<title>Module 7 Wrap-Up: The Disney Rollback Case</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --color-bg:#0f0e17; --color-bg-deep:#080710; --color-surface:#1a1828;
+  --color-text:#f2f0ff; --color-text-secondary:#c4bfe8; --color-text-muted:#7c77a0;
+  --color-accent-1:#b388ff; --color-accent-2:#ff8a80; --color-accent-3:#ffd54f;
+  --font-display:'Playfair Display', serif; --font-body:'DM Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{background:var(--color-bg);margin:0;}
+body{font-family:var(--font-body);color:var(--color-text);overflow:hidden;height:100vh;width:100vw;}
+.deck{width:100vw;height:100vh;position:relative;}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--color-bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0.95);transition:opacity .7s ease, transform .7s ease;pointer-events:none;overflow:hidden;}
+.slide.active{opacity:1;transform:scale(1);pointer-events:all;}
+.slide .content{position:relative;z-index:2;width:100%;max-width:1100px;padding:clamp(1.5rem,4vw,4rem);
+  max-height:88vh;overflow-y:auto;}
+.slide .content::-webkit-scrollbar{width:6px;}
+.slide .content::-webkit-scrollbar-thumb{background:rgba(179,136,255,.3);border-radius:4px;}
+.nav-controls{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:100;
+  background:rgba(15,14,23,.8);backdrop-filter:blur(12px);padding:10px 24px;border-radius:40px;border:1px solid rgba(179,136,255,.2);}
+.nav-btn{width:38px;height:38px;border:none;background:rgba(179,136,255,.1);color:#b388ff;border-radius:50%;
+  font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .3s;}
+.nav-btn:hover{background:rgba(179,136,255,.25);}
+.slide-dots{display:flex;gap:7px;}
+.slide-dots .dot{width:9px;height:9px;border-radius:50%;background:rgba(179,136,255,.25);cursor:pointer;transition:background .3s, transform .3s;}
+.slide-dots .dot.active{background:#b388ff;transform:scale(1.3);}
+.slide-counter{font-size:.78rem;color:#7c77a0;min-width:38px;text-align:center;}
+.reveal{opacity:0;transform:translateY(20px);}
+.text-glow{text-shadow:0 0 20px rgba(179,136,255,.5),0 0 40px rgba(179,136,255,.2);}
+.stat-glow{text-shadow:0 0 30px rgba(255,138,128,.7),0 0 60px rgba(255,138,128,.3);}
+@keyframes glow-pulse{0%,100%{text-shadow:0 0 20px rgba(179,136,255,.5),0 0 40px rgba(179,136,255,.2);}50%{text-shadow:0 0 35px rgba(179,136,255,.9),0 0 70px rgba(179,136,255,.4);}}
+.glow-pulse{animation:glow-pulse 3s ease-in-out infinite;}
+@keyframes float-slow{0%{transform:translate(0,0) scale(1);}25%{transform:translate(60px,-50px) scale(1.12);}50%{transform:translate(-40px,40px) scale(.9);}75%{transform:translate(50px,20px) scale(1.08);}100%{transform:translate(0,0) scale(1);}}
+@keyframes float-drift{0%{transform:translate(0,0) scale(1) rotate(0deg);}33%{transform:translate(-50px,-60px) scale(1.15) rotate(3deg);}66%{transform:translate(40px,30px) scale(.88) rotate(-2deg);}100%{transform:translate(0,0) scale(1) rotate(0deg);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+.gradient-mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);animation:float-slow 10s ease-in-out infinite;}
+.blob:nth-child(2){animation:float-drift 14s ease-in-out infinite;}
+.blob:nth-child(3){animation:float-slow 18s ease-in-out infinite reverse;}
+.trope-badge{display:inline-block;background:rgba(179,136,255,.12);border:1px solid rgba(179,136,255,.25);border-radius:20px;padding:4px 14px;font-size:.78rem;color:#b388ff;letter-spacing:.05em;}
+.lens-card{border-radius:14px;padding:22px 26px;border:1px solid rgba(179,136,255,.2);background:rgba(255,255,255,.04);margin-bottom:16px;}
+.quote-block{background:rgba(255,255,255,.03);border-left:3px solid #b388ff;border-radius:0 10px 10px 0;padding:16px 22px;margin-top:14px;}
+.source-tag{display:inline-block;font-size:.68rem;color:#7c77a0;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(124,119,160,.3);border-radius:12px;padding:2px 10px;margin-right:6px;margin-top:8px;}
+.filing-year{display:inline-flex;align-items:center;gap:8px;background:rgba(179,136,255,.08);border:1px solid rgba(179,136,255,.2);border-radius:10px;padding:10px 16px;font-size:.85rem;color:#c4bfe8;}
+.arrow{color:#7c77a0;font-size:1.1rem;}
+p{line-height:1.65;}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide active" data-slide="1">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:520px;height:520px;top:-130px;right:-100px;background:#b388ff;opacity:.13;"></div>
+    <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#ff8a80;opacity:.10;"></div>
+    <div class="blob" style="width:220px;height:220px;top:45%;left:18%;background:#ffd54f;opacity:.07;"></div>
+  </div>
+  <div class="content" style="text-align:center;">
+    <div style="font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;color:#7c77a0;margin-bottom:18px;" class="reveal">The Business of Representation · Module 7</div>
+    <h1 style="font-family:var(--font-display);font-size:clamp(2.4rem,5.2vw,3.8rem);font-weight:900;
+      background:linear-gradient(135deg,#b388ff 0%,#ff8a80 50%,#ffd54f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      line-height:1.15;margin-bottom:20px;" class="reveal">The Disney Rollback Case</h1>
+    <p style="font-size:clamp(1rem,1.6vw,1.2rem);color:#7c77a0;letter-spacing:.1em;text-transform:uppercase;font-weight:300;" class="reveal">Modeling Strong Responses Across Three Lenses</p>
+    <div style="margin-top:28px;" class="reveal">
+      <span class="trope-badge">Representation &amp; Audience — Cam</span>
+      <span class="trope-badge">Legal vs. Ethical — Abbie</span>
+      <span class="trope-badge">Stakeholder &amp; Business — Lily</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: CONTEXT -->
+<div class="slide" data-slide="2">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-80px;right:-80px;background:#b388ff;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:#b388ff;margin-bottom:14px;" class="reveal">The Case</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:700;line-height:1.2;margin-bottom:28px;color:#f2f0ff;" class="reveal">Disney's DEI Rollback, Read Through Three Lenses</h2>
+    <div class="lens-card reveal">
+      <p style="margin:0;color:#c4bfe8;font-size:.95rem;">Disney has scaled back its diversity and inclusion commitments across three consecutive annual reports — a shift that shows up not in a single announcement, but in a gradual disappearance of specific, measurable language from its SEC filings. Each assigned lens asks a different question about the same underlying pattern: what happened, why it happened, and who is affected.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;" class="reveal">
+      <div class="filing-year" style="justify-content:center;">2023 10-K <span class="arrow">→</span> measurable target</div>
+      <div class="filing-year" style="justify-content:center;">2024 10-K <span class="arrow">→</span> diluted language</div>
+      <div class="filing-year" style="justify-content:center;">2025 10-K <span class="arrow">→</span> DEI language absent</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: CAM's LENS - INTRO + 2023 -->
+<div class="slide" data-slide="3">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-70px;left:-60px;background:#ffd54f;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <div style="font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:#ffd54f;margin-bottom:12px;" class="reveal">Model Response · Cam's Lens</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:10px;color:#f2f0ff;" class="reveal">Representation &amp; Audience</h2>
+    <p style="font-size:.85rem;color:#7c77a0;margin-bottom:22px;font-style:italic;" class="reveal">How does this rollback affect the audiences, employees, creators, and communities Disney says it serves?</p>
+    <div class="lens-card reveal">
+      <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#7c77a0;margin-bottom:8px;">2023 10-K — The Measurable Commitment</div>
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;">Disney described <em>Reimagine Tomorrow</em> as its "digital destination for amplifying underrepresented voices and untold stories," explicitly tying it to a goal that <strong style="color:#ffd54f;">50% of recurring characters</strong> originate from diverse backgrounds — a specific, numerical, trackable target.</p>
+      <div class="source-tag">SEC 10-K, 2023</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: CAM's LENS - 2024 & 2025 -->
+<div class="slide" data-slide="4">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:340px;height:340px;bottom:-60px;right:-60px;background:#ff8a80;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;margin-bottom:22px;color:#f2f0ff;" class="reveal">The Language Erodes, Filing by Filing</h2>
+    <div class="lens-card reveal">
+      <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#7c77a0;margin-bottom:8px;">2024 10-K — The Diluted Goal</div>
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;">The numeric target disappears. Disney narrows its language to "build and sustain teams that reflect the life experiences of our audiences" — an internal culture aspiration, not an on-screen commitment. A company can satisfy this standard <strong style="color:#ff8a80;">without changing what appears in its films and shows</strong>.</p>
+      <div class="source-tag">Fox Business, 2024</div>
+    </div>
+    <div class="lens-card reveal">
+      <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#7c77a0;margin-bottom:8px;">2025 10-K — The Language Disappears</div>
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;">"Diversity," "inclusion," and "DEI" appear nowhere in the filing — a first in at least five years. The remaining trace is folded into a generic "Human Capital" section. <strong style="color:#b388ff;">Absence from a legally accountable document is itself a statement of priority.</strong></p>
+      <div class="source-tag">NTD, Nov. 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: CAM's LENS - WHO IS AFFECTED -->
+<div class="slide" data-slide="5">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:400px;height:400px;top:-90px;right:-80px;background:#b388ff;opacity:.1;"></div>
+  </div>
+  <div class="content">
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;margin-bottom:22px;color:#f2f0ff;" class="reveal">What Changes When Representation Is Optional</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+      <div class="lens-card" style="margin-bottom:0;">
+        <div style="font-size:.78rem;color:#ffd54f;margin-bottom:8px;font-weight:600;">For Creators</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">Reimagine Tomorrow was a pipeline program, not just messaging. Its removal from the filing eliminates the SEC-reportable structure that made it something Disney could be held accountable to over time.</p>
+      </div>
+      <div class="lens-card" style="margin-bottom:0;">
+        <div style="font-size:.78rem;color:#ff8a80;margin-bottom:8px;font-weight:600;">For Employees</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">"Belonging" language (Global Belonging Week, the "Belong" site section) is softer and less politically exposed — but it isn't tied to reportable diversity metrics, making commitments harder to track.</p>
+      </div>
+    </div>
+    <div class="quote-block reveal">
+      <p style="margin:0;font-size:.9rem;color:#c4bfe8;font-style:italic;">Representation becomes expendable not through one dramatic announcement, but through the gradual removal of measurable language from documents a company is legally obligated to file.</p>
+      <div class="source-tag">The Post Millennial, 2025</div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: ABBIE's LENS - PROMPT + FRAMING -->
+<div class="slide" data-slide="6">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;top:-80px;left:-60px;background:#ff8a80;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:#ff8a80;margin-bottom:12px;" class="reveal">Model Response · Abbie's Lens</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:10px;color:#f2f0ff;" class="reveal">Legal vs. Ethical</h2>
+    <p style="font-size:.85rem;color:#7c77a0;margin-bottom:22px;font-style:italic;" class="reveal">Is Disney's shift to veteran-focused programs a compliance strategy, or corporate self-censorship?</p>
+    <div class="lens-card reveal">
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;">There is no statute mandating veteran-focused programming — this is <strong style="color:#ff8a80;">discretionary reallocation</strong>, not legal compliance. It reads as anticipatory self-censorship: a preemptive move designed to signal safety to a specific political constituency before any formal legal pressure forced Disney's hand.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: ABBIE's LENS - SHORT/LONG TERM -->
+<div class="slide" data-slide="7">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:340px;height:340px;bottom:-60px;right:-50px;background:#ffd54f;opacity:.08;"></div>
+  </div>
+  <div class="content">
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;margin-bottom:14px;color:#f2f0ff;" class="reveal">Two Programs, One Optics Strategy</h2>
+    <div class="lens-card reveal" style="background:rgba(179,136,255,.06);border-color:rgba(179,136,255,.2);">
+      <p style="margin:0;color:#c4bfe8;font-size:.85rem;"><strong style="color:#b388ff;">Important distinction:</strong> "Heroes Work Here" is a workforce hiring initiative — it's about who Disney hires, not what stories Disney tells. The tension isn't that content was replaced by veteran programming; it's that a visible, uncontroversial hiring commitment runs alongside a quieter retreat from content-side DEI commitments.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+      <div class="lens-card" style="margin-bottom:0;background:rgba(255,213,79,.06);border-color:rgba(255,213,79,.2);">
+        <div style="font-size:.78rem;color:#ffd54f;margin-bottom:8px;font-weight:600;">What Disney Gains</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">Public goodwill from a broadly popular, low-controversy hiring commitment — goodwill that provides reputational cover while content-side DEI language quietly fades from the filings with less scrutiny.</p>
+      </div>
+      <div class="lens-card" style="margin-bottom:0;background:rgba(255,138,128,.06);border-color:rgba(255,138,128,.2);">
+        <div style="font-size:.78rem;color:#ff8a80;margin-bottom:8px;font-weight:600;">What Disney Risks</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">Reputational whiplash: audiences and creators who saw Disney as a genuine ally may read the content-side pullback as proof its commitments were always contingent on political weather.</p>
+      </div>
+    </div>
+    <div class="quote-block reveal">
+      <p style="margin:0;font-size:.9rem;color:#c4bfe8;font-style:italic;">Self-censorship that isn't legally compelled can still become normalized as if it were required — quietly raising the bar for what counts as "safe" content going forward.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: LILY's LENS - PROMPT + PARADOX -->
+<div class="slide" data-slide="8">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:380px;height:380px;top:-90px;right:-70px;background:#b388ff;opacity:.1;"></div>
+  </div>
+  <div class="content">
+    <div style="font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:#b388ff;margin-bottom:12px;" class="reveal">Model Response · Lily's Lens</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin-bottom:10px;color:#f2f0ff;" class="reveal">Stakeholder &amp; Business</h2>
+    <p style="font-size:.85rem;color:#7c77a0;margin-bottom:22px;font-style:italic;" class="reveal">If diverse content is profitable, how do you explain activist investors pressuring Disney to scale back?</p>
+    <div class="lens-card reveal">
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;">The contradiction dissolves once you separate <strong style="color:#b388ff;">aggregate profitability</strong> from <strong style="color:#b388ff;">distributed risk perception</strong>. Diverse content can be profitable on average while activist investors still treat it as a volatility risk — inviting boycotts and culture-war headlines even if it pays off over a longer horizon.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: LILY's LENS - STAKEHOLDERS -->
+<div class="slide" data-slide="9">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:360px;height:360px;bottom:-70px;left:-50px;background:#ff8a80;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;margin-bottom:22px;color:#f2f0ff;" class="reveal">Whose Interests Are Prioritized?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="reveal">
+      <div class="lens-card" style="margin-bottom:0;">
+        <div style="font-size:.78rem;color:#b388ff;margin-bottom:8px;font-weight:600;">Prioritized</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">Activist investors seeking near-term de-risking and predictable quarterly performance; vocal advocacy groups seeking symbolic assurance.</p>
+      </div>
+      <div class="lens-card" style="margin-bottom:0;">
+        <div style="font-size:.78rem;color:#ff8a80;margin-bottom:8px;font-weight:600;">Subordinated</div>
+        <p style="margin:0;font-size:.85rem;color:#c4bfe8;">Audiences (including veteran communities) who could have benefited from sustained programming; employees and creators whose creative investment now reads as expendable.</p>
+      </div>
+    </div>
+    <div class="quote-block reveal">
+      <p style="margin:0;font-size:.9rem;color:#c4bfe8;font-style:italic;">Defensible only in the narrowest fiduciary sense — it protects near-term shareholder value, but is hard to defend as sound long-term brand stewardship, since it treats representation as a toggle rather than an integrated strategy.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: SYNTHESIS -->
+<div class="slide" data-slide="10">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:420px;height:420px;top:-100px;right:-80px;background:#ffd54f;opacity:.08;"></div>
+    <div class="blob" style="width:280px;height:280px;bottom:-70px;left:-50px;background:#b388ff;opacity:.09;"></div>
+  </div>
+  <div class="content">
+    <div style="font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:#ffd54f;margin-bottom:12px;" class="reveal">The Productive Overlap</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;margin-bottom:22px;color:#f2f0ff;" class="reveal">Three Lenses, One Pattern</h2>
+    <div class="lens-card reveal">
+      <p style="margin:0;color:#c4bfe8;font-size:.9rem;line-height:1.7;">Cam's filing analysis shows <em>what</em> changed — measurable commitments replaced by vaguer language. Abbie's lens explains <em>why</em> it changed — not legal necessity, but anticipatory self-censorship. Lily's lens explains <em>for whom</em> it changed — short-term investor risk management, at the expense of audiences and creators. Together, these lenses turn a single corporate filing into a case study in how accountability quietly disappears.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: CLOSING -->
+<div class="slide" data-slide="11">
+  <div class="gradient-mesh">
+    <div class="blob" style="width:500px;height:500px;top:-120px;right:-100px;background:#b388ff;opacity:.14;"></div>
+    <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-60px;background:#ff8a80;opacity:.11;"></div>
+  </div>
+  <div class="content" style="text-align:center;">
+    <div style="font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:#7c77a0;margin-bottom:20px;" class="reveal">Moving Forward</div>
+    <h2 style="font-family:var(--font-display);font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:700;line-height:1.25;margin-bottom:26px;
+      background:linear-gradient(135deg,#b388ff,#ff8a80,#ffd54f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" class="reveal">Read the filings, not just the headlines.</h2>
+    <p style="font-size:clamp(1rem,1.6vw,1.15rem);color:#c4bfe8;line-height:1.7;max-width:640px;margin:0 auto 26px;font-style:italic;" class="reveal">The Disney case shows that corporate accountability often erodes through language, not announcements.</p>
+    <div style="margin-top:20px;font-size:1.05rem;color:#7c77a0;" class="reveal">See you in the next module. Let's keep pace together.</div>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="changeSlide(-1)">‹</button>
+  <div class="slide-dots" id="dots"></div>
+  <button class="nav-btn" onclick="changeSlide(1)">›</button>
+  <span class="slide-counter" id="counter">1 / 11</span>
+</div>
+
+<script>
+let current = 1;
+const total = document.querySelectorAll('.slide').length;
+const dotsContainer = document.getElementById('dots');
+const counter = document.getElementById('counter');
+for (let i=1;i<=total;i++){
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i===1?' active':'');
+  dot.onclick = () => goToSlide(i);
+  dotsContainer.appendChild(dot);
+}
+function goToSlide(n){
+  const prev = document.querySelector('.slide.active');
+  const next = document.querySelector('.slide[data-slide="'+n+'"]');
+  if(prev) prev.classList.remove('active');
+  if(next) next.classList.add('active');
+  animateSlide(next);
+  current = n;
+  updateNav();
+}
+function changeSlide(dir){
+  let next = current + dir;
+  if(next < 1) next = total;
+  if(next > total) next = 1;
+  goToSlide(next);
+}
+function updateNav(){
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===current-1));
+  counter.textContent = current + ' / ' + total;
+}
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowRight') changeSlide(1);
+  if(e.key==='ArrowLeft') changeSlide(-1);
+});
+let touchStartX=0;
+document.addEventListener('touchstart', e=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend', e=>{
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if(Math.abs(diff)>50) changeSlide(diff>0?1:-1);
+});
+function animateSlide(slide){
+  if(!slide) return;
+  slide.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transition='none';
+    el.style.opacity=0;
+    el.style.transform='translateY(20px)';
+    el.offsetHeight;
+    const delay = i*0.09;
+    el.style.transition = 'opacity 0.4s ease '+delay+'s, transform 0.4s ease '+delay+'s';
+    el.style.opacity=1;
+    el.style.transform='translateY(0px)';
+  });
+}
+try{ animateSlide(document.querySelector('.slide.active')); }catch(e){ console.warn(e); }
+</script>
+</body>
+</html>
