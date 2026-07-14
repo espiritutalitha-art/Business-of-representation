@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 9 - Video 2: Deep Dive</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #0f0f1a;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .deck {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 100px;
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .slide.active { display: flex; }
+  .slide h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #7dd3fc, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    max-width: 900px;
+  }
+  .slide p {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    max-width: 850px;
+    color: #e5e7eb;
+  }
+  .slide-number {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  .nav-wrap {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 10;
+  }
+  .nav-btn {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.1s ease;
+    user-select: none;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); }
+  .nav-btn:active { transform: scale(0.92); }
+  .bubbles {
+    display: flex;
+    gap: 8px;
+  }
+  .bubble {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .bubble.active {
+    background: #a78bfa;
+    transform: scale(1.3);
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+  <div class="slide active"><div class="slide-number">1 / 14</div><h1>Video 2: Deep Dive</h1><p>The WEF report, the DGA contract, and building your discussion post.</p></div>
+<div class="slide"><div class="slide-number">2 / 14</div><h1>The "Raison D'être" Line</h1><p>One expert argues losing the human element would threaten the industry's entire reason for existing. Not a nice-to-have — foundational.</p></div>
+<div class="slide"><div class="slide-number">3 / 14</div><h1>Voice Actors: Uniquely Exposed</h1><p>SAG-AFTRA's Duncan Crabtree-Ireland: voice-only generative AI is technically easier to pull off convincingly than full visual replication.</p></div>
+<div class="slide"><div class="slide-number">4 / 14</div><h1>"A Supercharger for Creativity"</h1><p>YouTube CEO Neal Mohan sees AI as purely additive. Same technology as Crabtree-Ireland describes — completely different conclusion.</p></div>
+<div class="slide"><div class="slide-number">5 / 14</div><h1>The Access Gap</h1><p>WIPO's Daren Tang: 2.6 billion people have no internet access. Of those who do, 90% lack the computing power to use AI tools at all.</p></div>
+<div class="slide"><div class="slide-number">6 / 14</div><h1>The Brody Precedent</h1><p>AI voice tech refined Adrien Brody's Hungarian dialogue in The Brutalist. Tool, or disqualifying? Nobody fully agreed.</p></div>
+<div class="slide"><div class="slide-number">7 / 14</div><h1>DGA Contract: Two Mechanisms</h1><p>Directors must review AI-generated footage before use. Studios must notify the guild before licensing a director's past work to train AI.</p></div>
+<div class="slide"><div class="slide-number">8 / 14</div><h1>Two Unions, Two Strategies</h1><p>SAG-AFTRA: "significant additional value" required. DGA: oversight + consent. Same fear, different contract language.</p></div>
+<div class="slide"><div class="slide-number">9 / 14</div><h1>Your Roles, Their Gap</h1><p>Abbie: DP. Lily: Director. Cam: Screenwriter. Neither contract was written for a DP or screenwriter — that's the gap you're working inside.</p></div>
+<div class="slide"><div class="slide-number">10 / 14</div><h1>Two Concrete Clauses</h1><p>Protect your role from FOBO — fear of becoming obsolete — while letting AI function as a tool, not a replacement. Vague isn't a clause.</p></div>
+<div class="slide"><div class="slide-number">11 / 14</div><h1>Cross-Union Solidarity</h1><p>Does their proposed protection leave your role exposed? This tension is real in the industry right now — you're rehearsing it.</p></div>
+<div class="slide"><div class="slide-number">12 / 14</div><h1>Practice for What's Ahead</h1><p>Ground a claim in a real source. Weigh who benefits and who's at risk. Propose something concrete. Skills you'll push further next module on inclusion riders, and in your Final Project.</p></div>
+<div class="slide"><div class="slide-number">13 / 14</div><h1>Go Deep, Then Discuss</h1><p>Read both pieces again with these threads in mind. Build your two clauses. Don't hold back in peer replies. See you in the discussion board.</p></div>
+<div class="slide"><div class="slide-number">14 / 14</div><h1>From General to Specific</h1><p>Race and ethnicity. Women. Disability. Body size. Age. Sexuality. Pick one — trace an actual mechanism where AI could narrow who gets seen, or who gets hired.</p></div>
+  <div class="nav-wrap">
+    <button class="nav-btn" id="prevBtn" aria-label="Previous slide">&#8592;</button>
+    <div class="bubbles" id="bubbles"></div>
+    <button class="nav-btn" id="nextBtn" aria-label="Next slide">&#8594;</button>
+  </div>
+</div>
+
+<script>
+  var slides = document.querySelectorAll('.slide');
+  var bubblesContainer = document.getElementById('bubbles');
+  var current = 0;
+
+  slides.forEach(function(s, i) {
+    var b = document.createElement('div');
+    b.className = 'bubble';
+    b.setAttribute('data-index', i);
+    b.addEventListener('click', function() {
+      goToSlide(i);
+    });
+    bubblesContainer.appendChild(b);
+  });
+
+  var bubbles = document.querySelectorAll('.bubble');
+
+  function render() {
+    slides.forEach(function(s, i) {
+      s.classList.toggle('active', i === current);
+    });
+    bubbles.forEach(function(b, i) {
+      b.classList.toggle('active', i === current);
+    });
+  }
+
+  function goToSlide(index) {
+    if (index < 0) index = 0;
+    if (index > slides.length - 1) index = slides.length - 1;
+    current = index;
+    render();
+  }
+
+  function nextSlide() { goToSlide(current + 1); }
+  function prevSlide() { goToSlide(current - 1); }
+
+  document.getElementById('nextBtn').addEventListener('click', nextSlide);
+  document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { nextSlide(); }
+    if (e.key === 'ArrowLeft') { prevSlide(); }
+  });
+
+  render();
+</script>
+</body>
+</html>
