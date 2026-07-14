@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 9 Overview — AI, Labor, and the "Human Element"</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #0b0d12;
+    color: #f5f5f7;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    height: 100vh;
+  }
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 8% 110px;
+    scroll-snap-align: start;
+    position: relative;
+    border-bottom: 1px solid #1c1f26;
+  }
+  .slide.dark { background: #0b0d12; }
+  .slide.accent { background: linear-gradient(135deg, #14161d 0%, #1a1d26 100%); }
+  .kicker {
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6ee7ff;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 52px;
+    line-height: 1.15;
+    max-width: 900px;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 38px;
+    line-height: 1.2;
+    max-width: 850px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .stat {
+    font-size: 96px;
+    font-weight: 800;
+    color: #6ee7ff;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 20px;
+    color: #a6adbb;
+    margin-top: 12px;
+    max-width: 600px;
+  }
+  .quote {
+    font-size: 30px;
+    font-style: italic;
+    max-width: 780px;
+    line-height: 1.5;
+    color: #f5f5f7;
+  }
+  .quote-source {
+    margin-top: 22px;
+    font-size: 16px;
+    color: #6ee7ff;
+    font-style: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .subtext {
+    font-size: 19px;
+    color: #a6adbb;
+    max-width: 700px;
+    margin-top: 18px;
+    line-height: 1.6;
+  }
+  .two-col {
+    display: flex;
+    gap: 40px;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: #14161d;
+    border: 1px solid #262a35;
+    border-radius: 16px;
+    padding: 30px;
+    flex: 1;
+    min-width: 260px;
+    text-align: left;
+  }
+  .card h3 {
+    color: #6ee7ff;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .card p {
+    font-size: 16px;
+    color: #d0d3db;
+    line-height: 1.55;
+  }
+  .role-badge {
+    display: inline-block;
+    background: #6ee7ff;
+    color: #0b0d12;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .timeline {
+    display: flex;
+    gap: 24px;
+    max-width: 1000px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tl-item {
+    background: #14161d;
+    border-left: 3px solid #6ee7ff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    text-align: left;
+    min-width: 220px;
+    flex: 1;
+  }
+  .tl-date {
+    color: #6ee7ff;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .tl-text { font-size: 15px; color: #d0d3db; line-height: 1.5; }
+  .footer-tag {
+    position: absolute;
+    bottom: 30px;
+    font-size: 13px;
+    color: #4a5062;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  ul.checklist {
+    list-style: none;
+    text-align: left;
+    max-width: 650px;
+    margin-top: 10px;
+  }
+  ul.checklist li {
+    font-size: 18px;
+    color: #d0d3db;
+    padding: 10px 0 10px 32px;
+    position: relative;
+    border-bottom: 1px solid #1c1f26;
+  }
+  ul.checklist li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #6ee7ff;
+    font-weight: 700;
+  }
+  .hero-img {
+    max-width: 320px;
+    width: 60%;
+    border-radius: 16px;
+    margin-bottom: 26px;
+    border: 1px solid #262a35;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .nav-bar {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(20, 22, 29, 0.9);
+    border: 1px solid #262a35;
+    border-radius: 40px;
+    padding: 10px 22px;
+    backdrop-filter: blur(8px);
+    z-index: 999;
+  }
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #1c1f26;
+    color: #6ee7ff;
+    border: 1px solid #2c303c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .nav-btn:hover { background: #262a35; }
+  .nav-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .nav-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #3a3f4d;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nav-dot.active {
+    background: #6ee7ff;
+    transform: scale(1.3);
+  }
+  .nav-count {
+    font-size: 13px;
+    color: #a6adbb;
+    letter-spacing: 0.5px;
+    min-width: 42px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide accent" id="slide1">
+  <div class="kicker">Module 9 · Video 1</div>
+  <h1>AI, Labor, and the "Human Element"</h1>
+  <p class="subtext">The economics and ethics of generative AI in the creative industries — and how guilds are fighting to protect their members.</p>
+  <div class="footer-tag">Business of Representation</div>
+<div class="nav-bar">
+    <a href="#slide1" class="nav-btn disabled">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot active"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide2" class="nav-btn">›</a>
+    <div class="nav-count">1 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 2: TILLY HOOK -->
+<section class="slide dark" id="slide2">
+  <div class="kicker">You've Probably Heard of Her</div>
+  <img class="hero-img" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/f789c3e8e70575265de0f79375eb9e6ab06091e2.jpg" alt="Tilly Norwood, AI-generated performer, labeled AI GENERATED">
+  <h1>Tilly Norwood</h1>
+  <p class="subtext">A fully AI-generated performer, built using more than ten different AI tools — about to star in her first feature film, <em>Misaligned</em>.</p>
+<div class="nav-bar">
+    <a href="#slide1" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot active"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide3" class="nav-btn">›</a>
+    <div class="nav-count">2 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 3: STAT - DEATH THREATS -->
+<section class="slide accent" id="slide3">
+  <div class="stat">⚠</div>
+  <div class="stat-label">Tilly Norwood's creator has received death threats over the project — a sign of how charged this conversation has become.</div>
+<div class="nav-bar">
+    <a href="#slide2" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot active"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide4" class="nav-btn">›</a>
+    <div class="nav-count">3 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 4: SAG-AFTRA STAT -->
+<section class="slide dark" id="slide4">
+  <div class="stat">90%+</div>
+  <div class="stat-label">SAG-AFTRA members voted to ratify a new four-year contract with studios and streamers — with AI protections built in.</div>
+<div class="nav-bar">
+    <a href="#slide3" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot active"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide5" class="nav-btn">›</a>
+    <div class="nav-count">4 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 5: QUOTE - SIGNIFICANT ADDITIONAL VALUE -->
+<section class="slide accent" id="slide5">
+  <p class="quote">"An AI-generated performer must provide significant additional value over what a live actor could otherwise offer."</p>
+  <div class="quote-source">SAG-AFTRA 2026 Contract Standard</div>
+<div class="nav-bar">
+    <a href="#slide4" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot active"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide6" class="nav-btn">›</a>
+    <div class="nav-count">5 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 6: THE BIG QUESTION -->
+<section class="slide dark" id="slide6">
+  <div class="kicker">The Big Question</div>
+  <h2>Who decides where the line is between a tool and a replacement?</h2>
+  <p class="subtext">Studios? Tech companies? Or the guilds representing the humans whose jobs are on the line?</p>
+<div class="nav-bar">
+    <a href="#slide5" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot active"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide7" class="nav-btn">›</a>
+    <div class="nav-count">6 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 7: THE BRUTALIST CASE -->
+<section class="slide accent" id="slide7">
+  <div class="kicker">A Real Judgment Call</div>
+  <img class="hero-img" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/2ab72b960e89110884f42f1db585589a5b9460fe.jpg" alt="Adrien Brody at a film festival for The Brutalist">
+  <h2>The Brutalist (2025)</h2>
+  <p class="subtext">AI voice technology refined Adrien Brody's Hungarian dialogue in his Oscar-winning performance. The director called it a tool. Critics called it disqualifying. Nobody fully agreed.</p>
+<div class="nav-bar">
+    <a href="#slide6" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot active"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide8" class="nav-btn">›</a>
+    <div class="nav-count">7 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 8: READINGS -->
+<section class="slide dark" id="slide8">
+  <div class="kicker">This Week's Readings</div>
+  <h2>Two Sources, Two Angles</h2>
+  <div class="two-col">
+    <div class="card">
+      <h3>World Economic Forum (2024)</h3>
+      <p>How AI is impacting and shaping the creative industries — de-aging, human interpretation, and the industry's "raison d'être."</p>
+    </div>
+    <div class="card">
+      <h3>Lee, W. (2026), LA Times</h3>
+      <p>The Directors Guild's new contract — real, ratified AI guardrails, including mandatory director oversight of AI-generated footage.</p>
+    </div>
+  </div>
+<div class="nav-bar">
+    <a href="#slide7" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot active"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide9" class="nav-btn">›</a>
+    <div class="nav-count">8 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 9: DGA TIMELINE -->
+<section class="slide accent" id="slide9">
+  <div class="kicker">The DGA Deal, In Brief</div>
+  <img class="hero-img" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e0b41c5e8d86d63d48a1db3ef9f534e658299b35.jpg" alt="Directors Guild of America headquarters building">
+  <h2>What Was Actually Negotiated</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Oversight</div>
+      <div class="tl-text">Directors must review AI-generated footage before it's used.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Consent</div>
+      <div class="tl-text">Studios must notify the guild before licensing a director's work to train AI.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Term</div>
+      <div class="tl-text">Four-year agreement, ratified June 2026.</div>
+    </div>
+  </div>
+<div class="nav-bar">
+    <a href="#slide8" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot active"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide10" class="nav-btn">›</a>
+    <div class="nav-count">9 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 10: YOUR ROLES -->
+<section class="slide dark" id="slide10">
+  <div class="kicker">This Week's Discussion</div>
+  <h2>Step Into a Guild Rep's Shoes</h2>
+  <div class="two-col">
+    <div class="card">
+      <span class="role-badge">Abbie</span>
+      <h3>Director of Photography</h3>
+      <p>Camera department stakes, virtual production, and IATSE's approach to AI as a tool.</p>
+    </div>
+    <div class="card">
+      <span class="role-badge">Lily</span>
+      <h3>Director</h3>
+      <p>DGA oversight rules, AI-generated footage, and consultation vs. veto power.</p>
+    </div>
+    <div class="card">
+      <span class="role-badge">Cam</span>
+      <h3>Screenwriter</h3>
+      <p>AI-generated text, human interpretation, and the WGA's right to refuse AI entirely.</p>
+    </div>
+  </div>
+<div class="nav-bar">
+    <a href="#slide9" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot active"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide11" class="nav-btn">›</a>
+    <div class="nav-count">10 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 11: THE TASK -->
+<section class="slide accent" id="slide11">
+  <div class="kicker">Your Job</div>
+  <ul class="checklist">
+    <li>Identify the real stakes for your assigned role</li>
+    <li>Propose two specific contract clauses to guard against FOBO</li>
+    <li>Respond to two classmates in different roles</li>
+    <li>Ask: does their deal protect me too — or expose me?</li>
+  </ul>
+<div class="nav-bar">
+    <a href="#slide10" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot active"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide12" class="nav-btn">›</a>
+    <div class="nav-count">11 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 12: FINAL PROJECT LINK -->
+<section class="slide dark" id="slide12">
+  <div class="kicker">Looking Ahead</div>
+  <h2>This Week Is Practice for Your Final Project</h2>
+  <p class="subtext">Grounding an argument in a real source. Weighing who benefits and who's at risk. Proposing something concrete. Same skills, same rigor.</p>
+<div class="nav-bar">
+    <a href="#slide11" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot active"></a><a href="#slide13" class="nav-dot"></a></div>
+    <a href="#slide13" class="nav-btn">›</a>
+    <div class="nav-count">12 / 13</div>
+  </div>
+</section>
+
+<!-- SLIDE 13: CLOSE -->
+<section class="slide accent" id="slide13">
+  <div class="kicker">Next Up</div>
+  <h1>See You in Video 2</h1>
+  <p class="subtext">We'll go deeper into both readings and unpack exactly how to build your discussion post.</p>
+<div class="nav-bar">
+    <a href="#slide12" class="nav-btn">‹</a>
+    <div class="nav-dots"><a href="#slide1" class="nav-dot"></a><a href="#slide2" class="nav-dot"></a><a href="#slide3" class="nav-dot"></a><a href="#slide4" class="nav-dot"></a><a href="#slide5" class="nav-dot"></a><a href="#slide6" class="nav-dot"></a><a href="#slide7" class="nav-dot"></a><a href="#slide8" class="nav-dot"></a><a href="#slide9" class="nav-dot"></a><a href="#slide10" class="nav-dot"></a><a href="#slide11" class="nav-dot"></a><a href="#slide12" class="nav-dot"></a><a href="#slide13" class="nav-dot active"></a></div>
+    <a href="#slide1" class="nav-btn">›</a>
+    <div class="nav-count">13 / 13</div>
+  </div>
+</section>
+
+</body>
+</html>
