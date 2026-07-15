@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 8 Wrap-Up: Beyond the Checkbox</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family:'Helvetica Neue', Arial, sans-serif; background:#0f0f12; color:#eee; margin:0; padding:0; overflow:hidden; }
+  .deck { position:relative; width:100vw; height:100vh; }
+  .slide { position:absolute; top:0; left:0; width:100%; height:100%; padding:40px 90px 110px; overflow-y:auto;
+           opacity:0; visibility:hidden; transition:opacity 0.4s ease; }
+  .slide.active { opacity:1; visibility:visible; }
+  h1 { font-size:2.3em; color:#fff; margin-bottom:0.2em; }
+  h2 { font-size:1.7em; color:#f5c542; margin-bottom:0.4em; }
+  h3 { font-size:1.2em; color:#7fd1ff; margin-top:1em; margin-bottom:0.3em;}
+  .subtitle { font-size:1.15em; color:#aaa; margin-bottom:1.3em; }
+  .stat { font-size:2.1em; font-weight:bold; color:#f5c542; }
+  .card { background:#1a1a1f; border-radius:12px; padding:20px 24px; margin:12px 0; border-left:4px solid #7fd1ff; }
+  .card.strength { border-left-color:#5fd67a; }
+  .card.growth { border-left-color:#f57c5f; }
+  .grid3 { display:flex; gap:18px; flex-wrap:wrap;}
+  .grid3 > div { flex:1; min-width:220px; }
+  .grid2 { display:flex; gap:24px; align-items:center; }
+  .grid2 > div, .grid2 > img { flex:1 1 0; min-width:0; }
+  ul { line-height:1.55; }
+  .tag { display:inline-block; background:#333; color:#f5c542; padding:2px 10px; border-radius:6px; font-size:0.82em; margin-bottom:8px;}
+  .quote { font-style:italic; color:#ccc; border-left:3px solid #f5c542; padding-left:14px; margin:14px 0; font-size:0.95em;}
+  .footer-note { color:#777; font-size:0.85em; margin-top:1.5em; }
+  img.hero { width:100%; height:260px; border-radius:10px; object-fit:cover; object-position: center 15%; display:block; }
+  img.small { width:100%; border-radius:10px; max-height:180px; object-fit:cover; }
+  .caption { color:#888; font-size:0.8em; margin-top:6px; text-align:center; }
+
+  /* Navigation */
+  .nav { position:fixed; bottom:22px; left:0; width:100%; display:flex; justify-content:center;
+         align-items:center; gap:14px; z-index:10; }
+  .nav-btn { background:#1a1a1f; border:1px solid #444; color:#f5c542; width:40px; height:40px; border-radius:50%;
+             font-size:1.2em; cursor:pointer; display:flex; align-items:center; justify-content:center;
+             transition:background 0.2s; }
+  .nav-btn:hover { background:#2a2a30; }
+  .nav-btn:disabled { opacity:0.3; cursor:default; }
+  .bubbles { display:flex; gap:8px; }
+  .bubble { width:10px; height:10px; border-radius:50%; background:#333; cursor:pointer; transition:background 0.2s, transform 0.2s; }
+  .bubble.active { background:#f5c542; transform:scale(1.3); }
+  .bubble:hover { background:#7fd1ff; }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<div class="slide active">
+  <h1>Beyond the Checkbox</h1>
+  <p class="subtitle">LGBTQ+ Representation, GLAAD Data, and the Business Case — Module 8 Wrap-Up</p>
+  <div class="card">
+    <p>This month, Laverne Cox revealed she has lost <strong>90% of her income</strong> over the past two years as institutions retreat from anything associated with DEI or gender identity. "If it's affecting me," she said, "then it's definitely affecting other people."</p>
+  </div>
+  <p class="subtitle">Her story sits at the exact intersection this module studies: representation as both an ethical obligation and a market signal.</p>
+</div>
+
+<div class="slide">
+  <h2>The Gap Video 2 Named</h2>
+  <div class="quote">"A character can be visible and still reproduce harm."</div>
+  <p>Nick Nelson passes the Vito Russo Test. He helps Heartstopper's SRI score. And yet — two of you, working independently, found the exact same crack beneath that passing grade.</p>
+  <div class="grid2">
+    <img class="hero" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/582a50a6dc6c8047e8359cb4ae1dffca4d17843c.jpg" alt="Nick Nelson rugby scene">
+    <div>
+      <div class="card growth" style="margin-top:0;">
+        <strong>Lily found:</strong> Nick still falls into the "confused bisexual" trope through the "dating a girl on the way to gay" plot device — even while defying the effeminate stereotype elsewhere.
+      </div>
+      <div class="card growth">
+        <strong>Cam found:</strong> Nick's whiteness, cisgender status, and class position mean his "idealized" coming-out story can't represent the full range of LGBTQ+ youth experience.
+      </div>
+    </div>
+  </div>
+  <p class="caption">You didn't just learn this lesson. You proved it.</p>
+</div>
+
+<div class="slide">
+  <h2>Where We Landed: Learning Objectives</h2>
+  <div class="card"><strong>1. Analyze SRI data</strong> — surface visibility vs. meaningful progress across screen time and racial composition.</div>
+  <div class="card"><strong>2. Apply the Vito Russo Test + Ch. 6 tropes</strong> — <span class="tag">Lily's move</span> naming the "confused bisexual" trope with precise textual evidence from Nick's arc.</div>
+  <div class="card"><strong>3. Hold two framings in tension</strong> — <span class="tag">Cam's move</span> explicitly naming the gap between a passing SRI score and whose stories get real narrative depth.</div>
+  <div class="card"><strong>4. Evaluate intersectional complexity</strong> — <span class="tag">Cam & Lily</span> Nick's race/class privilege (Cam); Elphaba & Nessarose's race-disability intersection in <em>Wicked</em> (Lily's 8.2 draft).</div>
+  <div class="card"><strong>5. Formulate production-level recommendations</strong> — both students proposed concrete rewrites to Nick's "dating a girl" arc, grounded in Ch. 6 and GLAAD data.</div>
+</div>
+
+<div class="slide">
+  <h2>Modeling Strong Work: Trope Precision</h2>
+  <span class="tag">Objective 2 in action</span>
+  <div class="grid2">
+    <div>
+      <h3>Lily — Nick Nelson</h3>
+      <div class="card strength">
+        Names the trope, then shows Nick both defying it (joy-centered arc) and still falling into it — genuinely two-sided analysis.
+      </div>
+      <div class="quote">"Despite his defiance of most of this trope, Nick still embodies the essence of the 'confused bisexual.'"</div>
+    </div>
+    <div style="flex:1 1 0; min-width:0;">
+      <div style="position:relative; width:100%; padding-top:56.25%; border-radius:10px; overflow:hidden;">
+        <iframe src="https://www.youtube.com/embed/FrK4xPy4ahg" title="Heartstopper Official Trailer Netflix" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>Modeling Strong Work: Naming the Tension</h2>
+  <span class="tag">Objective 3 in action</span>
+  <div class="grid2">
+    <img class="hero" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7b316e0aa4467d0ead9b06f398c72f0f5e4840b8.jpg" alt="Nick and Charlie holding hands">
+    <div>
+      <h3>Cam — Nick Nelson</h3>
+      <div class="card strength">
+        Explicitly names the quantitative/qualitative gap the assignment is built around.
+      </div>
+      <div class="quote">"Numerical measures alone cannot evaluate whose stories receive the greatest narrative focus or whether intersectional identities are represented with equal depth."</div>
+    </div>
+  </div>
+  <div class="card growth">
+    <strong>Growth area for both:</strong> Push the final recommendation toward concrete production language — a specific subplot, casting note, or writers'-room revision — rather than general narrative suggestion.
+  </div>
+</div>
+
+
+<div class="slide">
+  <h2>Modeling Strong Work: Business Meets Justice</h2>
+  <span class="tag">Objectives 1 &amp; 3 in action</span>
+  <div class="grid2">
+    <img class="hero" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/fe7da70e7fd677fe89d02fc33b13bc1701960ea7.jpg" alt="Nick Nelson actor portrait">
+    <div>
+      <h3>Abbie — Heartstopper (8.2 Draft)</h3>
+      <div class="card strength">
+        Holds GLAAD's business framing and Chapter 6's justice framing in the same breath: Heartstopper hit Netflix's Top 10 in 50+ countries, yet the leads are still two white, cisgender boys.
+      </div>
+      <div class="quote">"Centering two white male leads may have been viewed as a lower risk approach, while still centering an inclusive series."</div>
+    </div>
+  </div>
+  <div class="card growth">
+    <strong>Growth area:</strong> This exact tension is the thesis of the piece — stating it as the frame in the first thirty seconds, rather than letting it emerge midway through, would sharpen the whole draft.
+  </div>
+</div>
+
+<div class="slide">
+  <h2>From Character to Pitch</h2>
+  <p>You just practiced diagnosing representation at the character level in 8.3. Now turn that same lens on your own final project draft: is your pitch balancing visibility with actual narrative depth, or does it risk the same gap?</p>
+  <div class="card">The rest of this deck applies the "visible ≠ meaningful" lens to your three Work-in-Progress drafts.</div>
+</div>
+
+<div class="slide">
+  <h2>Final Project Checkpoint: Three Drafts, One Throughline</h2>
+  <p class="subtitle">All three drafts test the same question: can authentic representation and commercial success coexist — and at whose expense does "safe" representation operate?</p>
+  <div class="grid3">
+    <div class="card"><strong>Abbie</strong><br>Heartstopper (podcast)</div>
+    <div class="card"><strong>Lily</strong><br>Wicked (podcast)</div>
+    <div class="card"><strong>Cam</strong><br>Heated Rivalry + Red, White & Royal Blue (slides)</div>
+  </div>
+</div>
+
+<div class="slide">
+  <h2>Draft Spotlight: Abbie — Heartstopper</h2>
+  <div class="grid2">
+    <div>
+      <div class="card strength">
+        <strong>Strong move:</strong> Uses concrete business evidence — Netflix Top 10 in 50+ countries, graphic novel sales spikes, renewal signals — to argue representation and commercial success aren't in tension.
+      </div>
+      <div class="card strength">
+        <strong>Strong move:</strong> Self-critiques her own case study, noting the central romance centers two white, cisgender leads — asking whether that reflects a "lower-risk" commercial calculation.
+      </div>
+    </div>
+    <img class="hero" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/2320bb86e909eb24b878811e833b27cdbbedb2ec.jpg" alt="Heartstopper cast">
+  </div>
+  <div class="card growth">
+    <strong>Growth area:</strong> State the thesis earlier — "representation is good business, but whose representation?" emerges gradually rather than framing the whole piece from the start.
+  </div>
+</div>
+
+<div class="slide">
+  <h2>Draft Spotlight: Lily — Wicked</h2>
+  <div class="card strength">
+    <strong>Strong move:</strong> Applies Olkin's moral/medical/social disability framework with precision to Elphaba and Nessarose, then layers race on top of disability to show how the two intersect.
+  </div>
+  <div class="quote">"He also inherently reproduces racial stereotypes with his diverse casting of Elphaba and Nessa Rose as Black women... the only Black main characters and only disabled main characters within the story."</div>
+  <div class="card growth">
+    <strong>Growth area:</strong> The Comcast/Universal DEI research is promising but still in progress — the next draft needs a clearer throughline connecting corporate diversity statements back to the specific casting choices already analyzed.
+  </div>
+</div>
+
+<div class="slide">
+  <h2>Draft Spotlight: Cam — Heated Rivalry & RWRB</h2>
+  <div class="card strength">
+    <strong>Strong move:</strong> Builds a genuinely comparative structure across two texts rather than analyzing one in isolation, strengthening the evidentiary base for claims about the industry as a whole.
+  </div>
+  <div class="card growth">
+    <strong>Growth area (per peer feedback):</strong> Tighten the core argument — is this a business case, a representation case, or both? Leading with representation before pivoting to business data would sharpen the throughline.
+  </div>
+  <div class="card growth">
+    <strong>Growth area:</strong> Bring in harder studio-level data (sales, cost, viewership) to match the strength of the qualitative representation analysis already in place.
+  </div>
+</div>
+
+<div class="slide">
+  <h2>Common Threads in Your Module 8 Work</h2>
+  <h3>What's working</h3>
+  <ul>
+    <li>In your various assignments for this module, you hold GLAAD's business framing and Chapter 6's social justice framing in genuine tension, rather than picking one side</li>
+    <li>Each piece self-critiques its own case study rather than treating representation as an unambiguous win</li>
+  </ul>
+  <h3>Where to push further</h3>
+  <ul>
+    <li>Sharpen the core thesis early, so representation and business analysis feel unified rather than sequential</li>
+    <li>Trade general industry claims for hard numbers — sales figures, cost data, SRI scores specific to the studio in question</li>
+    <li>Name the creators/cast behind each project when relevant to the representation argument (e.g., Heartstopper's AroAce creator)</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <h2>The Throughline</h2>
+  <div class="grid2">
+    <div>
+      <p>Whether it's Nick Nelson's coming-out arc, Elphaba's green skin, or the streaming economics behind Heated Rivalry, this module's real lesson is the same one Laverne Cox's story makes literal: representation is never just a headcount.</p>
+      <p>It's a set of choices about whose story gets the runtime, whose identity gets to be complicated, and whose visibility survives when the political weather shifts.</p>
+      <p class="footer-note">Module 8 · The Business of Representation · Wrap-Up</p>
+    </div>
+    <img class="hero" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/42fae004e217daad1b673083213a80c53a6e4086.jpg" alt="Heartstopper cast group">
+  </div>
+</div>
+
+</div>
+
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8249;</button>
+  <div class="bubbles" id="bubbles"></div>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">&#8250;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const bubbleContainer = document.getElementById('bubbles');
+  let current = 0;
+
+  slides.forEach((s, i) => {
+    const b = document.createElement('div');
+    b.className = 'bubble' + (i === 0 ? ' active' : '');
+    b.onclick = () => goTo(i);
+    bubbleContainer.appendChild(b);
+  });
+
+  function updateNav() {
+    document.querySelectorAll('.bubble').forEach((b, i) => b.classList.toggle('active', i === current));
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === slides.length - 1;
+  }
+
+  function goTo(i) {
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    updateNav();
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < slides.length) goTo(next);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  updateNav();
+</script>
+
+</body>
+</html>
